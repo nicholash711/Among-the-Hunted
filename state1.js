@@ -38,7 +38,6 @@ demo.state1.prototype = {
         enemy.body.collideWorldBounds = true;
 
         iceWalk = game.add.audio("iceWalk", 1, true);
-        game.sound.setDecodedCallback(iceWalk, start, this);
 
         keys = game.input.keyboard.addKeys({
             "up": 87, "down": 83, "left": 65, "right": 68
@@ -49,6 +48,7 @@ demo.state1.prototype = {
         shooting.setXSpeed(-100, 0);
         shooting.setYSpeed(-1, 1);
         shooting.setPaused(true)
+        game.sound.setDecodedCallback(iceWalk, start, this);
     },
 
     update: function (){
@@ -58,33 +58,28 @@ demo.state1.prototype = {
 
         if(keys.up.isDown){
             player.body.velocity.y = -SPEED;
-            player.animations.play("walk", 14, true);
-            iceWalk.play();
+            player.animations.play("walk", 8, true);
         }
         else if(keys.down.isDown){
             player.body.velocity.y = SPEED;
-            player.animations.play("walk", 14, true);
-            iceWalk.play();
+            player.animations.play("walk", 8, true);
         }
         else{
             player.body.velocity.y = 0;
             if(!keys.left.isDown && !keys.right.isDown){
                 player.animations.stop("walk");
                 player.frame = 0;
-                iceWalk.stop();
             }
         }
         if(keys.left.isDown){
             player.body.velocity.x = -SPEED;
             player.scale.setTo(0.8, 0.8);
-            player.animations.play("walk", 14, true);
-            iceWalk.play();
+            player.animations.play("walk", 8, true);
         }
         else if(keys.right.isDown){
             player.body.velocity.x = SPEED;
             player.scale.setTo(-0.8, 0.8);
-            player.animations.play("walk", 14, true);
-            iceWalk.play();
+            player.animations.play("walk", 8, true);
         }
         else{
             player.body.velocity.x = 0;
@@ -111,5 +106,26 @@ function checkShoot(range){
 };
 
 function start(){
+    keys.up.onDown.add(playFx);
+    keys.down.onDown.add(playFx);
+    keys.left.onDown.add(playFx);
+    keys.right.onDown.add(playFx);
+    keys.up.onUp.add(stopSound);
+    keys.down.onUp.add(stopSound);
+    keys.left.onUp.add(stopSound);
+    keys.right.onUp.add(stopSound);
+}
 
+function playFx(){
+    if(!iceWalk.isPlaying)
+        iceWalk.play();
+}
+
+<<<<<<< HEAD
 };
+=======
+function stopSound(){
+    if(!keys.up.isDown && !keys.down.isDown && !keys.left.isDown && !keys.right.isDown)
+        iceWalk.stop();
+}
+>>>>>>> 40504e9af75a3e5af041759ee3297acc1d5a8644
