@@ -3,7 +3,6 @@ var demo = {};
 demo.state0 = function(){};
 demo.state0.prototype = {
     preload: function(){
-        //game.load.atlasJSONHash('seal', 'assets/sprites/harp_seal_shooting.png', 'assets/sprites/harp_seal_shooting.json');
         game.load.spritesheet('seal', 'assets/sprites/harp_seal_shooting.png', 348, 216, 73)
     },
 
