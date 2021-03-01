@@ -45,7 +45,7 @@ demo.state1.prototype = {
 
         shooting = game.add.emitter(600, game.world.centerY, 100);
         shooting.makeParticles("bullet");
-        shooting.setXSpeed(-100, 0);
+        shooting.setXSpeed(300, 600);
         shooting.setYSpeed(-1, 1);
         shooting.on = false;
         game.sound.setDecodedCallback(iceWalk, start, this);
