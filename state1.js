@@ -52,7 +52,7 @@ demo.state1.prototype = {
         shooting.setYSpeed(-1, 1);
         shooting.on = false;
 
-        music = game.add.audio("music");
+        music = game.add.audio("music", 0.2, true);
         music.play();
         iceWalk = game.add.audio("iceWalk", 1, true);
         game.sound.setDecodedCallback(iceWalk, start, this);
