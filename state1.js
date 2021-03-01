@@ -8,7 +8,7 @@ demo.state1.prototype = {
         game.load.spritesheet("hunter", "assets/sprites/hunter.png", 64, 64);
         game.load.tilemap("mapTest", "assets/tilemaps/demomap.json", null, Phaser.Tilemap.TILED_JSON);
         game.load.image("Ground", "assets/tilemaps/set_01.png");
-
+        game.load.image("bullet", "assets/sprites/Bullet.png");
         game.load.audio("iceWalk", "assets/sounds/effects/iceStep.mp3");
     },
 
@@ -43,6 +43,12 @@ demo.state1.prototype = {
         keys = game.input.keyboard.addKeys({
             "up": 87, "down": 83, "left": 65, "right": 68
         });
+
+        shooting = game.add.emitter(600, game.world.centerY, 100);
+        shooting.makeParticles("bullet");
+        shooting.setXSpeed(-100, 0);
+        shooting.setYSpeed(-1, 1);
+        shooting.setPaused(true)
     },
 
     update: function (){
@@ -85,7 +91,7 @@ demo.state1.prototype = {
             if(!keys.up.isDown && !keys.down.isDown){
                 player.animations.stop("walk");
                 player.frame = 0;
-            } 
+            };
         }
     }
 };
@@ -96,11 +102,14 @@ function checkShoot(range){
     distance = Math.hypot(deltaX, deltaY);
     if(distance <= range){
         enemy.frame = 0;
+        shooting.setPause(false);
     }
-    else
+    else{
         enemy.frame = 1;
-}
+        shooting.setPause(true);
+    }
+};
 
 function start(){
 
-}
+};
