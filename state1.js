@@ -31,7 +31,7 @@ demo.state1.prototype = {
         enemy = game.add.sprite(600, game.world.centerY, "hunter");
         enemy.frame = 1;
         enemy.anchor.setTo(0.5, 0.5);
-        enemy.scale.setTo(2, 2);
+        enemy.scale.setTo(-2, 2);
         game.physics.enable(enemy);
         enemy.body.immovable = true;
         enemy.body.collideWorldBounds = true;
@@ -43,6 +43,9 @@ demo.state1.prototype = {
 
     update: function (){
         game.physics.arcade.collide(player, enemy);
+
+        checkShoot(300);
+
         if(keys.up.isDown){
             player.body.velocity.y = -speed;
             player.animations.play("walk", 14, true);
@@ -76,4 +79,15 @@ demo.state1.prototype = {
             } 
         }
     }
+}
+
+function checkShoot(range){
+    deltaX = player.x - enemy.x;
+    deltaY = player.y - enemy.y;
+    distance = Math.hypot(deltaX, deltaY);
+    if(distance <= range){
+        enemy.frame = 0;
+    }
+    else
+        enemy.frame = 1;
 }
