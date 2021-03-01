@@ -1,13 +1,15 @@
-var player, keys, speed = 200;
-var enemy;
+var player, keys, enemy, iceWalk;
+const SPEED = 200;
 
 demo.state1 = function(){};
 demo.state1.prototype = {
     preload: function(){
-        game.load.spritesheet("seal", "assets/sprites/HarpSeal.png", 120, 80);
+        game.load.spritesheet("seal", "assets/sprites/HarpSeal.png", 109, 74);
         game.load.spritesheet("hunter", "assets/sprites/hunter.png", 64, 64);
         game.load.tilemap("mapTest", "assets/tilemaps/demomap.json", null, Phaser.Tilemap.TILED_JSON);
         game.load.image("Ground", "assets/tilemaps/set_01.png");
+
+        game.load.audio("iceWalk", "assets/sounds/effects/iceStep.mp3");
     },
 
     create: function(){
@@ -26,15 +28,17 @@ demo.state1.prototype = {
         game.physics.enable(player);
         player.body.collideWorldBounds = true;
         game.camera.follow(player);
-        player.animations.add("walk", [0, 1]);
+        player.animations.add("walk", [0, 1, 2]);
 
-        enemy = game.add.sprite(600, game.world.centerY, "hunter");
-        enemy.frame = 1;
+        enemy = game.add.sprite(600, game.world.centerY, "hunter", 1);
         enemy.anchor.setTo(0.5, 0.5);
         enemy.scale.setTo(-2, 2);
         game.physics.enable(enemy);
         enemy.body.immovable = true;
         enemy.body.collideWorldBounds = true;
+
+        iceWalk = game.add.audio("iceWalk", 1, true);
+        game.sound.setDecodedCallback(iceWalk, start, this);
 
         keys = game.input.keyboard.addKeys({
             "up": 87, "down": 83, "left": 65, "right": 68
@@ -47,29 +51,34 @@ demo.state1.prototype = {
         checkShoot(300);
 
         if(keys.up.isDown){
-            player.body.velocity.y = -speed;
-            player.animations.play("walk", 5, true);
+            player.body.velocity.y = -SPEED;
+            player.animations.play("walk", 14, true);
+            iceWalk.play();
         }
         else if(keys.down.isDown){
-            player.body.velocity.y = speed;
-            player.animations.play("walk", 5, true);
+            player.body.velocity.y = SPEED;
+            player.animations.play("walk", 14, true);
+            iceWalk.play();
         }
         else{
             player.body.velocity.y = 0;
             if(!keys.left.isDown && !keys.right.isDown){
                 player.animations.stop("walk");
                 player.frame = 0;
+                iceWalk.stop();
             }
         }
         if(keys.left.isDown){
-            player.body.velocity.x = -speed;
+            player.body.velocity.x = -SPEED;
             player.scale.setTo(0.8, 0.8);
-            player.animations.play("walk", 5, true);
+            player.animations.play("walk", 14, true);
+            iceWalk.play();
         }
         else if(keys.right.isDown){
-            player.body.velocity.x = speed;
+            player.body.velocity.x = SPEED;
             player.scale.setTo(-0.8, 0.8);
-            player.animations.play("walk", 5, true);
+            player.animations.play("walk", 14, true);
+            iceWalk.play();
         }
         else{
             player.body.velocity.x = 0;
@@ -90,4 +99,8 @@ function checkShoot(range){
     }
     else
         enemy.frame = 1;
+}
+
+function start(){
+
 }
