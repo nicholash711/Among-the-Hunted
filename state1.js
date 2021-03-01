@@ -43,9 +43,9 @@ demo.state1.prototype = {
             "up": 87, "down": 83, "left": 65, "right": 68
         });
 
-        shooting = game.add.emitter(600, game.world.centerY, 100);
+        shooting = game.add.emitter(600, game.world.centerY, 5);
         shooting.makeParticles("bullet");
-        shooting.setXSpeed(300, 600);
+        shooting.setXSpeed(-400, 0);
         shooting.setYSpeed(-1, 1);
         shooting.on = false;
         game.sound.setDecodedCallback(iceWalk, start, this);
