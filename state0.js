@@ -27,6 +27,7 @@ demo.state0.prototype = {
 };
 
 function actionOnClick () {
+    music.stop();
     console.log('start state1');
     game.state.start('state1');
 };
