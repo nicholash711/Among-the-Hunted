@@ -1,4 +1,4 @@
-var player, keys, enemy, iceWalk;
+var player, keys, enemy, iceWalk, music;
 const SPEED = 200;
 
 demo.state1 = function(){};
@@ -10,6 +10,7 @@ demo.state1.prototype = {
         game.load.image("Ground", "assets/tilemaps/set_01.png");
         game.load.image("bullet", "assets/sprites/Bullet.png");
         game.load.audio("iceWalk", "assets/sounds/effects/iceStep.mp3");
+        game.load.audio("music", "assets/sounds/music/suspense.mp3");
     },
 
     create: function(){
@@ -23,6 +24,7 @@ demo.state1.prototype = {
         bounds = map.createLayer("Background");
 
         player = game.add.sprite(200, game.world.centerY, "seal");
+        player.health = 100;
         player.anchor.setTo(0.5, 0.5);
         player.scale.setTo(-0.8, 0.8)
         game.physics.enable(player);
@@ -31,13 +33,14 @@ demo.state1.prototype = {
         player.animations.add("walk", [0, 1, 2]);
 
         enemy = game.add.sprite(600, game.world.centerY, "hunter", 1);
+        enemy.health = 100;
         enemy.anchor.setTo(0.5, 0.5);
         enemy.scale.setTo(-2, 2);
         game.physics.enable(enemy);
         enemy.body.immovable = true;
         enemy.body.collideWorldBounds = true;
 
-        iceWalk = game.add.audio("iceWalk", 1, true);
+        
 
         keys = game.input.keyboard.addKeys({
             "up": 87, "down": 83, "left": 65, "right": 68
@@ -48,6 +51,10 @@ demo.state1.prototype = {
         shooting.setXSpeed(-400, 0);
         shooting.setYSpeed(-1, 1);
         shooting.on = false;
+
+        music = game.add.audio("music");
+        music.play();
+        iceWalk = game.add.audio("iceWalk", 1, true);
         game.sound.setDecodedCallback(iceWalk, start, this);
     },
 
@@ -104,6 +111,18 @@ function checkShoot(range){
         shooting.on = false;
     }
 };
+
+function attack(range){
+    deltaX = player.x - enemy.x;
+    deltaY = player.y - enemy.y;
+    distance = Math.hypot(deltaX, deltaY);
+    if(distance <= range){
+        
+    }
+    else{
+
+    }
+}
 
 function start(){
     keys.up.onDown.add(playFx);
