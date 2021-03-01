@@ -43,6 +43,7 @@ demo.state1.prototype = {
         keys = game.input.keyboard.addKeys({
             "up": 87, "down": 83, "left": 65, "right": 68
         });
+    },
 
     update: function (){
         game.physics.arcade.collide(player, enemy);
@@ -87,7 +88,7 @@ demo.state1.prototype = {
             } 
         }
     }
-}
+};
 
 function checkShoot(range){
     deltaX = player.x - enemy.x;
