@@ -3,7 +3,7 @@ var player, keys, speed = 1000;
 demo.state1 = function(){};
 demo.state1.prototype = {
     preload: function(){
-        game.load.spritesheet("seal", "assets/sprites/HarpSeal.png", 150, 150);
+        game.load.spritesheet("seal", "assets/sprites/HarpSeal.png", 160, 160);
         game.load.tilemap("mapTest", "assets/tilemaps/Map.json", null, Phaser.Tilemap.TILED_JSON);
         game.load.image("Ground", "assets/tilemaps/set_01.png");
     },
