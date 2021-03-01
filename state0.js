@@ -14,7 +14,7 @@ demo.state0.prototype = {
         var seal = game.add.sprite(game.world.centerX, 350, 'seal');
         seal.scale.setTo(0.5, 0.5);
         seal.animations.add('shoot');
-        seal.animations.play('shoot', 10, true);
+        seal.animations.play('shoot', 7, true);
         game.input.onDown.add(actionOnClick);
     },
 
