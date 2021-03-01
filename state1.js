@@ -1,16 +1,16 @@
-var player, keys, speed = 1000;
+var player, keys, speed = 200;
 
 demo.state1 = function(){};
 demo.state1.prototype = {
     preload: function(){
         game.load.spritesheet("seal", "assets/sprites/HarpSeal.png", 160, 160);
-        game.load.tilemap("mapTest", "assets/tilemaps/Map.json", null, Phaser.Tilemap.TILED_JSON);
+        game.load.tilemap("mapTest", "assets/tilemaps/demomap.json", null, Phaser.Tilemap.TILED_JSON);
         game.load.image("Ground", "assets/tilemaps/set_01.png");
     },
 
     create: function(){
         game.physics.startSystem(Phaser.Physics.ARCADE);
-        game.world.setBounds(0, 0, 3200, 3200);
+        game.world.setBounds(0, 0, 640, 480);
         game.stage.backgroundColor = "#2b00ff";
         //game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
 
@@ -18,8 +18,9 @@ demo.state1.prototype = {
         map.addTilesetImage("Ground");
         bounds = map.createLayer("Background");
 
-        player = game.add.sprite(WIDTH / 2, HEIGHT / 2, "seal");
+        player = game.add.sprite(game.world.centerX, game.world.centerY, "seal");
         player.anchor.setTo(0.5, 0.5);
+        player.scale.setTo(-0.6, 0.6)
         game.physics.enable(player);
         player.body.collideWorldBounds = true;
         game.camera.follow(player);
@@ -48,12 +49,12 @@ demo.state1.prototype = {
         }
         if(keys.left.isDown){
             player.body.velocity.x = -speed;
-            player.scale.setTo(1, 1);
+            player.scale.setTo(0.6, 0.6);
             player.animations.play("walk", 14, true);
         }
         else if(keys.right.isDown){
             player.body.velocity.x = speed;
-            player.scale.setTo(-1, 1);
+            player.scale.setTo(-0.6, 0.6);
             player.animations.play("walk", 14, true);
         }
         else{
