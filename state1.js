@@ -121,11 +121,7 @@ function playFx(){
         iceWalk.play();
 }
 
-<<<<<<< HEAD
-};
-=======
 function stopSound(){
     if(!keys.up.isDown && !keys.down.isDown && !keys.left.isDown && !keys.right.isDown)
         iceWalk.stop();
 }
->>>>>>> 40504e9af75a3e5af041759ee3297acc1d5a8644
