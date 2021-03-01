@@ -1,9 +1,10 @@
-var demo = {};
+var demo = {}, music;
 
 demo.state0 = function(){};
 demo.state0.prototype = {
     preload: function(){
         game.load.spritesheet('seal', 'assets/sprites/harp_seal_shooting.png', 348, 216, 73);
+        game.load.audio("music", "assets/sounds/music/suspense.mp3");
     },
 
     create: function(){
@@ -17,6 +18,9 @@ demo.state0.prototype = {
         seal.animations.add('shoot');
         seal.animations.play('shoot', 7, true);
         game.input.onDown.add(actionOnClick);
+
+        music = game.add.audio("music", 0.2, true);
+        music.play();
     },
 
     update: function (){}

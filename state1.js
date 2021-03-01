@@ -1,4 +1,4 @@
-var player, keys, enemy, iceWalk, music;
+var player, keys, enemy, iceWalk;
 const SPEED = 200;
 
 demo.state1 = function(){};
@@ -10,7 +10,7 @@ demo.state1.prototype = {
         game.load.image("Ground", "assets/tilemaps/set_01.png");
         game.load.image("bullet", "assets/sprites/Bullet.png");
         game.load.audio("iceWalk", "assets/sounds/effects/iceStep.mp3");
-        game.load.audio("music", "assets/sounds/music/suspense.mp3");
+        
     },
 
     create: function(){
@@ -52,8 +52,6 @@ demo.state1.prototype = {
         shooting.setYSpeed(-1, 1);
         shooting.on = false;
 
-        music = game.add.audio("music", 0.2, true);
-        music.play();
         iceWalk = game.add.audio("iceWalk", 1, true);
         game.sound.setDecodedCallback(iceWalk, start, this);
     },
