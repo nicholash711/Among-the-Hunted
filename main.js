@@ -1,4 +1,4 @@
-const WIDTH = 1500, HEIGHT = 1000;
+const WIDTH = 800, HEIGHT = 600;
 
 var game = new Phaser.Game(WIDTH, HEIGHT, Phaser.AUTO);
 game.state.add("state0", demo.state0);
