@@ -4,7 +4,7 @@ var enemy;
 demo.state1 = function(){};
 demo.state1.prototype = {
     preload: function(){
-        game.load.spritesheet("seal", "assets/sprites/HarpSeal.png", 160, 160);
+        game.load.spritesheet("seal", "assets/sprites/HarpSeal.png", 120, 80);
         game.load.spritesheet("hunter", "assets/sprites/hunter.png", 64, 64);
         game.load.tilemap("mapTest", "assets/tilemaps/demomap.json", null, Phaser.Tilemap.TILED_JSON);
         game.load.image("Ground", "assets/tilemaps/set_01.png");
@@ -22,11 +22,11 @@ demo.state1.prototype = {
 
         player = game.add.sprite(200, game.world.centerY, "seal");
         player.anchor.setTo(0.5, 0.5);
-        player.scale.setTo(-0.6, 0.6)
+        player.scale.setTo(-0.8, 0.8)
         game.physics.enable(player);
         player.body.collideWorldBounds = true;
         game.camera.follow(player);
-        player.animations.add("walk", [0, 1, 2]);
+        player.animations.add("walk", [0, 1]);
 
         enemy = game.add.sprite(600, game.world.centerY, "hunter");
         enemy.frame = 1;
@@ -48,11 +48,11 @@ demo.state1.prototype = {
 
         if(keys.up.isDown){
             player.body.velocity.y = -speed;
-            player.animations.play("walk", 14, true);
+            player.animations.play("walk", 5, true);
         }
         else if(keys.down.isDown){
             player.body.velocity.y = speed;
-            player.animations.play("walk", 14, true);
+            player.animations.play("walk", 5, true);
         }
         else{
             player.body.velocity.y = 0;
@@ -63,13 +63,13 @@ demo.state1.prototype = {
         }
         if(keys.left.isDown){
             player.body.velocity.x = -speed;
-            player.scale.setTo(0.6, 0.6);
-            player.animations.play("walk", 14, true);
+            player.scale.setTo(0.8, 0.8);
+            player.animations.play("walk", 5, true);
         }
         else if(keys.right.isDown){
             player.body.velocity.x = speed;
-            player.scale.setTo(-0.6, 0.6);
-            player.animations.play("walk", 14, true);
+            player.scale.setTo(-0.8, 0.8);
+            player.animations.play("walk", 5, true);
         }
         else{
             player.body.velocity.x = 0;
