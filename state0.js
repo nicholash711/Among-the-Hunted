@@ -9,7 +9,7 @@ demo.state0.prototype = {
     create: function(){
         game.stage.backgroundColor = '#b5e7ff';
         game.add.text(50, 50, 'Among The Hunted', { fontSize: '32px'});
-        game.add.text(51, 60, 'You are a harp seal\njust abandoned by your mother,\nleft to fend for yourself.\nYou are being hunted\nfor your soft fur.\nTry your best to survive.')
+        game.add.text(50, 65, 'You are a harp seal\njust abandoned by your mother,\nleft to fend for yourself.\nYou are being hunted\nfor your soft fur.\nTry your best to survive.')
         console.log('Welcome Haha');
         var seal = game.add.sprite(game.world.centerX, 500, 'seal')
         seal.animations.add('shoot');
