@@ -12,6 +12,7 @@ demo.state1.prototype = {
         game.physics.startSystem(Phaser.Physics.ARCADE);
         game.world.setBounds(0, 0, 3200, 3200);
         game.stage.backgroundColor = "#2b00ff";
+        //game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
 
         var map = game.add.tilemap("mapTest");
         map.addTilesetImage("Ground");
