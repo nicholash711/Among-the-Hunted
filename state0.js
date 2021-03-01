@@ -22,6 +22,5 @@ demo.state0.prototype = {
 
 function actionOnClick () {
     console.log('start state1');
-    text.destroy();
     game.state.start('state1');
 };
