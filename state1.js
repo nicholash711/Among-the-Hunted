@@ -47,7 +47,7 @@ demo.state1.prototype = {
         shooting.makeParticles("bullet");
         shooting.setXSpeed(-100, 0);
         shooting.setYSpeed(-1, 1);
-        shooting.setPaused(true)
+        shooting.on = false;
         game.sound.setDecodedCallback(iceWalk, start, this);
     },
 
@@ -97,11 +97,11 @@ function checkShoot(range){
     distance = Math.hypot(deltaX, deltaY);
     if(distance <= range){
         enemy.frame = 0;
-        shooting.setPause(false);
+        shooting.on = true;
     }
     else{
         enemy.frame = 1;
-        shooting.setPause(true);
+        shooting.on = false;
     }
 };
 
@@ -121,11 +121,7 @@ function playFx(){
         iceWalk.play();
 }
 
-<<<<<<< HEAD
-};
-=======
 function stopSound(){
     if(!keys.up.isDown && !keys.down.isDown && !keys.left.isDown && !keys.right.isDown)
         iceWalk.stop();
 }
->>>>>>> 40504e9af75a3e5af041759ee3297acc1d5a8644
