@@ -4,8 +4,8 @@ const SPEED = 200;
 demo.state1 = function(){};
 demo.state1.prototype = {
     preload: function(){
-        game.load.spritesheet("seal", "assets/sprites/HarpSeal.png", 109, 74);
-        game.load.spritesheet("hunter", "assets/sprites/hunter.png", 64, 64);
+        game.load.spritesheet("seal", "assets/spritesheets/HarpSeal.png", 109, 74);
+        game.load.spritesheet("hunter", "assets/spritesheets/hunter.png", 64, 64);
         game.load.tilemap("mapTest", "assets/tilemaps/demomap.json", null, Phaser.Tilemap.TILED_JSON);
         game.load.image("Ground", "assets/tilemaps/set_01.png");
         game.load.image("bullet", "assets/sprites/Bullet.png");

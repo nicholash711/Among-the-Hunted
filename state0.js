@@ -3,7 +3,7 @@ var demo = {}, music;
 demo.state0 = function(){};
 demo.state0.prototype = {
     preload: function(){
-        game.load.spritesheet('seal', 'assets/sprites/harp_seal_shooting.png', 348, 216, 73);
+        game.load.spritesheet('seal', 'assets/spritesheets/harp_seal_shooting.png', 348, 216, 73);
         game.load.audio("music", "assets/sounds/music/suspense.mp3");
     },
 
