@@ -30,6 +30,8 @@ demo.state1.prototype = {
         player.body.collideWorldBounds = true;
         game.camera.follow(player);
         player.animations.add("walk", [0, 1, 2]);
+        player.animations.add("attack", [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26])
+        player.animations.getAnimation("attack").enableUpdate = true;
 
         enemy = game.add.sprite(600, game.world.centerY, "hunter", 1);
         enemy.health = 100;
@@ -42,8 +44,10 @@ demo.state1.prototype = {
         
 
         keys = game.input.keyboard.addKeys({
-            "up": 87, "down": 83, "left": 65, "right": 68
+            "up": 87, "down": 83, "left": 65, "right": 68, "attack": 32
         });
+
+        keys.attack.onDown.add(attack);
 
         shooting = game.add.emitter(600, game.world.centerY, 5);
         shooting.makeParticles("bullet");
@@ -110,15 +114,8 @@ function checkShoot(range){
 };
 
 function attack(range){
-    deltaX = player.x - enemy.x;
-    deltaY = player.y - enemy.y;
-    distance = Math.hypot(deltaX, deltaY);
-    if(distance <= range){
-        
-    }
-    else{
-
-    }
+    console.log("attack");
+    player.animations.play("attack", 24);
 }
 
 function start(){
