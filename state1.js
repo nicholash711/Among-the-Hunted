@@ -1,12 +1,12 @@
 var player, keys, enemy, iceWalk;
-const SPEED = 200;
+const SPEED = 500;
 
 demo.state1 = function(){};
 demo.state1.prototype = {
     preload: function(){
         game.load.spritesheet("seal", "assets/spritesheets/HarpSeal.png", 109, 74);
         game.load.spritesheet("hunter", "assets/spritesheets/hunter.png", 64, 64);
-        game.load.tilemap("mapTest", "assets/tilemaps/demomap.json", null, Phaser.Tilemap.TILED_JSON);
+        game.load.tilemap("mapTest", "assets/tilemaps/Map.json", null, Phaser.Tilemap.TILED_JSON);
         game.load.image("Ground", "assets/tilemaps/set_01.png");
         game.load.image("bullet", "assets/sprites/Bullet.png");
         game.load.audio("iceWalk", "assets/sounds/effects/iceStep.mp3");
@@ -15,9 +15,8 @@ demo.state1.prototype = {
 
     create: function(){
         game.physics.startSystem(Phaser.Physics.ARCADE);
-        game.world.setBounds(0, 0, 640, 480);
+        game.world.setBounds(0, 0, 3200, 3200);
         game.stage.backgroundColor = "#2b00ff";
-        //game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
 
         var map = game.add.tilemap("mapTest");
         map.addTilesetImage("Ground");

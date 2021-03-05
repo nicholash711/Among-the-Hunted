@@ -9,6 +9,7 @@ demo.state0.prototype = {
 
     create: function(){
         game.stage.backgroundColor = '#b5e7ff';
+        //game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
         game.add.text(50, 50, 'Among The Hunted', { fontSize: '32px'});
         game.add.text(50, 77, 'You are a harp seal\njust abandoned by your mother,\nleft to fend for yourself.\nYou are being hunted\nfor your soft fur.\nTry your best to survive.', { fontsize: '24px'});
         game.add.text(50, 300, 'Click on the GIF to begin', { fontSize: '18px'})

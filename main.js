@@ -1,4 +1,4 @@
-const WIDTH = 640, HEIGHT = 480;
+const WIDTH = 900, HEIGHT = 600;
 
 //const WIDTH = window.innerWidth * window.devicePixelRatio, HEIGHT = window.innerHeight * window.devicePixelRatio
 
