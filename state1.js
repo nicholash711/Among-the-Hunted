@@ -5,7 +5,7 @@ demo.state1 = function(){};
 demo.state1.prototype = {
     preload: function(){
         game.load.spritesheet("seal", "assets/spritesheets/HarpSeal.png", 109, 74);
-        game.load.spritesheet("hunter", "assets/spritesheets/hunter.png", 64, 64);
+        game.load.spritesheet("hunter", "assets/spritesheets/hunter.png", 128, 128);
         game.load.tilemap("mapTest", "assets/tilemaps/Map.json", null, Phaser.Tilemap.TILED_JSON);
         game.load.image("Ground", "assets/tilemaps/set_01.png");
         game.load.image("bullet", "assets/sprites/Bullet.png");
@@ -30,13 +30,11 @@ demo.state1.prototype = {
         player.body.collideWorldBounds = true;
         game.camera.follow(player);
         player.animations.add("walk", [0, 1, 2]);
-        player.animations.add("attack", [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26])
-        player.animations.getAnimation("attack").enableUpdate = true;
 
         enemy = game.add.sprite(600, game.world.centerY, "hunter", 1);
         enemy.health = 100;
         enemy.anchor.setTo(0.5, 0.5);
-        enemy.scale.setTo(-2, 2);
+        enemy.scale.setTo(-1, 1);
         game.physics.enable(enemy);
         enemy.body.immovable = true;
         enemy.body.collideWorldBounds = true;
@@ -44,10 +42,8 @@ demo.state1.prototype = {
         
 
         keys = game.input.keyboard.addKeys({
-            "up": 87, "down": 83, "left": 65, "right": 68, "attack": 32
+            "up": 87, "down": 83, "left": 65, "right": 68
         });
-
-        keys.attack.onDown.add(attack);
 
         shooting = game.add.emitter(600, game.world.centerY, 5);
         shooting.makeParticles("bullet");
@@ -114,8 +110,15 @@ function checkShoot(range){
 };
 
 function attack(range){
-    console.log("attack");
-    player.animations.play("attack", 24);
+    deltaX = player.x - enemy.x;
+    deltaY = player.y - enemy.y;
+    distance = Math.hypot(deltaX, deltaY);
+    if(distance <= range){
+        
+    }
+    else{
+
+    }
 }
 
 function start(){
