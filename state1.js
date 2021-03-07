@@ -7,7 +7,7 @@ demo.state1.prototype = {
         game.load.spritesheet("seal", "assets/spritesheets/HarpSeal.png", 109, 74);
         game.load.spritesheet("hunter", "assets/spritesheets/hunter.png", 128, 128);
         game.load.tilemap("Map", "assets/tilemaps/Map.json", null, Phaser.Tilemap.TILED_JSON);
-        game.load.image("Ground", "assets/tilemaps/set_01.png");
+        game.load.image("Ground", "assets/tilemaps/Ground.png");
         game.load.image("Rocks", "assets/tilemaps/Rocks.png");
         game.load.image("Water", "assets/tilemaps/Water.png");
         game.load.image("bullet", "assets/sprites/Bullet.png");
@@ -27,7 +27,9 @@ demo.state1.prototype = {
         bounds = map.createLayer("Background");
         rocks = map.createLayer("Collisions");
         water = map.createLayer("Water");
-        
+        map.setCollision(17, true, 'Water');
+        map.setCollision(18, true, 'Collisions');
+
         player = game.add.sprite(200, game.world.centerY - 150, "seal");
         player.health = 100;
         player.anchor.setTo(0.5, 0.5);
@@ -58,7 +60,6 @@ demo.state1.prototype = {
 
         iceWalk = game.add.audio("iceWalk", 1, true);
         game.sound.setDecodedCallback(iceWalk, start, this);
-
     },
 
     update: function (){
