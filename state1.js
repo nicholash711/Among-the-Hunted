@@ -6,8 +6,10 @@ demo.state1.prototype = {
     preload: function(){
         game.load.spritesheet("seal", "assets/spritesheets/HarpSeal.png", 109, 74);
         game.load.spritesheet("hunter", "assets/spritesheets/hunter.png", 128, 128);
-        game.load.tilemap("mapTest", "assets/tilemaps/Map.json", null, Phaser.Tilemap.TILED_JSON);
+        game.load.tilemap("Map", "assets/tilemaps/Map.json", null, Phaser.Tilemap.TILED_JSON);
         game.load.image("Ground", "assets/tilemaps/set_01.png");
+        game.load.image("Rocks", "assets/tilemaps/Rocks.png");
+        game.load.image("Water", "assets/tilemaps/Water.png");
         game.load.image("bullet", "assets/sprites/Bullet.png");
         game.load.audio("iceWalk", "assets/sounds/effects/iceStep.mp3");
         
@@ -18,11 +20,15 @@ demo.state1.prototype = {
         game.world.setBounds(0, 0, 3200, 3200);
         game.stage.backgroundColor = "#2b00ff";
 
-        var map = game.add.tilemap("mapTest");
+        var map = game.add.tilemap("Map");
         map.addTilesetImage("Ground");
+        map.addTilesetImage('Water');
+        map.addTilesetImage('Rocks');
         bounds = map.createLayer("Background");
-
-        player = game.add.sprite(200, game.world.centerY, "seal");
+        rocks = map.createLayer("Collisions");
+        water = map.createLayer("Water");
+        
+        player = game.add.sprite(200, game.world.centerY - 150, "seal");
         player.health = 100;
         player.anchor.setTo(0.5, 0.5);
         player.scale.setTo(-0.8, 0.8)
@@ -31,7 +37,7 @@ demo.state1.prototype = {
         game.camera.follow(player);
         player.animations.add("walk", [0, 1, 2]);
 
-        enemy = game.add.sprite(600, game.world.centerY, "hunter", 1);
+        enemy = game.add.sprite(600, game.world.centerY - 150, "hunter", 1);
         enemy.health = 100;
         enemy.anchor.setTo(0.5, 0.5);
         enemy.scale.setTo(-1, 1);
@@ -39,13 +45,12 @@ demo.state1.prototype = {
         enemy.body.immovable = true;
         enemy.body.collideWorldBounds = true;
 
-        
 
         keys = game.input.keyboard.addKeys({
             "up": 87, "down": 83, "left": 65, "right": 68
         });
 
-        shooting = game.add.emitter(600, game.world.centerY, 5);
+        shooting = game.add.emitter(600, game.world.centerY - 150, 5);
         shooting.makeParticles("bullet");
         shooting.setXSpeed(-400, 0);
         shooting.setYSpeed(-1, 1);
@@ -53,9 +58,12 @@ demo.state1.prototype = {
 
         iceWalk = game.add.audio("iceWalk", 1, true);
         game.sound.setDecodedCallback(iceWalk, start, this);
+
     },
 
     update: function (){
+        game.physics.arcade.collide(player, rocks);
+        game.physics.arcade.collide(player, water);
         game.physics.arcade.collide(player, enemy);
 
         checkShoot(300);
