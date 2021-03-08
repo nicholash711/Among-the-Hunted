@@ -1,5 +1,5 @@
-var player, keys, enemy, iceWalk, spin;
-const SPEED = 500;
+var player, keys, enemies, iceWalk, spin;
+const SPEED = 500, WORLD_LENGTH = 3200, WORLD_HEIGHT = 3200;
 
 demo.state1 = function(){};
 demo.state1.prototype = {
@@ -17,7 +17,7 @@ demo.state1.prototype = {
 
     create: function(){
         game.physics.startSystem(Phaser.Physics.ARCADE);
-        game.world.setBounds(0, 0, 3200, 3200);
+        game.world.setBounds(0, 0, WORLD_LENGTH, WORLD_HEIGHT);
         game.stage.backgroundColor = "#2b00ff";
 
         var map = game.add.tilemap("Map");
@@ -30,7 +30,7 @@ demo.state1.prototype = {
         map.setCollision(17, true, 'Water');
         map.setCollision(18, true, 'Collisions');
 
-        player = game.add.sprite(200, game.world.centerY - 150, "seal");
+        player = game.add.sprite(game.world.centerX, game.world.centerY, "seal");
         player.health = 100;
         player.anchor.setTo(0.5, 0.5);
         player.scale.setTo(-0.8, 0.8)
@@ -40,14 +40,24 @@ demo.state1.prototype = {
         player.animations.add("walk", [0, 1, 2]);
         player.animations.add("spin", [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]);
 
-        enemy = game.add.sprite(600, game.world.centerY - 150, "hunter", 1);
-        enemy.health = 100;
-        enemy.anchor.setTo(0.5, 0.5);
-        enemy.scale.setTo(-1, 1);
-        game.physics.enable(enemy);
-        enemy.body.immovable = true;
-        enemy.body.collideWorldBounds = true;
-        enemy.animations.add("fall", [1, 2, 3, 4, 4, 4, 4, 4, 4]);
+        enemies = game.add.group();
+        enemies.enableBody = true;
+        enemies.physicsBodyType = Phaser.Physics.ARCADE;
+        for(var i = 0; i < 10; i++){
+            enemies.create(Math.floor(Math.random()*WORLD_LENGTH), Math.floor(Math.random()*WORLD_HEIGHT), "hunter", 1);
+        }
+        enemies.setAll("health", 100);
+        enemies.setAll("anchor.x", 0.5);
+        enemies.setAll("anchor.y", 0.5);
+        enemies.setAll("scale.x", 1);
+        enemies.setAll("scale.y", 1);
+        enemies.setAll("body.immovable", true);
+        enemies.setAll("body.collideWorldBounds", true);
+        enemies.forEach(function(enemy){
+            enemy.animations.add("fall", [1, 2, 3, 4, 4, 4, 4, 4, 4])
+        }, this);
+
+        
 
 
         keys = game.input.keyboard.addKeys({
@@ -65,14 +75,13 @@ demo.state1.prototype = {
         game.sound.setDecodedCallback(iceWalk, start, this);
     },
 
-    update: function (){
-        game.physics.arcade.collide(player, rocks);
+    update: function (){       
         game.physics.arcade.collide(player, water);
-        game.physics.arcade.collide(player, enemy);
-
-
-        enemyCheck();
-
+        game.physics.arcade.collide(player, rocks);
+        game.physics.arcade.collide(player, enemies);
+        
+        enemies.forEach(enemyCheck, this);
+        
         if(!player.animations.getAnimation("spin").isPlaying){
             if(keys.up.isDown){
                 player.body.velocity.y = -SPEED;
@@ -106,8 +115,12 @@ demo.state1.prototype = {
     }
 };
 
-function enemyDistanceCheck(){
-    if(getDistance() <= 300){
+function enemyDistanceCheck(enemy){
+    if(getDistance(enemy) <= 400){
+        if(player.x - enemy.x > 0)
+            enemy.scale.setTo(1, 1);
+        else
+            enemy.scale.setTo(-1, 1);
         enemy.frame = 0;
         shooting.on = true;
     }
@@ -117,26 +130,29 @@ function enemyDistanceCheck(){
     }
 };
 
-function enemyCheck(){
+function enemyCheck(enemy){
     if(enemy.health <= 0){
         enemy.animations.play("fall", 8, false, true);
         shooting.on = false;
     }
     else{
-        enemyDistanceCheck()
+        enemyDistanceCheck(enemy);
     }
 }
 
 function doSpin(i, range){
     console.log("spin");
-    if(getDistance() <= range && !player.animations.getAnimation("spin").isPlaying){
-        player.animations.play("spin", 36);
-        enemy.health -= 50;
-        console.log(enemy.health);
-    }
+    enemies.forEach(function(enemy){
+        if(getDistance(enemy) <= range && !player.animations.getAnimation("spin").isPlaying){
+            player.body.velocity.x = 0, player.body.velocity.y = 0;
+            player.animations.play("spin", 36);
+            enemy.health -= 50;
+            console.log(enemy.health);
+        }
+    }, this);        
 }
 
-function getDistance(){
+function getDistance(enemy){
     deltaX = player.x - enemy.x;
     deltaY = player.y - enemy.y;
     return Math.hypot(deltaX, deltaY);
