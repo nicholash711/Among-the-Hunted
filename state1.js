@@ -164,17 +164,13 @@ function getDistance(enemy){
 
 function start(){
     for(key in moveKeys){
-        moveKeys[key].onDown.add(playFx);
-        moveKeys[key].onUp.add(stopSound);
+        moveKeys[key].onDown.add(function(){
+            if(!iceWalk.isPlaying && !player.animations.getAnimation("spin").isPlaying)
+                iceWalk.play();
+        });
+        moveKeys[key].onUp.add(function(){
+            if(!moveKeys.up.isDown && !moveKeys.down.isDown && !moveKeys.left.isDown && !moveKeys.right.isDown)
+                iceWalk.stop();
+        });
     }
-}
-
-function playFx(){
-    if(!iceWalk.isPlaying && !player.animations.getAnimation("spin").isPlaying)
-        iceWalk.play();
-}
-
-function stopSound(){
-    if(!moveKeys.up.isDown && !moveKeys.down.isDown && !moveKeys.left.isDown && !moveKeys.right.isDown)
-        iceWalk.stop();
 }
