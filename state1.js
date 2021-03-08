@@ -1,4 +1,4 @@
-var player, keys, enemy, iceWalk;
+var player, keys, enemy, iceWalk, spin;
 const SPEED = 500;
 
 demo.state1 = function(){};
@@ -38,6 +38,7 @@ demo.state1.prototype = {
         player.body.collideWorldBounds = true;
         game.camera.follow(player);
         player.animations.add("walk", [0, 1, 2]);
+        player.animations.add("spin", [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]);
 
         enemy = game.add.sprite(600, game.world.centerY - 150, "hunter", 1);
         enemy.health = 100;
@@ -46,11 +47,16 @@ demo.state1.prototype = {
         game.physics.enable(enemy);
         enemy.body.immovable = true;
         enemy.body.collideWorldBounds = true;
+        enemy.animations.add("fall", [1, 2, 3, 4]);
 
 
         keys = game.input.keyboard.addKeys({
             "up": 87, "down": 83, "left": 65, "right": 68
         });
+        startmove();
+
+        spin = game.input.keyboard.addKey(32);
+        spin.onDown.add(doSpin, null, null, 133);
 
         shooting = game.add.emitter(600, game.world.centerY - 150, 5);
         shooting.makeParticles("bullet");
@@ -68,47 +74,11 @@ demo.state1.prototype = {
         game.physics.arcade.collide(player, enemy);
 
         checkShoot(300);
-
-        if(keys.up.isDown){
-            player.body.velocity.y = -SPEED;
-            player.animations.play("walk", 8, true);
-        }
-        else if(keys.down.isDown){
-            player.body.velocity.y = SPEED;
-            player.animations.play("walk", 8, true);
-        }
-        else{
-            player.body.velocity.y = 0;
-            if(!keys.left.isDown && !keys.right.isDown){
-                player.animations.stop("walk");
-                player.frame = 0;
-            }
-        }
-        if(keys.left.isDown){
-            player.body.velocity.x = -SPEED;
-            player.scale.setTo(0.8, 0.8);
-            player.animations.play("walk", 8, true);
-        }
-        else if(keys.right.isDown){
-            player.body.velocity.x = SPEED;
-            player.scale.setTo(-0.8, 0.8);
-            player.animations.play("walk", 8, true);
-        }
-        else{
-            player.body.velocity.x = 0;
-            if(!keys.up.isDown && !keys.down.isDown){
-                player.animations.stop("walk");
-                player.frame = 0;
-            };
-        }
     }
 };
 
 function checkShoot(range){
-    deltaX = player.x - enemy.x;
-    deltaY = player.y - enemy.y;
-    distance = Math.hypot(deltaX, deltaY);
-    if(distance <= range){
+    if(getDistance() <= range){
         enemy.frame = 0;
         shooting.on = true;
     }
@@ -118,27 +88,67 @@ function checkShoot(range){
     }
 };
 
-function attack(range){
+function doSpin(i, range){
+    console.log("spin");
+    console.log(range);
+    if(getDistance() <= range){
+        player.animations.play("spin", 24);
+    }
+}
+
+function getDistance(){
     deltaX = player.x - enemy.x;
     deltaY = player.y - enemy.y;
-    distance = Math.hypot(deltaX, deltaY);
-    if(distance <= range){
-        
-    }
-    else{
+    return Math.hypot(deltaX, deltaY);
+}
 
+function moveSeal(key){
+    switch(key){
+        case keys.up:
+            player.body.velocity.y = -SPEED;
+            player.animations.play("walk", 8, true);
+            break;
+        case keys.down:
+            player.body.velocity.y = SPEED;
+            player.animations.play("walk", 8, true);
+            break;
+        case keys.left:
+            player.scale.setTo(0.8, 0.8);
+            player.body.velocity.x = -SPEED;
+            player.animations.play("walk", 8, true);
+            break;
+        case keys.right:
+            player.scale.setTo(-0.8, 0.8);
+            player.body.velocity.x = SPEED;
+            player.animations.play("walk", 8, true);
+            break; 
+    }
+}
+
+function stopSeal(){
+    if(!keys.up.isDown && !keys.down.isDown)
+        player.body.velocity.y = 0;
+    if(!keys.left.isDown && !keys.right.isDown)
+        player.body.velocity.x = 0;
+    if(!keys.up.isDown && !keys.down.isDown && !keys.left.isDown && !keys.right.isDown){
+        player.frame = 0;
+        player.animations.stop("walk");
+    }
+}
+
+function startmove(){
+    for(key in keys){
+        keys[key].onDown.add(moveSeal);
+        keys[key].onUp.add(stopSeal);
     }
 }
 
 function start(){
-    keys.up.onDown.add(playFx);
-    keys.down.onDown.add(playFx);
-    keys.left.onDown.add(playFx);
-    keys.right.onDown.add(playFx);
-    keys.up.onUp.add(stopSound);
-    keys.down.onUp.add(stopSound);
-    keys.left.onUp.add(stopSound);
-    keys.right.onUp.add(stopSound);
+    for(key in keys){
+        console.log(keys[key]);
+        keys[key].onDown.add(playFx);
+        keys[key].onUp.add(stopSound);
+    }
 }
 
 function playFx(){
