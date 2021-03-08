@@ -116,7 +116,7 @@ demo.state1.prototype = {
 };
 
 function enemyDistanceCheck(enemy){
-    if(getDistance(enemy) <= 400){
+    if(getDistance(enemy) <= 300){
         if(player.x - enemy.x > 0)
             enemy.scale.setTo(1, 1);
         else
