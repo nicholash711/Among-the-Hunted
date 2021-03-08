@@ -1,4 +1,4 @@
-var player, moveKeys, enemies, iceWalk, spin, sealSpin, hunterFall;
+var player, moveKeys, enemies, iceWalk, spin, sealSpin, hunterFall, hunterGun;
 const SPEED = 500, WORLD_LENGTH = 3200, WORLD_HEIGHT = 3200;
 
 demo.state1 = function(){};
@@ -55,7 +55,7 @@ demo.state1.prototype = {
         enemies.setAll("body.immovable", true);
         enemies.setAll("body.collideWorldBounds", true);
         enemies.forEach(function(enemy){
-            enemy.animations.add("fall", [1, 2, 3, 4, 4, 4, 4])
+            enemy.animations.add("fall", [1, 2, 3, 4, 4, 4, 4]);
         }, this);
 
         moveKeys = game.input.keyboard.addKeys({
@@ -64,11 +64,21 @@ demo.state1.prototype = {
         spin = game.input.keyboard.addKey(32);
         spin.onDown.add(doSpin, null, null, 133);
 
-        shooting = game.add.emitter(600, game.world.centerY - 150, 5);
-        shooting.makeParticles("bullet");
-        shooting.setXSpeed(-400, 0);
-        shooting.setYSpeed(-1, 1);
-        shooting.on = false;
+        // shooting = game.add.emitter(600, game.world.centerY - 150, 5);
+        // shooting.makeParticles("bullet");
+        // shooting.setXSpeed(-400, 0);
+        // shooting.setYSpeed(-1, 1);
+        // shooting.on = false;
+        hunterGun = game.add.weapon(1, "bullet", null, enemies);
+        hunterGun.bulletKillDistance = 100;
+        hunterGun.bullterKillType = Phaser.Weapon.KILL_CAMERA_BOUNDS;
+        hunterGun.fireRate = 400;
+        hunterGun.bulletSpeed = 400;
+        hunterGun.bulletClass.physicsBodyType = Phaser.Physics.ARCADE;
+        // enemies.forEach(function(enemy){
+        //     hunterGun.trackSprite(enemy, 0, 0, true);
+        // }, this);
+
 
         iceWalk = game.add.audio("iceWalk", 1, true);
         sealSpin = game.add.audio("sealSpin", 1);
@@ -80,6 +90,10 @@ demo.state1.prototype = {
         game.physics.arcade.collide(player, water);
         game.physics.arcade.collide(player, rocks);
         game.physics.arcade.collide(player, enemies);
+        game.physics.arcade.collide(player, hunterGun.bulletClass, function(){
+            player.health -= 1;
+            console.log(player.heatlh);
+        });
         
         enemies.forEachAlive(enemyCheck, this);
         
@@ -123,11 +137,12 @@ function enemyDistanceCheck(enemy){
         else
             enemy.scale.setTo(-1, 1);
         enemy.frame = 0;
-        shooting.on = true;
+        hunterGun.fire(enemy, player.x, player.y);
+        //shooting.on = true;
     }
     else{
         enemy.frame = 1;
-        shooting.on = false;
+        //shooting.on = false;
     }
 };
 
@@ -135,7 +150,7 @@ function enemyCheck(enemy){
     if(enemy.health <= 0){
         enemy.animations.play("fall", 8, false, true);
         hunterFall.play();
-        shooting.on = false;
+        //shooting.on = false;
         enemy.alive = false;
     }
     else{
