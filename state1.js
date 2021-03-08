@@ -47,16 +47,13 @@ demo.state1.prototype = {
         game.physics.enable(enemy);
         enemy.body.immovable = true;
         enemy.body.collideWorldBounds = true;
-        enemy.animations.add("fall", [1, 2, 3, 4]);
+        enemy.animations.add("fall", [1, 2, 3, 4, 4, 4, 4, 4, 4]);
 
 
         keys = game.input.keyboard.addKeys({
-            "up": 87, "down": 83, "left": 65, "right": 68
+            "up": 87, "down": 83, "left": 65, "right": 68, "spin": 32
         });
-        startmove();
-
-        spin = game.input.keyboard.addKey(32);
-        spin.onDown.add(doSpin, null, null, 133);
+        keys.spin.onDown.add(doSpin, null, null, 133);
 
         shooting = game.add.emitter(600, game.world.centerY - 150, 5);
         shooting.makeParticles("bullet");
@@ -73,12 +70,44 @@ demo.state1.prototype = {
         game.physics.arcade.collide(player, water);
         game.physics.arcade.collide(player, enemy);
 
-        checkShoot(300);
+
+        enemyCheck();
+
+        if(!player.animations.getAnimation("spin").isPlaying){
+            if(keys.up.isDown){
+                player.body.velocity.y = -SPEED;
+                player.animations.play("walk", 8, true);
+            }
+            else if(keys.down.isDown){
+                player.body.velocity.y = SPEED;
+                player.animations.play("walk", 8, true);
+            }
+            else{
+                player.body.velocity.y = 0;
+                if(!keys.left.isDown && !keys.right.isDown)
+                    player.animations.stop("walk", true);
+            }
+            if(keys.left.isDown){
+                player.scale.setTo(0.8, 0.8);
+                player.body.velocity.x = -SPEED;
+                player.animations.play("walk", 8, true);
+            }
+            else if(keys.right.isDown){
+                player.scale.setTo(-0.8, 0.8);
+                player.body.velocity.x = SPEED;
+                player.animations.play("walk", 8, true);
+            }
+            else{
+                player.body.velocity.x = 0;
+                if(!keys.up.isDown && !keys.down.isDown)
+                    player.animations.stop("walk", true);
+            }
+        } 
     }
 };
 
-function checkShoot(range){
-    if(getDistance() <= range){
+function enemyDistanceCheck(){
+    if(getDistance() <= 300){
         enemy.frame = 0;
         shooting.on = true;
     }
@@ -88,11 +117,22 @@ function checkShoot(range){
     }
 };
 
+function enemyCheck(){
+    if(enemy.health <= 0){
+        enemy.animations.play("fall", 8, false, true);
+        shooting.on = false;
+    }
+    else{
+        enemyDistanceCheck()
+    }
+}
+
 function doSpin(i, range){
     console.log("spin");
-    console.log(range);
-    if(getDistance() <= range){
-        player.animations.play("spin", 24);
+    if(getDistance() <= range && !player.animations.getAnimation("spin").isPlaying){
+        player.animations.play("spin", 36);
+        enemy.health -= 50;
+        console.log(enemy.health);
     }
 }
 
@@ -102,57 +142,15 @@ function getDistance(){
     return Math.hypot(deltaX, deltaY);
 }
 
-function moveSeal(key){
-    switch(key){
-        case keys.up:
-            player.body.velocity.y = -SPEED;
-            player.animations.play("walk", 8, true);
-            break;
-        case keys.down:
-            player.body.velocity.y = SPEED;
-            player.animations.play("walk", 8, true);
-            break;
-        case keys.left:
-            player.scale.setTo(0.8, 0.8);
-            player.body.velocity.x = -SPEED;
-            player.animations.play("walk", 8, true);
-            break;
-        case keys.right:
-            player.scale.setTo(-0.8, 0.8);
-            player.body.velocity.x = SPEED;
-            player.animations.play("walk", 8, true);
-            break; 
-    }
-}
-
-function stopSeal(){
-    if(!keys.up.isDown && !keys.down.isDown)
-        player.body.velocity.y = 0;
-    if(!keys.left.isDown && !keys.right.isDown)
-        player.body.velocity.x = 0;
-    if(!keys.up.isDown && !keys.down.isDown && !keys.left.isDown && !keys.right.isDown){
-        player.frame = 0;
-        player.animations.stop("walk");
-    }
-}
-
-function startmove(){
-    for(key in keys){
-        keys[key].onDown.add(moveSeal);
-        keys[key].onUp.add(stopSeal);
-    }
-}
-
 function start(){
     for(key in keys){
-        console.log(keys[key]);
         keys[key].onDown.add(playFx);
         keys[key].onUp.add(stopSound);
     }
 }
 
 function playFx(){
-    if(!iceWalk.isPlaying)
+    if(!iceWalk.isPlaying && !player.animations.getAnimation("spin").isPlaying)
         iceWalk.play();
 }
 
