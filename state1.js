@@ -1,4 +1,4 @@
-var player, keys, enemies, iceWalk, spin;
+var player, moveKeys, enemies, iceWalk, spin, sealSpin, hunterFall;
 const SPEED = 500, WORLD_LENGTH = 3200, WORLD_HEIGHT = 3200;
 
 demo.state1 = function(){};
@@ -12,7 +12,8 @@ demo.state1.prototype = {
         game.load.image("Water", "assets/tilemaps/Water.png");
         game.load.image("bullet", "assets/sprites/Bullet.png");
         game.load.audio("iceWalk", "assets/sounds/effects/iceStep.mp3");
-        
+        game.load.audio("sealSpin", "assets/sounds/effects/sealSpin.mp3");
+        game.load.audio("hunterFall", "assets/sounds/effects/hunterFall.mp3");
     },
 
     create: function(){
@@ -54,16 +55,14 @@ demo.state1.prototype = {
         enemies.setAll("body.immovable", true);
         enemies.setAll("body.collideWorldBounds", true);
         enemies.forEach(function(enemy){
-            enemy.animations.add("fall", [1, 2, 3, 4, 4, 4, 4, 4, 4])
+            enemy.animations.add("fall", [1, 2, 3, 4, 4, 4, 4])
         }, this);
 
-        
-
-
-        keys = game.input.keyboard.addKeys({
-            "up": 87, "down": 83, "left": 65, "right": 68, "spin": 32
+        moveKeys = game.input.keyboard.addKeys({
+            "up": 87, "down": 83, "left": 65, "right": 68
         });
-        keys.spin.onDown.add(doSpin, null, null, 133);
+        spin = game.input.keyboard.addKey(32);
+        spin.onDown.add(doSpin, null, null, 133);
 
         shooting = game.add.emitter(600, game.world.centerY - 150, 5);
         shooting.makeParticles("bullet");
@@ -72,6 +71,8 @@ demo.state1.prototype = {
         shooting.on = false;
 
         iceWalk = game.add.audio("iceWalk", 1, true);
+        sealSpin = game.add.audio("sealSpin", 1);
+        hunterFall = game.add.audio("hunterFall", 1);
         game.sound.setDecodedCallback(iceWalk, start, this);
     },
 
@@ -80,35 +81,35 @@ demo.state1.prototype = {
         game.physics.arcade.collide(player, rocks);
         game.physics.arcade.collide(player, enemies);
         
-        enemies.forEach(enemyCheck, this);
+        enemies.forEachAlive(enemyCheck, this);
         
         if(!player.animations.getAnimation("spin").isPlaying){
-            if(keys.up.isDown){
+            if(moveKeys.up.isDown){
                 player.body.velocity.y = -SPEED;
                 player.animations.play("walk", 8, true);
             }
-            else if(keys.down.isDown){
+            else if(moveKeys.down.isDown){
                 player.body.velocity.y = SPEED;
                 player.animations.play("walk", 8, true);
             }
             else{
                 player.body.velocity.y = 0;
-                if(!keys.left.isDown && !keys.right.isDown)
+                if(!moveKeys.left.isDown && !moveKeys.right.isDown)
                     player.animations.stop("walk", true);
             }
-            if(keys.left.isDown){
+            if(moveKeys.left.isDown){
                 player.scale.setTo(0.8, 0.8);
                 player.body.velocity.x = -SPEED;
                 player.animations.play("walk", 8, true);
             }
-            else if(keys.right.isDown){
+            else if(moveKeys.right.isDown){
                 player.scale.setTo(-0.8, 0.8);
                 player.body.velocity.x = SPEED;
                 player.animations.play("walk", 8, true);
             }
             else{
                 player.body.velocity.x = 0;
-                if(!keys.up.isDown && !keys.down.isDown)
+                if(!moveKeys.up.isDown && !moveKeys.down.isDown)
                     player.animations.stop("walk", true);
             }
         } 
@@ -133,7 +134,9 @@ function enemyDistanceCheck(enemy){
 function enemyCheck(enemy){
     if(enemy.health <= 0){
         enemy.animations.play("fall", 8, false, true);
+        hunterFall.play();
         shooting.on = false;
+        enemy.alive = false;
     }
     else{
         enemyDistanceCheck(enemy);
@@ -142,10 +145,11 @@ function enemyCheck(enemy){
 
 function doSpin(i, range){
     console.log("spin");
-    enemies.forEach(function(enemy){
+    enemies.forEachAlive(function(enemy){
         if(getDistance(enemy) <= range && !player.animations.getAnimation("spin").isPlaying){
             player.body.velocity.x = 0, player.body.velocity.y = 0;
             player.animations.play("spin", 36);
+            sealSpin.play();
             enemy.health -= 50;
             console.log(enemy.health);
         }
@@ -159,9 +163,9 @@ function getDistance(enemy){
 }
 
 function start(){
-    for(key in keys){
-        keys[key].onDown.add(playFx);
-        keys[key].onUp.add(stopSound);
+    for(key in moveKeys){
+        moveKeys[key].onDown.add(playFx);
+        moveKeys[key].onUp.add(stopSound);
     }
 }
 
@@ -171,6 +175,6 @@ function playFx(){
 }
 
 function stopSound(){
-    if(!keys.up.isDown && !keys.down.isDown && !keys.left.isDown && !keys.right.isDown)
+    if(!moveKeys.up.isDown && !moveKeys.down.isDown && !moveKeys.left.isDown && !moveKeys.right.isDown)
         iceWalk.stop();
 }
