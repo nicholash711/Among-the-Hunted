@@ -188,6 +188,6 @@ function start(){
     }
 }
 
-updateHealth(){
+function updateHealth(){
     player.health -= 10;
 }
