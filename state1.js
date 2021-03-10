@@ -64,11 +64,6 @@ demo.state1.prototype = {
         spin = game.input.keyboard.addKey(32);
         spin.onDown.add(doSpin, null, null, 133);
 
-        // shooting = game.add.emitter(600, game.world.centerY - 150, 5);
-        // shooting.makeParticles("bullet");
-        // shooting.setXSpeed(-400, 0);
-        // shooting.setYSpeed(-1, 1);
-        // shooting.on = false;
         hunterGun = game.add.weapon(10, "bullet", null, enemies);
         hunterGun.bulletKillDistance = 100;
         hunterGun.bullterKillType = Phaser.Weapon.KILL_CAMERA_BOUNDS;
@@ -78,6 +73,12 @@ demo.state1.prototype = {
         // enemies.forEach(function(enemy){
         //     hunterGun.trackSprite(enemy, 0, 0, true);
         // }, this);
+
+
+
+
+        // check collision with bullets
+        hunterGun.bullets.onCollide.add(updateHealth);
 
 
         iceWalk = game.add.audio("iceWalk", 1, true);
@@ -138,11 +139,9 @@ function enemyDistanceCheck(enemy){
             enemy.scale.setTo(-1, 1);
         enemy.frame = 0;
         hunterGun.fire(enemy, player.x, player.y);
-        //shooting.on = true;
     }
     else{
         enemy.frame = 1;
-        //shooting.on = false;
     }
 };
 
@@ -150,7 +149,6 @@ function enemyCheck(enemy){
     if(enemy.health <= 0){
         enemy.animations.play("fall", 8, false, true);
         hunterFall.play();
-        //shooting.on = false;
         enemy.alive = false;
     }
     else{
@@ -188,4 +186,8 @@ function start(){
                 iceWalk.stop();
         });
     }
+}
+
+updateHealth(){
+    player.health -= 10;
 }
