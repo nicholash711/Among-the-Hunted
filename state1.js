@@ -69,10 +69,10 @@ demo.state1.prototype = {
         // shooting.setXSpeed(-400, 0);
         // shooting.setYSpeed(-1, 1);
         // shooting.on = false;
-        hunterGun = game.add.weapon(1, "bullet", null, enemies);
+        hunterGun = game.add.weapon(10, "bullet", null, enemies);
         hunterGun.bulletKillDistance = 100;
         hunterGun.bullterKillType = Phaser.Weapon.KILL_CAMERA_BOUNDS;
-        hunterGun.fireRate = 400;
+        hunterGun.fireRate = 600;
         hunterGun.bulletSpeed = 400;
         hunterGun.bulletClass.physicsBodyType = Phaser.Physics.ARCADE;
         // enemies.forEach(function(enemy){
