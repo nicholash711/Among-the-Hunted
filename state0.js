@@ -14,11 +14,16 @@ demo.state0.prototype = {
         game.add.text(50, 77, 'You are a harp seal\njust abandoned by your mother,\nleft to fend for yourself.\nYou are being hunted\nfor your soft fur.\nTry your best to survive.', { fontsize: '24px'});
         game.add.text(50, 300, 'Click on the GIF to begin', { fontSize: '18px'})
         console.log('Welcome Haha',);
-        var seal = game.add.sprite(game.world.centerX, 350, 'seal');
-        seal.scale.setTo(0.5, 0.5);
-        seal.animations.add('shoot');
-        seal.animations.play('shoot', 7, true);
-        game.input.onDown.add(actionOnClick);
+        // var seal = game.add.sprite(game.world.centerX, 350, 'seal');
+        // seal.scale.setTo(0.5, 0.5);
+        // seal.animations.add('shoot');
+        // seal.animations.play('shoot', 7, true);
+        //game.input.onDown.add(actionOnClick);
+        var button = game.add.button(game.world.centerX, 350, "seal", actionOnClick);
+        button.scale.setTo(0.5, 0.5);
+        button.animations.add("shoot");
+        button.animations.play("shoot", 7, true);
+
 
         music = game.add.audio("music", 0.2, true);
         music.play();
