@@ -75,12 +75,6 @@ demo.state1.prototype = {
         // }, this);
 
 
-
-
-        // check collision with bullets
-        hunterGun.bullets.onCollide.add(updateHealth);
-
-
         iceWalk = game.add.audio("iceWalk", 1, true);
         sealSpin = game.add.audio("sealSpin", 1);
         hunterFall = game.add.audio("hunterFall", 1);
@@ -91,10 +85,14 @@ demo.state1.prototype = {
         game.physics.arcade.collide(player, water);
         game.physics.arcade.collide(player, rocks);
         game.physics.arcade.collide(player, enemies);
-        game.physics.arcade.collide(player, hunterGun.bulletClass, function(){
-            player.health -= 1;
+        /*game.physics.arcade.overlap(player, hunterGun.bulletClass, function(){
+            player.health -= 10;
             console.log(player.heatlh);
-        });
+        });*/
+        // check collision with bullets
+        // hunterGun.bullets.onCollide.add(updateHealth);
+        game.physics.arcade.overlap(player, hunterGun.bullets, updateHealth, null, this);
+
         
         enemies.forEachAlive(enemyCheck, this);
         
@@ -188,6 +186,8 @@ function start(){
     }
 }
 
-function updateHealth(){
+function updateHealth(player, bullet){
     player.health -= 10;
+    console.log(player.health);
+    bullet.kill();
 }
