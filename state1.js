@@ -66,7 +66,7 @@ demo.state1.prototype = {
 
         hunterGun = game.add.weapon(10, "bullet", null, enemies);
         hunterGun.bulletKillDistance = 100;
-        hunterGun.bullterKillType = Phaser.Weapon.KILL_CAMERA_BOUNDS;
+        hunterGun.bulletKillType = Phaser.Weapon.KILL_CAMERA_BOUNDS;
         hunterGun.fireRate = 600;
         hunterGun.bulletSpeed = 400;
         hunterGun.bulletClass.physicsBodyType = Phaser.Physics.ARCADE;
@@ -187,7 +187,12 @@ function start(){
 }
 
 function updateHealth(player, bullet){
-    player.health -= 10;
+    player.damage(10); // take 10 damage to health; damage method auto kills sprite when health <= 0
+    //player.health -= 10;
     console.log(player.health);
     bullet.kill();
+
+    if(player.alive == false){
+        game.state.start('state2');
+    }
 }
