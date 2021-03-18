@@ -6,6 +6,7 @@ demo.state1.prototype = {
     preload: function(){
         game.load.spritesheet("seal", "assets/spritesheets/HarpSeal.png", 109, 74);
         game.load.spritesheet("hunter", "assets/spritesheets/hunter.png", 128, 128);
+        //game.load.spritesheet("healthBar");
         game.load.tilemap("Map", "assets/tilemaps/Map.json", null, Phaser.Tilemap.TILED_JSON);
         game.load.image("Ground", "assets/tilemaps/Ground.png");
         game.load.image("Rocks", "assets/tilemaps/Rocks.png");
@@ -40,6 +41,12 @@ demo.state1.prototype = {
         game.camera.follow(player);
         player.animations.add("walk", [0, 1, 2]);
         player.animations.add("spin", [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]);
+
+        //health bar?
+        /*
+        var healthBar = game.add.sprite(0, 0, "healthBar");
+        player.addChild(healthBar);
+        */
 
         enemies = game.add.group();
         enemies.enableBody = true;
@@ -85,12 +92,6 @@ demo.state1.prototype = {
         game.physics.arcade.collide(player, water);
         game.physics.arcade.collide(player, rocks);
         game.physics.arcade.collide(player, enemies);
-        /*game.physics.arcade.overlap(player, hunterGun.bulletClass, function(){
-            player.health -= 10;
-            console.log(player.heatlh);
-        });*/
-        // check collision with bullets
-        // hunterGun.bullets.onCollide.add(updateHealth);
         game.physics.arcade.overlap(player, hunterGun.bullets, updateHealth, null, this);
 
         
@@ -189,6 +190,7 @@ function start(){
 function updateHealth(player, bullet){
     player.damage(10); // take 10 damage to health; damage method auto kills sprite when health <= 0
     //player.health -= 10;
+    //player.healthBar.frame = player.health
     console.log(player.health);
     bullet.kill();
 
