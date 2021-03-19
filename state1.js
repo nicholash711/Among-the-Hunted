@@ -43,7 +43,7 @@ demo.state1.prototype = {
         player.animations.add("spin", [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]);
 
         //health bar
-        var healthBar = game.add.sprite(0, 0, "healthBar");
+        var healthBar = game.add.sprite(-52, 37, "healthBar");
         player.addChild(healthBar, 0);
 
         enemies = game.add.group();
