@@ -42,6 +42,7 @@ demo.state1.prototype = {
         game.camera.follow(player);
         player.animations.add("walk", [0, 1, 2]);
         player.animations.add("spin", [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]);
+        player.animations.add("jab", [26, 27, 27, 28, 28, 29, 29, 30]);
 
         //health bar
         healthBar = game.add.sprite(-52, 37, "healthBar");
@@ -73,6 +74,8 @@ demo.state1.prototype = {
         });
         spin = game.input.keyboard.addKey(32);
         spin.onDown.add(doSpin, null, null, 133);
+        jab = game.input.keyboard.addKey(69);
+        jab.onDown.add(doJab, null, null, 133);
 
         hunterGun = game.add.weapon(5, "bullet", null, enemies);
         hunterGun.bulletKillDistance = 100;
@@ -165,10 +168,22 @@ function doSpin(i, range){
             player.body.velocity.x = 0, player.body.velocity.y = 0;
             player.animations.play("spin", 36);
             sealSpin.play();
-            enemy.health -= 50;
+            enemy.health -= 100;
             console.log(enemy.health);
         }
     }, this);        
+}
+function doJab(i, range){
+    console.log("jab");
+    enemies.forEachAlive(function(enemy){
+        if(getDistance(enemy) <= range && !player.animations.getAnimation("jab").isPlaying){
+            player.body.velocity.x = 0, player.body.velocity.y = 0;
+            player.animations.play("jab", 12);
+            sealSpin.play();
+            enemy.health -= 50;
+            console.log(enemy.health);
+        }
+    }, this);   
 }
 
 function getDistance(enemy){
