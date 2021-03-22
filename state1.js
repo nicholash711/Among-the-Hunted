@@ -74,10 +74,10 @@ demo.state1.prototype = {
         spin = game.input.keyboard.addKey(32);
         spin.onDown.add(doSpin, null, null, 133);
 
-        hunterGun = game.add.weapon(10, "bullet", null, enemies);
+        hunterGun = game.add.weapon(5, "bullet", null, enemies);
         hunterGun.bulletKillDistance = 100;
         hunterGun.bulletKillType = Phaser.Weapon.KILL_CAMERA_BOUNDS;
-        hunterGun.fireRate = 1000;
+        hunterGun.fireRate = 2000;
         hunterGun.bulletSpeed = 400;
         hunterGun.bulletClass.physicsBodyType = Phaser.Physics.ARCADE;
         // enemies.forEach(function(enemy){
