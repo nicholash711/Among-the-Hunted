@@ -1,4 +1,4 @@
-var player, moveKeys, enemies, iceWalk, spin, sealSpin, hunterFall, hunterGun;
+var player, moveKeys, enemies, iceWalk, spin, sealSpin, hunterFall, hunterGun, map, healthBar, energyBar;
 const SPEED = 500, WORLD_LENGTH = 3200, WORLD_HEIGHT = 3200;
 
 demo.state1 = function(){};
@@ -7,6 +7,7 @@ demo.state1.prototype = {
         game.load.spritesheet("seal", "assets/spritesheets/HarpSeal.png", 109, 74);
         game.load.spritesheet("hunter", "assets/spritesheets/hunter.png", 128, 128);
         game.load.spritesheet("healthBar", "assets/spritesheets/healthBar.png", 102, 12);
+        game.load.spritesheet("energyBar", "assets/spritesheets/healthBar.png", 102, 12);
         game.load.tilemap("Map", "assets/tilemaps/Map.json", null, Phaser.Tilemap.TILED_JSON);
         game.load.image("Ground", "assets/tilemaps/Ground.png");
         game.load.image("Rocks", "assets/tilemaps/Rocks.png");
@@ -22,7 +23,7 @@ demo.state1.prototype = {
         game.world.setBounds(0, 0, WORLD_LENGTH, WORLD_HEIGHT);
         game.stage.backgroundColor = "#2b00ff";
 
-        var map = game.add.tilemap("Map");
+        map = game.add.tilemap("Map");
         map.addTilesetImage("Ground");
         map.addTilesetImage('Water');
         map.addTilesetImage('Rocks');
@@ -43,8 +44,12 @@ demo.state1.prototype = {
         player.animations.add("spin", [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]);
 
         //health bar
-        var healthBar = game.add.sprite(-52, 37, "healthBar");
+        healthBar = game.add.sprite(-52, 37, "healthBar");
         player.addChild(healthBar, 0);
+        
+        //Energy bar WIP
+        energyBar = game.add.sprite(10, 10, "energyBar");
+        // energyBar.alignTo(Phaser.Camera.view);
 
         enemies = game.add.group();
         enemies.enableBody = true;
@@ -93,7 +98,7 @@ demo.state1.prototype = {
         game.physics.arcade.overlap(player, hunterGun.bullets, updateHealth, null, this);
 
         
-        enemies.forEachAlive(enemyCheck, this);
+        enemies.forEachAlive(enemyHealthCheck, this);
         
         if(!player.animations.getAnimation("spin").isPlaying){
             if(moveKeys.up.isDown){
@@ -142,7 +147,7 @@ function enemyDistanceCheck(enemy){
     }
 };
 
-function enemyCheck(enemy){
+function enemyHealthCheck(enemy){
     if(enemy.health <= 0){
         enemy.animations.play("fall", 8, false, true);
         hunterFall.play();
