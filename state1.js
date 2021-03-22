@@ -1,4 +1,4 @@
-var player, moveKeys, enemies, iceWalk, spin, sealSpin, hunterFall, hunterGun, map, healthBar, energyBar;
+var player, moveKeys, enemies, iceWalk, spin, sealSpin, hunterFall, hunterGun, map, healthBar, energyBar, energy;
 const SPEED = 500, WORLD_LENGTH = 3200, WORLD_HEIGHT = 3200;
 
 demo.state1 = function(){};
@@ -50,7 +50,9 @@ demo.state1.prototype = {
         
         //Energy bar WIP
         energyBar = game.add.sprite(10, 10, "energyBar");
-        // energyBar.alignTo(Phaser.Camera.view);
+        energyBar.fixedToCamera = true;
+        energyBar.cameraOffset = new Phaser.Point(20, 20);
+        energy = 100;
 
         enemies = game.add.group();
         enemies.enableBody = true;
@@ -100,7 +102,7 @@ demo.state1.prototype = {
         game.physics.arcade.collide(player, enemies);
         game.physics.arcade.overlap(player, hunterGun.bullets, updateHealth, null, this);
 
-        
+        energyBar.frame = 100 - energy;
         enemies.forEachAlive(enemyHealthCheck, this);
         
         if(!player.animations.getAnimation("spin").isPlaying){
@@ -170,9 +172,11 @@ function doSpin(i, range){
             sealSpin.play();
             enemy.health -= 100;
             console.log(enemy.health);
+            energy -= 10;    
         }
-    }, this);        
+    }, this);
 }
+
 function doJab(i, range){
     console.log("jab");
     enemies.forEachAlive(function(enemy){
@@ -182,8 +186,9 @@ function doJab(i, range){
             sealSpin.play();
             enemy.health -= 50;
             console.log(enemy.health);
+            energy -= 5;   
         }
-    }, this);   
+    }, this);
 }
 
 function getDistance(enemy){
