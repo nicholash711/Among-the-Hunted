@@ -72,7 +72,7 @@ demo.state1.prototype = {
         hunterGun = game.add.weapon(10, "bullet", null, enemies);
         hunterGun.bulletKillDistance = 100;
         hunterGun.bulletKillType = Phaser.Weapon.KILL_CAMERA_BOUNDS;
-        hunterGun.fireRate = 600;
+        hunterGun.fireRate = 1000;
         hunterGun.bulletSpeed = 400;
         hunterGun.bulletClass.physicsBodyType = Phaser.Physics.ARCADE;
         // enemies.forEach(function(enemy){
