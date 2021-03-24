@@ -1,4 +1,4 @@
-var player, moveKeys, enemies, iceWalk, spin, sealSpin, hunterFall, hunterGun, map, healthBar, energyBar, energy;
+var player, moveKeys, enemies, iceWalk, spin, sealSpin, hunterFall, hunterGun, map, healthBar, energyBar, energy, graphics;
 const SPEED = 500, WORLD_LENGTH = 3200, WORLD_HEIGHT = 3200;
 
 demo.state1 = function(){};
@@ -85,15 +85,20 @@ demo.state1.prototype = {
         hunterGun.fireRate = 2000;
         hunterGun.bulletSpeed = 400;
         hunterGun.bulletClass.physicsBodyType = Phaser.Physics.ARCADE;
-        // enemies.forEach(function(enemy){
-        //     hunterGun.trackSprite(enemy, 0, 0, true);
-        // }, this);
 
 
         iceWalk = game.add.audio("iceWalk", 1, true);
         sealSpin = game.add.audio("sealSpin", 1);
         hunterFall = game.add.audio("hunterFall", 1);
         game.sound.setDecodedCallback(iceWalk, start, this);
+
+        //TODO Controls Menu before game start
+        //game.paused = true;
+        // graphics = new Phaser.Graphics();
+        // graphics.fixedToCamera = true;
+        // graphics.beginFill(1, 1);
+        // graphics.drawRect(100, 100, 700, 400);
+
     },
 
     update: function (){       
