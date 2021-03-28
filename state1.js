@@ -7,7 +7,7 @@ demo.state1.prototype = {
         game.load.spritesheet("seal", "assets/spritesheets/HarpSeal.png", 109, 74);
         game.load.spritesheet("hunter", "assets/spritesheets/hunter.png", 128, 128);
         game.load.spritesheet("healthBar", "assets/spritesheets/healthBar.png", 102, 12);
-        game.load.spritesheet("energyBar", "assets/spritesheets/healthBar.png", 102, 12);
+        game.load.spritesheet("energyBar", "assets/spritesheets/EnergyBar.png", 102, 12);
         game.load.tilemap("Map", "assets/tilemaps/Map.json", null, Phaser.Tilemap.TILED_JSON);
         game.load.image("Ground", "assets/tilemaps/Ground.png");
         game.load.image("Rocks", "assets/tilemaps/Rocks.png");
@@ -68,7 +68,7 @@ demo.state1.prototype = {
         enemies.setAll("body.immovable", true);
         enemies.setAll("body.collideWorldBounds", true);
         enemies.forEach(function(enemy){
-            enemy.animations.add("fall", [1, 2, 3, 4, 4, 4, 4]);
+            enemy.animations.add("fall", [7, 15, 16, 17, 17, 17, 17]);
         }, this);
 
         moveKeys = game.input.keyboard.addKeys({
@@ -145,15 +145,46 @@ demo.state1.prototype = {
 
 function enemyDistanceCheck(enemy){
     if(getDistance(enemy) <= 300){
-        if(player.x - enemy.x > 0)
+        if(player.x - enemy.x > 0) {
             enemy.scale.setTo(1, 1);
-        else
-            enemy.scale.setTo(-1, 1);
-        enemy.frame = 0;
+            var angle = Math.atan2(player.y - enemy.y, player.x - enemy.x) * 180 / Math.PI;
+            if(angle >= 80)
+                enemy.frame = 14;
+            else if(angle >= 40)
+                enemy.frame = 13;
+            else if(angle >= 20)
+                enemy.frame = 12;
+            else if(angle >= -10)
+                enemy.frame = 11;
+            else if(angle >= -40)
+                enemy.frame = 10;
+            else if(angle >= -60)
+                enemy.frame = 9;
+            else if(angle >= -80)
+                enemy.frame = 8;
+        }
+        else {
+        enemy.scale.setTo(1, 1);
+        angle = Math.atan2(enemy.y - player.y, enemy.x - player.x) * 180 / Math.PI;
+        if(angle >= 80)
+            enemy.frame = 6;
+        else if(angle >= 40)
+            enemy.frame = 5;
+        else if(angle >= 20)
+            enemy.frame = 4;
+        else if(angle >= -10)
+            enemy.frame = 3;
+        else if(angle >= -40)
+            enemy.frame = 2;
+        else if(angle >= -60)
+            enemy.frame = 1;
+        else if(angle >= -80)
+            enemy.frame = 0;
+        }
         hunterGun.fire(enemy, player.x, player.y);
     }
     else{
-        enemy.frame = 1;
+        enemy.frame = 7;
     }
 };
 
