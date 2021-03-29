@@ -18,7 +18,7 @@ demo.state1.prototype = {
         game.load.audio("iceWalk", "assets/sounds/effects/iceStep.mp3");
         game.load.audio("sealSpin", "assets/sounds/effects/sealSpin.mp3");
         game.load.audio("hunterFall", "assets/sounds/effects/hunterFall.mp3");
-        game.load.image("menuButton", "assets/sprites/menuButton.png");
+        //game.load.image("menuButton", "assets/sprites/menuButton.png");
     },
 
     create: function(){
@@ -109,10 +109,10 @@ demo.state1.prototype = {
         graphics.lineStyle(4, 0x00b3b3, 1);
         graphics.drawRect(200, 100, 500, 400);
         graphics.endFill();
-        var instruct = game.add.text(game.camera.centerX, 150, text, { fontSize: "20px" });
-        instruct.fixedtoCamera = true;
-        instruct.anchor.setTo(0.5, 0);
-        graphics.addChild(instruct);
+        var controls = game.add.text(game.camera.centerX, 150, text, { fontSize: "20px" });
+        controls.fixedtoCamera = true;
+        controls.anchor.setTo(0.5, 0);
+        graphics.addChild(controls);
         var button = game.add.button(game.camera.centerX, 450, "startButton", startOnClick);
         button.anchor.setTo(0.5, 0.5);
         button.scale.setTo(0.7, 0.7);
