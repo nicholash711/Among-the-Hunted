@@ -13,6 +13,8 @@ demo.state1.prototype = {
         game.load.image("Rocks", "assets/tilemaps/Rocks.png");
         game.load.image("Water", "assets/tilemaps/Water.png");
         game.load.image("bullet", "assets/sprites/Bullet.png");
+        game.load.image("startButton", "assets/sprites/StartButton.png");
+        game.load.image("fish", "assets/sprites/Fish.png");
         game.load.audio("iceWalk", "assets/sounds/effects/iceStep.mp3");
         game.load.audio("sealSpin", "assets/sounds/effects/sealSpin.mp3");
         game.load.audio("hunterFall", "assets/sounds/effects/hunterFall.mp3");
@@ -46,7 +48,7 @@ demo.state1.prototype = {
 
         //health bar
         healthBar = game.add.sprite(-52, 37, "healthBar");
-        player.addChild(healthBar, 0);
+        player.addChild(healthBar);
         
         //Energy bar WIP
         energyBar = game.add.sprite(10, 10, "energyBar");
@@ -54,6 +56,7 @@ demo.state1.prototype = {
         energyBar.cameraOffset = new Phaser.Point(20, 20);
         energy = 100;
 
+        //adds intial enemies
         enemies = game.add.group();
         enemies.enableBody = true;
         enemies.physicsBodyType = Phaser.Physics.ARCADE;
@@ -68,6 +71,10 @@ demo.state1.prototype = {
         enemies.setAll("body.immovable", true);
         enemies.setAll("body.collideWorldBounds", true);
         enemies.forEach(function(enemy){
+            var enemyHealth = game.add.sprite(0, -80, "healthBar");
+            enemyHealth.anchor.setTo(0.5, 0);
+            enemyHealth.scale.setTo(0.6, 0.6);
+            enemy.addChild(enemyHealth);
             enemy.animations.add("fall", [7, 15, 16, 17, 17, 17, 17]);
         }, this);
 
@@ -80,8 +87,8 @@ demo.state1.prototype = {
         jab.onDown.add(doJab, null, null, 133);
 
         hunterGun = game.add.weapon(5, "bullet", null, enemies);
-        hunterGun.bulletKillDistance = 100;
-        hunterGun.bulletKillType = Phaser.Weapon.KILL_CAMERA_BOUNDS;
+        hunterGun.bulletKillDistance = 500;
+        hunterGun.bulletKillType = Phaser.Weapon.KILL_DISTANCE;
         hunterGun.fireRate = 2000;
         hunterGun.bulletSpeed = 400;
         hunterGun.bulletClass.physicsBodyType = Phaser.Physics.ARCADE;
@@ -93,11 +100,22 @@ demo.state1.prototype = {
         game.sound.setDecodedCallback(iceWalk, start, this);
 
         //TODO Controls Menu before game start
-        //game.paused = true;
-        // graphics = new Phaser.Graphics();
-        // graphics.fixedToCamera = true;
-        // graphics.beginFill(1, 1);
-        // graphics.drawRect(100, 100, 700, 400);
+        var text = "Use the arrow keys to move.\nPress Spacebar to use your strong attack.\nPress E to use your weak attack."
+        game.paused = true;
+        graphics = game.add.graphics();
+        graphics.fixedToCamera = true;
+        graphics.beginFill(0x99ffff, .7);
+        graphics.lineStyle(4, 0x00b3b3, 1);
+        graphics.drawRect(200, 100, 500, 400);
+        graphics.endFill();
+        var instruct = game.add.text(game.camera.centerX, 150, text, { fontSize: "20px" });
+        instruct.fixedtoCamera = true;
+        instruct.anchor.setTo(0.5, 0);
+        graphics.addChild(instruct);
+        var button = game.add.button(game.camera.centerX, 450, "startButton", startOnClick);
+        button.anchor.setTo(0.5, 0.5);
+        button.scale.setTo(0.7, 0.7);
+        graphics.addChild(button);
 
     },
 
@@ -197,6 +215,7 @@ function enemyHealthCheck(enemy){
     else{
         enemyDistanceCheck(enemy);
     }
+    enemy.getChildAt(0).frame = 100 - enemy.health;
 }
 
 function doSpin(i, range){
@@ -206,7 +225,7 @@ function doSpin(i, range){
             player.body.velocity.x = 0, player.body.velocity.y = 0;
             player.animations.play("spin", 36);
             sealSpin.play();
-            enemy.health -= 100;
+            enemy.health -= 50;
             console.log(enemy.health);
             energy -= 10;    
         }
@@ -220,7 +239,7 @@ function doJab(i, range){
             player.body.velocity.x = 0, player.body.velocity.y = 0;
             player.animations.play("jab", 12);
             sealSpin.play();
-            enemy.health -= 50;
+            enemy.health -= 10;
             console.log(enemy.health);
             energy -= 5;   
         }
@@ -249,11 +268,17 @@ function start(){
 function updateHealth(player, bullet){
     player.damage(10); // take 10 damage to health; damage method auto kills sprite when health <= 0
     //player.health -= 10;
-    player.getChildAt(0).frame = 101 - player.health
+    player.getChildAt(0).frame = 100 - player.health;
     console.log(player.health);
     bullet.kill();
 
     if(player.alive == false){
+        iceWalk.stop();
         game.state.start('state2');
     }
+}
+
+function startOnClick(){
+    graphics.destroy();
+    game.paused = false;
 }

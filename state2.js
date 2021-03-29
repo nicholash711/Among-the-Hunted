@@ -5,10 +5,11 @@ demo.state2.prototype = {
     preload: function(){},
 
     create: function(){
-        text = game.add.text(WIDTH / 2, 100, "GAME OVER", { fontSize: "40px" });
-        text = game.add.text(WIDTH / 2, 200, "Click anywhere to restart", { fontSize: "20px" });
+        text = game.add.text(WIDTH / 2, 200, "GAME OVER", { fontSize: "40px" });
+        text.anchor.setTo(0.5, 0);
+        text = game.add.text(WIDTH / 2, 300, "Click anywhere to restart", { fontSize: "20px" });
+        text.anchor.setTo(0.5, 0);
         game.input.onDown.add(restartOnClick);
-        //text.anchor = (0.5, 0.5);
     },
     
     update: function(){}
