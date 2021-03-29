@@ -61,7 +61,8 @@ demo.state1.prototype = {
         enemies.enableBody = true;
         enemies.physicsBodyType = Phaser.Physics.ARCADE;
         for(var i = 0; i < 10; i++){
-            enemies.create(Math.floor(Math.random()*WORLD_LENGTH), Math.floor(Math.random()*WORLD_HEIGHT), "hunter", 1);
+            var coords = getXY();
+            enemies.create(coords[0], coords[1], "hunter", 1);
         }
         enemies.setAll("health", 100);
         enemies.setAll("anchor.x", 0.5);
@@ -117,15 +118,17 @@ demo.state1.prototype = {
         button.scale.setTo(0.7, 0.7);
         graphics.addChild(button);
 
+        energyBar.bringToTop();
     },
 
     update: function (){       
-        game.physics.arcade.collide(player, water);
+        //game.physics.arcade.collide(player, water);
         game.physics.arcade.collide(player, rocks);
         game.physics.arcade.collide(player, enemies);
         game.physics.arcade.overlap(player, hunterGun.bullets, updateHealth, null, this);
 
-        energyBar.frame = 100 - energy;
+        
+        updateEnergy();
         enemies.forEachAlive(enemyHealthCheck, this);
         
         if(!player.animations.getAnimation("spin").isPlaying){
@@ -215,35 +218,44 @@ function enemyHealthCheck(enemy){
     else{
         enemyDistanceCheck(enemy);
     }
-    enemy.getChildAt(0).frame = 100 - enemy.health;
+    if(enemy.health <= 0)
+        enemy.getChildAt(0).frame = 100;
+    else
+        enemy.getChildAt(0).frame = 100 - enemy.health;
 }
 
 function doSpin(i, range){
-    console.log("spin");
-    enemies.forEachAlive(function(enemy){
-        if(getDistance(enemy) <= range && !player.animations.getAnimation("spin").isPlaying){
-            player.body.velocity.x = 0, player.body.velocity.y = 0;
-            player.animations.play("spin", 36);
-            sealSpin.play();
-            enemy.health -= 50;
-            console.log(enemy.health);
-            energy -= 10;    
-        }
-    }, this);
+    var cost = 20;
+    if(energy >= cost){
+        console.log("spin");
+        enemies.forEachAlive(function(enemy){
+            if(getDistance(enemy) <= range && !player.animations.getAnimation("spin").isPlaying){
+                player.body.velocity.x = 0, player.body.velocity.y = 0;
+                player.animations.play("spin", 36);
+                sealSpin.play();
+                enemy.health -= 50;
+                console.log(enemy.health);
+                energy -= cost;    
+            }
+        }, this);
+    } 
 }
 
 function doJab(i, range){
-    console.log("jab");
-    enemies.forEachAlive(function(enemy){
-        if(getDistance(enemy) <= range && !player.animations.getAnimation("jab").isPlaying){
-            player.body.velocity.x = 0, player.body.velocity.y = 0;
-            player.animations.play("jab", 12);
-            sealSpin.play();
-            enemy.health -= 10;
-            console.log(enemy.health);
-            energy -= 5;   
-        }
-    }, this);
+    var cost = 5
+    if(energy >= cost){
+        console.log("jab");
+        enemies.forEachAlive(function(enemy){
+            if(getDistance(enemy) <= range && !player.animations.getAnimation("jab").isPlaying){
+                player.body.velocity.x = 0, player.body.velocity.y = 0;
+                player.animations.play("jab", 12);
+                sealSpin.play();
+                enemy.health -= 10;
+                console.log(enemy.health);
+                energy -= cost;   
+            }
+        }, this);
+    }
 }
 
 function getDistance(enemy){
@@ -278,7 +290,32 @@ function updateHealth(player, bullet){
     }
 }
 
+function updateEnergy(){
+    if(energy <= 0)
+        energyBar.frame = 100;
+    else
+        energyBar.frame = 100 - energy;
+}
 function startOnClick(){
     graphics.destroy();
     game.paused = false;
 }
+
+function getXY(){
+    var x, y, tile = 0;
+    while(tile != null){
+        x = Math.floor(Math.random()*WORLD_LENGTH);
+        y = Math.floor(Math.random()*WORLD_HEIGHT);
+        tile = map.getTile(Math.floor(x / 32), Math.floor(y / 32), 1);
+    }
+    console.log(x, y);
+    return [x, y];
+}
+
+// function tileBelow(){
+//     var x, y, tile;
+//     x = player.x;
+//     y = player.y;
+//     tile = map.getTile(Math.floor(x / 32), Math.floor(y / 32), 1);
+//     return tile;
+// }
