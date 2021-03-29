@@ -16,6 +16,7 @@ demo.state1.prototype = {
         game.load.audio("iceWalk", "assets/sounds/effects/iceStep.mp3");
         game.load.audio("sealSpin", "assets/sounds/effects/sealSpin.mp3");
         game.load.audio("hunterFall", "assets/sounds/effects/hunterFall.mp3");
+        //game.load.image("menuButton", "assets/sprites/menuButton.png");
     },
 
     create: function(){
@@ -94,10 +95,16 @@ demo.state1.prototype = {
 
         //TODO Controls Menu before game start
         //game.paused = true;
-        // graphics = new Phaser.Graphics();
-        // graphics.fixedToCamera = true;
-        // graphics.beginFill(1, 1);
-        // graphics.drawRect(100, 100, 700, 400);
+        //menu = new Phaser.Graphics();
+        //menu.fixedToCamera = true;
+        //menu.beginFill(1, 1);
+        //menu.drawRect(100, 100, 700, 400);
+        //menu.add.text(50, 50, "Use 'W', 'A', 'S', 'D' keys to move.\nUse the space bar to trip the hunters and use the 'E' key to jab.\nClick on menu button to toggle menu visibility.", { fontSize: '18px'});
+        //var menu_button = game.add.button(game.world.centerX, 350, "menuButton", function (){
+        //    menu.visible =! menu.visible;
+        //    game.paused =! game.paused;
+        //});
+        //    
 
     },
 
