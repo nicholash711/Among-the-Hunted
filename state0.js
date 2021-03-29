@@ -10,11 +10,11 @@ demo.state0.prototype = {
     create: function(){
         game.stage.backgroundColor = '#b5e7ff';
         //game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-        game.add.text(50, 50, 'Among The Hunted', { fontSize: '32px'});
-        game.add.text(50, 77, 'You are a harp seal\njust abandoned by your mother,\nleft to fend for yourself.\nYou are being hunted\nfor your soft fur.\nTry your best to survive.', { fontsize: '24px'});
-        game.add.text(50, 300, 'Click on the GIF to begin', { fontSize: '18px'})
+        game.add.text(50, 50, 'Among The Hunted', { fontSize: '50px'});
+        game.add.text(50, 200, 'You are a harp seal\njust abandoned by your mother,\nleft to fend for yourself.\nYou are being hunted\nfor your soft fur.\nTry your best to survive.', { fontsize: '20px'});
+        game.add.text(game.world.centerX + 100, 370, 'Click on the GIF to begin', { fontSize: '18px'})
         console.log('Welcome Haha',);
-        var button = game.add.button(game.world.centerX, 350, "seal", actionOnClick);
+        var button = game.add.button(game.world.centerX + 100, 250, "seal", actionOnClick);
         button.scale.setTo(0.5, 0.5);
         button.animations.add("shoot");
         button.animations.play("shoot", 7, true);
