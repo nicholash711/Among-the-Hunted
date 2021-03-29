@@ -122,7 +122,7 @@ demo.state1.prototype = {
     },
 
     update: function (){       
-        //game.physics.arcade.collide(player, water);
+        game.physics.arcade.collide(player, water);
         game.physics.arcade.collide(player, rocks);
         game.physics.arcade.collide(player, enemies);
         game.physics.arcade.overlap(player, hunterGun.bullets, updateHealth, null, this);
