@@ -143,7 +143,7 @@ demo.state1.prototype = {
         updateEnergy();
         enemies.forEachAlive(enemyHealthCheck, this);
         
-        if(!player.animations.getAnimation("spin").isPlaying){
+        if(!player.animations.getAnimation("spin").isPlaying || !player.animations.getAnimation("jab").isPlaying){
             if(moveKeys.up.isDown){
                 player.body.velocity.y = -SPEED;
                 player.animations.play("walk", 8, true);
