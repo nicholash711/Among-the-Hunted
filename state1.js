@@ -108,10 +108,10 @@ demo.state1.prototype = {
         graphics.lineStyle(4, 0x00b3b3, 1);
         graphics.drawRect(200, 100, 500, 400);
         graphics.endFill();
-        var controls = game.add.text(game.camera.centerX, 150, text, { fontSize: "20px" });
-        controls.fixedtoCamera = true;
-        controls.anchor.setTo(0.5, 0);
-        graphics.addChild(controls);
+        var instruct = game.add.text(game.camera.centerX, 150, text, { fontSize: "20px" });
+        instruct.fixedtoCamera = true;
+        instruct.anchor.setTo(0.5, 0);
+        graphics.addChild(instruct);
         var button = game.add.button(game.camera.centerX, 450, "startButton", startOnClick);
         button.anchor.setTo(0.5, 0.5);
         button.scale.setTo(0.7, 0.7);
