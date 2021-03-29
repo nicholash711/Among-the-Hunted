@@ -126,7 +126,7 @@ demo.state1.prototype = {
         fishies.physicsBodyType = Phaser.Physics.ARCADE;
         fishies.setAll("body.immovable", true);
         fishies.setAll("body.collideWorldBounds", true);
-        for(var i = 0; i < 10; i++){
+        for(var i = 0; i < 20; i++){
             var coords = getXY();
             fishies.create(coords[0], coords[1], "fish", 1);
         }
@@ -197,22 +197,22 @@ function enemyDistanceCheck(enemy){
                 enemy.frame = 8;
         }
         else {
-        enemy.scale.setTo(1, 1);
-        angle = Math.atan2(enemy.y - player.y, enemy.x - player.x) * 180 / Math.PI;
-        if(angle >= 80)
-            enemy.frame = 6;
-        else if(angle >= 40)
-            enemy.frame = 5;
-        else if(angle >= 20)
-            enemy.frame = 4;
-        else if(angle >= -10)
-            enemy.frame = 3;
-        else if(angle >= -40)
-            enemy.frame = 2;
-        else if(angle >= -60)
-            enemy.frame = 1;
-        else if(angle >= -80)
-            enemy.frame = 0;
+            enemy.scale.setTo(1, 1);
+            angle = Math.atan2(enemy.y - player.y, enemy.x - player.x) * 180 / Math.PI;
+            if(angle >= 80)
+                enemy.frame = 6;
+            else if(angle >= 40)
+                enemy.frame = 5;
+            else if(angle >= 20)
+                enemy.frame = 4;
+            else if(angle >= -10)
+                enemy.frame = 3;
+            else if(angle >= -40)
+                enemy.frame = 2;
+            else if(angle >= -60)
+                enemy.frame = 1;
+            else if(angle >= -80)
+                enemy.frame = 0;
         }
         hunterGun.fire(enemy, player.x, player.y);
     }
@@ -347,6 +347,10 @@ function collectFish (player, fish) {
         energyBar.frame = 100 - energy;
     }
     console.log(energy);
+
+    //TODO add fish somewhere else?
+    var coords = getXY();
+    fishies.create(coords[0], coords[1], "fish", 1);
 
 }
 
