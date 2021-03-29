@@ -18,7 +18,7 @@ demo.state1.prototype = {
         game.load.audio("iceWalk", "assets/sounds/effects/iceStep.mp3");
         game.load.audio("sealSpin", "assets/sounds/effects/sealSpin.mp3");
         game.load.audio("hunterFall", "assets/sounds/effects/hunterFall.mp3");
-        //game.load.image("menuButton", "assets/sprites/menuButton.png");
+        game.load.image("menuButton", "assets/sprites/menuButton.png");
     },
 
     create: function(){
@@ -101,7 +101,7 @@ demo.state1.prototype = {
         game.sound.setDecodedCallback(iceWalk, start, this);
 
         //TODO Controls Menu before game start
-        var text = "Use the arrow keys to move.\nPress Spacebar to use your strong attack.\nPress E to use your weak attack."
+        var text = "Use WASD to move.\nPress Spacebar to use your strong attack.\nPress E to use your weak attack."
         game.paused = true;
         graphics = game.add.graphics();
         graphics.fixedToCamera = true;
