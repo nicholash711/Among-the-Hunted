@@ -119,6 +119,17 @@ demo.state1.prototype = {
         graphics.addChild(button);
 
         energyBar.bringToTop();
+
+        //add fish
+        fishies = game.add.group();
+        fishies.enableBody = true;
+        fishies.physicsBodyType = Phaser.Physics.ARCADE;
+        fishies.setAll("body.immovable", true);
+        fishies.setAll("body.collideWorldBounds", true);
+        for(var i = 0; i < 10; i++){
+            var coords = getXY();
+            fishies.create(coords[0], coords[1], "fish", 1);
+        }
     },
 
     update: function (){       
@@ -126,6 +137,7 @@ demo.state1.prototype = {
         game.physics.arcade.collide(player, rocks);
         game.physics.arcade.collide(player, enemies);
         game.physics.arcade.overlap(player, hunterGun.bullets, updateHealth, null, this);
+        game.physics.arcade.overlap(player, fishies, collectFish, null, this);
 
         
         updateEnergy();
@@ -310,6 +322,32 @@ function getXY(){
     }
     console.log(x, y);
     return [x, y];
+}
+
+function collectFish (player, fish) {
+
+    // Removes the fish from the screen
+    fish.kill();
+    //  Add health and energy
+    if(player.health + 10 > 100) {
+        player.health = 100;
+        player.getChildAt(0).frame = 100 - player.health;
+    }    
+    else {
+        player.health += 10;
+        player.getChildAt(0).frame = 100 - player.health;
+    }
+    console.log(player.health);
+    if(energy + 25 >= 100) {
+        energy = 100;
+        energyBar.frame = 100;
+    }
+    else {
+        energy += 25;
+        energyBar.frame = 100 - energy;
+    }
+    console.log(energy);
+
 }
 
 // function tileBelow(){
