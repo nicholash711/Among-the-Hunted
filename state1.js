@@ -90,10 +90,10 @@ demo.state1.prototype = {
         //jab = game.input.keyboard.addKey(69);
         jab.onDown.add(doJab, null, null, 133);
 
-        hunterGun = game.add.weapon(5, "bullet", null, enemies);
+        hunterGun = game.add.weapon(10, "bullet", null, enemies);
         hunterGun.bulletKillDistance = 500;
         hunterGun.bulletKillType = Phaser.Weapon.KILL_DISTANCE;
-        hunterGun.fireRate = 2000;
+        hunterGun.fireRate = 1000;
         hunterGun.bulletSpeed = 400;
         hunterGun.bulletClass.physicsBodyType = Phaser.Physics.ARCADE;
 
