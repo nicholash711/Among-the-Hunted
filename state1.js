@@ -81,6 +81,12 @@ demo.state1.prototype = {
             enemy.animations.add("fall", [7, 15, 16, 17, 17, 17, 17]);
         }, this);
 
+        //console.log(enemies.children)
+
+        hunterCounter = game.add.text(10, 10, "Hunters left: " + (10 - enemies.countDead()), { fontSize: "30px" });
+        hunterCounter.fixedToCamera = true;
+        hunterCounter.cameraOffset = new Phaser.Point(20, 20);
+
         moveKeys = game.input.keyboard.addKeys({
             "up": 87, "down": 83, "left": 65, "right": 68
         });
@@ -121,8 +127,6 @@ demo.state1.prototype = {
         button.anchor.setTo(0.5, 0.5);
         button.scale.setTo(0.7, 0.7);
         graphics.addChild(button);
-
-        energyBar.bringToTop();
 
         //add fish
         fishies = game.add.group();
@@ -233,17 +237,21 @@ function enemyDistanceCheck(enemy){
 
 function enemyHealthCheck(enemy){
     if(enemy.health <= 0){
+        enemy.getChildAt(0).frame = 100;
         enemy.animations.play("fall", 8, false, true);
         hunterFall.play();
         enemy.alive = false;
+        hunterCounter.setText("Hunters left: " + (10 - enemies.countDead()));
+        console.log(enemies.children)
+    }
+
+    if(enemies.countDead() == 10){
+        game.state.start('state4');
     }
     else{
+        enemy.getChildAt(0).frame = 100 - enemy.health;
         enemyDistanceCheck(enemy);
     }
-    if(enemy.health <= 0)
-        enemy.getChildAt(0).frame = 100;
-    else
-        enemy.getChildAt(0).frame = 100 - enemy.health;
 }
 
 function doSpin(i, range){
@@ -314,11 +322,13 @@ function updateHealth(player, bullet){
 }
 
 function updateEnergy(){
-    if(energy <= 0)
+    if(energy <= 0){
         energyBar.frame = 100;
-        //game.state.start('state3'); // starved to death
-    else
+        game.state.start('state3'); // starved
+    }
+    else{
         energyBar.frame = 100 - energy;
+    }
 }
 function startOnClick(){
     graphics.destroy();
