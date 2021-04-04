@@ -84,7 +84,8 @@ demo.state1.prototype = {
         moveKeys = game.input.keyboard.addKeys({
             "up": 87, "down": 83, "left": 65, "right": 68
         });
-        spin = game.input.keyboard.addKey(32);
+        spin = game.input.keyboard.addKey(75);
+        //spin = game.input.keyboard.addKey(32);
         spin.onDown.add(doSpin, null, null, 133);
         jab = game.input.keyboard.addKey(74); // J
         //jab = game.input.keyboard.addKey(69);
@@ -104,7 +105,7 @@ demo.state1.prototype = {
         game.sound.setDecodedCallback(iceWalk, start, this);
 
         //TODO Controls Menu before game start
-        var text = "Use WASD to move.\nPress Spacebar to use your strong attack.\nPress J to use your weak attack."
+        var text = "Use WASD to move.\nPress K to use your strong attack.\nPress J to use your weak attack."
         game.paused = true;
         graphics = game.add.graphics();
         graphics.fixedToCamera = true;
@@ -315,6 +316,7 @@ function updateHealth(player, bullet){
 function updateEnergy(){
     if(energy <= 0)
         energyBar.frame = 100;
+        //game.state.start('state3'); // starved to death
     else
         energyBar.frame = 100 - energy;
 }

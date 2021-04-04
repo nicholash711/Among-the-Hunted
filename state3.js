@@ -5,7 +5,7 @@ demo.state2.prototype = {
     preload: function(){},
 
     create: function(){
-        text = game.add.text(WIDTH / 2, 200, "GAME OVER\nYour fur was harvested by hunters.", { fontSize: "40px", align: "center" });
+        text = game.add.text(WIDTH / 2, 200, "GAME OVER\nYou dies from starvation.", { fontSize: "40px", align: "center" });
         text.anchor.setTo(0.5, 0);
         text = game.add.text(WIDTH / 2, 300, "Click anywhere to restart", { fontSize: "20px" });
         text.anchor.setTo(0.5, 0);
