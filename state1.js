@@ -86,7 +86,7 @@ demo.state1.prototype = {
         });
         spin = game.input.keyboard.addKey(32);
         spin.onDown.add(doSpin, null, null, 133);
-        jab = game.input.keyboard.addkey(74);
+        jab = game.input.keyboard.addKey(74); // J
         //jab = game.input.keyboard.addKey(69);
         jab.onDown.add(doJab, null, null, 133);
 
