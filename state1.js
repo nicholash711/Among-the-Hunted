@@ -301,7 +301,8 @@ function start(){
 function updateHealth(player, bullet){
     player.damage(10); // take 10 damage to health; damage method auto kills sprite when health <= 0
     //player.health -= 10;
-    player.getChildAt(0).frame = 100 - player.health;
+    //player.getChildAt(0).frame = 100 - player.health;
+    healthBar.frame = 100 - player.health;
     console.log(player.health);
     bullet.kill();
 
