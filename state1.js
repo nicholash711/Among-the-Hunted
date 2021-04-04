@@ -48,7 +48,6 @@ demo.state1.prototype = {
 
         //health bar
         healthBar = game.add.sprite(0, 0, "healthBar");
-        //healthBar.add.text(0, 0, "Health", { fontSize: "20px" });
         healthBar.addChild(game.add.text(20, 0, "Health", { fontSize: "10px" }));
         //player.addChild(healthBar);
         
@@ -87,7 +86,8 @@ demo.state1.prototype = {
         });
         spin = game.input.keyboard.addKey(32);
         spin.onDown.add(doSpin, null, null, 133);
-        jab = game.input.keyboard.addKey(69);
+        jab = game.input.keyboard.addkey(74);
+        //jab = game.input.keyboard.addKey(69);
         jab.onDown.add(doJab, null, null, 133);
 
         hunterGun = game.add.weapon(5, "bullet", null, enemies);
@@ -104,7 +104,7 @@ demo.state1.prototype = {
         game.sound.setDecodedCallback(iceWalk, start, this);
 
         //TODO Controls Menu before game start
-        var text = "Use WASD to move.\nPress Spacebar to use your strong attack.\nPress E to use your weak attack."
+        var text = "Use WASD to move.\nPress Spacebar to use your strong attack.\nPress J to use your weak attack."
         game.paused = true;
         graphics = game.add.graphics();
         graphics.fixedToCamera = true;
