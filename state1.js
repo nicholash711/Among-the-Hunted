@@ -49,12 +49,9 @@ demo.state1.prototype = {
         //health bar
         healthBar = game.add.sprite(0, 0, "healthBar");
         healthBar.addChild(game.add.text(20, 0, "Health", { fontSize: "10px" }));
-        //player.addChild(healthBar);
         
         //Energy bar WIP
         energyBar = game.add.sprite(0, 0, "energyBar");
-        //energyBar.fixedToCamera = true;
-        //energyBar.cameraOffset = new Phaser.Point(20, 20);
         energyBar.addChild(game.add.text(20, 0, "Energy", { fontSize: "10px" }));
         energy = 100;
 
@@ -80,8 +77,6 @@ demo.state1.prototype = {
             enemy.addChild(enemyHealth);
             enemy.animations.add("fall", [7, 15, 16, 17, 17, 17, 17]);
         }, this);
-
-        //console.log(enemies.children)
 
         hunterCounter = game.add.text(10, 10, "Hunters left: " + (10 - enemies.countDead()), { fontSize: "30px" });
         hunterCounter.fixedToCamera = true;
@@ -242,7 +237,6 @@ function enemyHealthCheck(enemy){
         hunterFall.play();
         enemy.alive = false;
         hunterCounter.setText("Hunters left: " + (10 - enemies.countDead()));
-        console.log(enemies.children)
     }
 
     if(enemies.countDead() == 10){
@@ -309,8 +303,6 @@ function start(){
 
 function updateHealth(player, bullet){
     player.damage(10); // take 10 damage to health; damage method auto kills sprite when health <= 0
-    //player.health -= 10;
-    //player.getChildAt(0).frame = 100 - player.health;
     healthBar.frame = 100 - player.health;
     console.log(player.health);
     bullet.kill();
@@ -353,12 +345,10 @@ function collectFish (player, fish) {
     //  Add health and energy
     if(player.health + 10 > 100) {
         player.health = 100;
-        //player.getChildAt(0).frame = 100 - player.health;
         healthBar.frame = 100 - player.health;
     }    
     else {
         player.health += 10;
-        //player.getChildAt(0).frame = 100 - player.health;
         healthBar.frame = 100 - player.health;
     }
     console.log(player.health);
