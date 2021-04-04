@@ -47,13 +47,16 @@ demo.state1.prototype = {
         player.animations.add("jab", [26, 27, 27, 28, 28, 29, 29, 30]);
 
         //health bar
-        healthBar = game.add.sprite(-52, 37, "healthBar");
-        player.addChild(healthBar);
+        healthBar = game.add.sprite(0, 0, "healthBar");
+        //healthBar.add.text(0, 0, "Health", { fontSize: "20px" });
+        healthBar.addChild(game.add.text(20, 0, "Health", { fontSize: "10px" }));
+        //player.addChild(healthBar);
         
         //Energy bar WIP
-        energyBar = game.add.sprite(10, 10, "energyBar");
-        energyBar.fixedToCamera = true;
-        energyBar.cameraOffset = new Phaser.Point(20, 20);
+        energyBar = game.add.sprite(0, 0, "energyBar");
+        //energyBar.fixedToCamera = true;
+        //energyBar.cameraOffset = new Phaser.Point(20, 20);
+        energyBar.addChild(game.add.text(20, 0, "Energy", { fontSize: "10px" }));
         energy = 100;
 
         //adds intial enemies
@@ -132,7 +135,13 @@ demo.state1.prototype = {
         }
     },
 
-    update: function (){       
+    update: function (){    
+        
+        healthBar.x = player.x - 57;
+        healthBar.y = player.y + 37;
+        energyBar.x = player.x - 57;
+        energyBar.y = player.y + 50;
+        
         game.physics.arcade.collide(player, water);
         game.physics.arcade.collide(player, rocks);
         game.physics.arcade.collide(player, enemies);
@@ -320,7 +329,7 @@ function getXY(){
         y = Math.floor(Math.random()*WORLD_HEIGHT);
         tile = map.getTile(Math.floor(x / 32), Math.floor(y / 32), 1);
     }
-    console.log(x, y);
+    //console.log(x, y);
     return [x, y];
 }
 
@@ -331,11 +340,13 @@ function collectFish (player, fish) {
     //  Add health and energy
     if(player.health + 10 > 100) {
         player.health = 100;
-        player.getChildAt(0).frame = 100 - player.health;
+        //player.getChildAt(0).frame = 100 - player.health;
+        healthBar.frame = 100 - player.health;
     }    
     else {
         player.health += 10;
-        player.getChildAt(0).frame = 100 - player.health;
+        //player.getChildAt(0).frame = 100 - player.health;
+        healthBar.frame = 100 - player.health;
     }
     console.log(player.health);
     if(energy + 25 >= 100) {
