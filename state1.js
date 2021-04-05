@@ -102,7 +102,7 @@ demo.state1.prototype = {
         hunterGun.bulletClass.physicsBodyType = Phaser.Physics.ARCADE;
 
 
-        iceWalk = game.add.audio("iceWalk", 1, true);
+        iceWalk = game.add.audio("iceWalk", 0.6, true);
         sealSpin = game.add.audio("sealSpin", 1);
         hunterFall = game.add.audio("hunterFall", 1);
         game.sound.setDecodedCallback(iceWalk, start, this);
