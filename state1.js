@@ -365,7 +365,8 @@ function collectFish (player, fish) {
 
     //TODO add fish somewhere else?
     var coords = getXY();
-    fishies.create(coords[0], coords[1], "fish", 1);
+    var frame = Math.floor(Math.random() * 3);
+    fishies.create(coords[0], coords[1], "fish", frame);
 
 }
 
