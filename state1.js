@@ -33,7 +33,7 @@ demo.state1.prototype = {
         rocks = map.createLayer("Collisions");
         water = map.createLayer("Water");
         map.setCollision(17, true, 'Water');
-        map.setCollision(18, true, 'Collisions');
+        map.setCollisionBetween(22, 28, true, 'Collisions');
 
         player = game.add.sprite(game.world.centerX, game.world.centerY, "seal");
         player.health = 100;
