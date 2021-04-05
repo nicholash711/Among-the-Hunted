@@ -1,4 +1,4 @@
-var player, moveKeys, enemies, iceWalk, spin, sealSpin, hunterFall, hunterGun, map, healthBar, energyBar, energy, graphics;
+var player, moveKeys, enemies, iceWalk, spin, sealSpin, hunterFall, hunterGun, map, healthBar, energyBar, energy, graphics, isSpin, isJab;
 const SPEED = 500, WORLD_LENGTH = 3200, WORLD_HEIGHT = 3200;
 
 demo.state1 = function(){};
@@ -49,11 +49,13 @@ demo.state1.prototype = {
         //health bar
         healthBar = game.add.sprite(0, 0, "healthBar");
         healthBar.addChild(game.add.text(20, 0, "Health", { fontSize: "10px" }));
+        //player.addChild(healthBar);
         
         //Energy bar WIP
         energyBar = game.add.sprite(0, 0, "energyBar");
         energyBar.addChild(game.add.text(20, 0, "Energy", { fontSize: "10px" }));
         energy = 100;
+        //player.addChild(energyBar);
 
         //adds intial enemies
         enemies = game.add.group();
@@ -136,7 +138,10 @@ demo.state1.prototype = {
         }
     },
 
-    update: function (){    
+    update: function (){  
+        if(enemies.countDead() == 10){
+            game.state.start('state4');
+        }  
         
         healthBar.x = player.x - 57;
         healthBar.y = player.y + 37;
@@ -239,10 +244,6 @@ function enemyHealthCheck(enemy){
         enemy.alive = false;
         hunterCounter.setText("Hunters left: " + (10 - enemies.countDead()));
     }
-
-    if(enemies.countDead() == 10){
-        game.state.start('state4');
-    }
     else{
         enemy.getChildAt(0).frame = 100 - enemy.health;
         enemyDistanceCheck(enemy);
@@ -255,8 +256,10 @@ function doSpin(i, range){
         console.log("spin");
         enemies.forEachAlive(function(enemy){
             if(getDistance(enemy) <= range && !player.animations.getAnimation("spin").isPlaying){
-                player.body.velocity.x = 0, player.body.velocity.y = 0;
+                player.animations.stop("walk", true);
                 player.animations.play("spin", 36);
+                player.body.velocity.x = 0, player.body.velocity.y = 0;
+                iceWalk.stop();
                 sealSpin.play();
                 enemy.health -= 50;
                 console.log(enemy.health);
@@ -272,8 +275,9 @@ function doJab(i, range){
         console.log("jab");
         enemies.forEachAlive(function(enemy){
             if(getDistance(enemy) <= range && !player.animations.getAnimation("jab").isPlaying){
-                player.body.velocity.x = 0, player.body.velocity.y = 0;
                 player.animations.play("jab", 12);
+                player.body.velocity.x = 0, player.body.velocity.y = 0;
+                iceWalk.stop();
                 sealSpin.play();
                 enemy.health -= 10;
                 console.log(enemy.health);
