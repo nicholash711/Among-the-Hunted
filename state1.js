@@ -61,7 +61,7 @@ demo.state1.prototype = {
         enemies = game.add.group();
         enemies.enableBody = true;
         enemies.physicsBodyType = Phaser.Physics.ARCADE;
-        for(var i = 0; i < 10; i++){
+        for(var i = 0; i < 15; i++){
             var coords = getXY();
             enemies.create(coords[0], coords[1], "hunter", 1);
         }
@@ -107,6 +107,18 @@ demo.state1.prototype = {
         hunterFall = game.add.audio("hunterFall", 1);
         game.sound.setDecodedCallback(iceWalk, start, this);
 
+        //add fish
+        fishies = game.add.group();
+        fishies.enableBody = true;
+        fishies.physicsBodyType = Phaser.Physics.ARCADE;
+        fishies.setAll("body.immovable", true);
+        fishies.setAll("body.collideWorldBounds", true);
+        for(var i = 0; i < 15; i++){
+            var coords = getXY();
+            var frame = Math.floor(Math.random() * 3);
+            fishies.create(coords[0], coords[1], "fish", frame);
+        }
+
         //TODO Controls Menu before game start
         var text = "Use WASD to move.\nPress K to use your strong attack.\nPress J to use your weak attack."
         game.paused = true;
@@ -124,18 +136,6 @@ demo.state1.prototype = {
         button.anchor.setTo(0.5, 0.5);
         button.scale.setTo(0.7, 0.7);
         graphics.addChild(button);
-
-        //add fish
-        fishies = game.add.group();
-        fishies.enableBody = true;
-        fishies.physicsBodyType = Phaser.Physics.ARCADE;
-        fishies.setAll("body.immovable", true);
-        fishies.setAll("body.collideWorldBounds", true);
-        for(var i = 0; i < 20; i++){
-            var coords = getXY();
-            var frame = Math.floor(Math.random() * 3);
-            fishies.create(coords[0], coords[1], "fish", frame);
-        }
     },
 
     update: function (){  
@@ -275,6 +275,7 @@ function doJab(i, range){
         console.log("jab");
         enemies.forEachAlive(function(enemy){
             if(getDistance(enemy) <= range && !player.animations.getAnimation("jab").isPlaying){
+                player.animations.stop("walk", true);
                 player.animations.play("jab", 12);
                 player.body.velocity.x = 0, player.body.velocity.y = 0;
                 iceWalk.stop();
