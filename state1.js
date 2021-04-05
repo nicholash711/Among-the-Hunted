@@ -14,7 +14,7 @@ demo.state1.prototype = {
         game.load.image("Water", "assets/tilemaps/Water.png");
         game.load.image("bullet", "assets/sprites/Bullet.png");
         game.load.image("startButton", "assets/sprites/StartButton.png");
-        game.load.image("fish", "assets/sprites/Fish.png");
+        game.load.spritesheet("fish", "assets/sprites/Fish.png", 64, 32);
         game.load.audio("iceWalk", "assets/sounds/effects/iceStep.mp3");
         game.load.audio("sealSpin", "assets/sounds/effects/sealSpin.mp3");
         game.load.audio("hunterFall", "assets/sounds/effects/hunterFall.mp3");
@@ -131,7 +131,8 @@ demo.state1.prototype = {
         fishies.setAll("body.collideWorldBounds", true);
         for(var i = 0; i < 20; i++){
             var coords = getXY();
-            fishies.create(coords[0], coords[1], "fish", 1);
+            var frame = Math.floor(Math.random() * 3);
+            fishies.create(coords[0], coords[1], "fish", frame);
         }
     },
 
