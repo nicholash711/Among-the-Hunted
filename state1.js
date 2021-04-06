@@ -80,7 +80,7 @@ demo.state1.prototype = {
             enemy.animations.add("fall", [7, 15, 16, 17, 17, 17, 17]);
         }, this);
 
-        hunterCounter = game.add.text(10, 10, "Hunters left: " + (10 - enemies.countDead()), { fontSize: "30px" });
+        hunterCounter = game.add.text(10, 10, "Hunters left: " + (15 - enemies.countDead()), { fontSize: "30px" });
         hunterCounter.fixedToCamera = true;
         hunterCounter.cameraOffset = new Phaser.Point(20, 20);
 
@@ -139,7 +139,7 @@ demo.state1.prototype = {
     },
 
     update: function (){  
-        if(enemies.countDead() == 10){
+        if(enemies.countDead() == 15){
             game.state.start('state4');
         }  
         
@@ -242,7 +242,7 @@ function enemyHealthCheck(enemy){
         enemy.animations.play("fall", 8, false, true);
         hunterFall.play();
         enemy.alive = false;
-        hunterCounter.setText("Hunters left: " + (10 - enemies.countDead()));
+        hunterCounter.setText("Hunters left: " + (15 - enemies.countDead()));
     }
     else{
         enemy.getChildAt(0).frame = 100 - enemy.health;
