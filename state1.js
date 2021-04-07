@@ -1,5 +1,5 @@
-var player, moveKeys, enemies, iceWalk, spin, sealSpin, hunterFall, hunterGun, map, healthBar, energyBar, energy, graphics, isSpin, isJab;
-var attacking = false;
+var player, moveKeys, enemies, iceWalk, spin, sealSpin, hunterFall, hunterGun, map, healthBar, energyBar, energy, graphics, isSpin, isJab, spinTime, jabTime;
+var attacking = false, allowSpin = true, allowJab = true;
 const SPEED = 500, WORLD_LENGTH = 3200, WORLD_HEIGHT = 3200;
 
 demo.state1 = function(){};
@@ -144,6 +144,7 @@ demo.state1.prototype = {
 
     update: function (){  
         checkEnemies();
+        checkTime();
         
         healthBar.x = player.x - 57;
         healthBar.y = player.y + 37;
@@ -260,40 +261,47 @@ function updateEnemy(enemy){
 }
 
 function doSpin(i, range){
-    var cost = 20;
-    var enemy = enemies.getClosestTo(player);
-    if(energy >= cost && enemy.health > 0){;
-        console.log("spin");
-        if(getDistance(enemy) <= range && !player.animations.getAnimation("spin").isPlaying){
-            attacking = true;
-            player.animations.play("spin", 36);
-            player.body.velocity.x = 0, player.body.velocity.y = 0;
-            iceWalk.stop();
-            sealSpin.play();
-            enemy.health -= 50;
-            console.log(enemy.health);
-            energy -= cost; 
+    if(allowSpin){
+        var cost = 20;
+        var enemy = enemies.getClosestTo(player);
+        if(energy >= cost && enemy.health > 0){;
+            console.log("spin");
+            if(getDistance(enemy) <= range && !player.animations.getAnimation("spin").isPlaying){
+                attacking = true;
+                player.animations.play("spin", 36);
+                player.body.velocity.x = 0, player.body.velocity.y = 0;
+                iceWalk.stop();
+                sealSpin.play();
+                enemy.health -= 50;
+                console.log(enemy.health);
+                energy -= cost;
+                spinTime = game.time.now;
+                allowSpin = false;
+            }
         }
-    } 
+    }    
 }
 
 function doJab(i, range){
-    var cost = 5;
-    var enemy = enemies.getClosestTo(player);
-    if(energy >= cost && enemy.health > 0){
-        console.log("jab");
-        if(getDistance(enemy) <= range && !player.animations.getAnimation("jab").isPlaying){
-            attacking = true;
-            player.animations.play("jab", 12);
-            player.body.velocity.x = 0, player.body.velocity.y = 0;
-            iceWalk.stop();
-            sealSpin.play();
-            enemy.health -= 10;
-            console.log(enemy.health);
-            energy -= cost;   
+    if(allowJab){
+        var cost = 5;
+        var enemy = enemies.getClosestTo(player);
+        if(energy >= cost && enemy.health > 0){
+            console.log("jab");
+            if(getDistance(enemy) <= range && !player.animations.getAnimation("jab").isPlaying){
+                attacking = true;
+                player.animations.play("jab", 12);
+                player.body.velocity.x = 0, player.body.velocity.y = 0;
+                iceWalk.stop();
+                sealSpin.play();
+                enemy.health -= 10;
+                console.log(enemy.health);
+                energy -= cost;
+                jabTime = game.time.now;
+                allowJab = false;
+            }
         }
-
-    }
+    }   
 }
 
 function getDistance(enemy){
@@ -381,6 +389,13 @@ function collectFish (player, fish) {
 function checkEnemies(){
     if(enemies.countLiving() == 0)
         game.state.start("state4");
+}
+
+function checkTime(){
+    if(game.time.now >= spinTime + 10000)
+        allowSpin = true;
+    if(game.time.now >= jabTime + 1000)
+        allowJab = true;
 }
 // function tileBelow(){
 //     var x, y, tile;
