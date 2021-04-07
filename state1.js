@@ -1,4 +1,4 @@
-var player, moveKeys, enemies, iceWalk, spin, sealSpin, hunterFall, hunterGun, map, healthBar, energyBar, energy, graphics, isSpin, isJab;
+var player, moveKeys, enemies, iceWalk, spin, sealSpin, hunterFall, hunterGuns, map, healthBar, energyBar, energy, graphics, isSpin, isJab;
 const SPEED = 500, WORLD_LENGTH = 3200, WORLD_HEIGHT = 3200;
 
 demo.state1 = function(){};
@@ -43,7 +43,7 @@ demo.state1.prototype = {
         player.body.collideWorldBounds = true;
         game.camera.follow(player);
         player.animations.add("walk", [0, 1, 2]);
-        player.animations.add("spin", [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]);
+        player.animations.add("spin", [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25]);
         player.animations.add("jab", [26, 27, 27, 28, 28, 29, 29, 30]);
 
         //health bar
@@ -94,13 +94,16 @@ demo.state1.prototype = {
         //jab = game.input.keyboard.addKey(69);
         jab.onDown.add(doJab, null, null, 133);
 
-        hunterGun = game.add.weapon(10, "bullet", null, enemies);
-        hunterGun.bulletKillDistance = 500;
-        hunterGun.bulletKillType = Phaser.Weapon.KILL_DISTANCE;
-        hunterGun.fireRate = 1000;
-        hunterGun.bulletSpeed = 400;
-        hunterGun.bulletClass.physicsBodyType = Phaser.Physics.ARCADE;
-
+        hunterGuns = {};
+        enemies.forEach(function(enemy){
+            var gun = game.add.weapon(10, "bullet", null, enemy);
+            gun.bulletKillDistance = 500;
+            gun.bulletKillType = Phaser.Weapon.KILL_DISTANCE;
+            gun.fireRate = 1000;
+            gun.bulletSpeed = 400;
+            gun.bulletClass.physicsBodyType = Phaser.Physics.ARCADE;
+            hunterGuns[enemy] = gun;
+        })
 
         iceWalk = game.add.audio("iceWalk", 0.6, true);
         sealSpin = game.add.audio("sealSpin", 1);
@@ -151,7 +154,7 @@ demo.state1.prototype = {
         game.physics.arcade.collide(player, water);
         game.physics.arcade.collide(player, rocks);
         game.physics.arcade.collide(player, enemies);
-        game.physics.arcade.overlap(player, hunterGun.bullets, updateHealth, null, this);
+        //game.physics.arcade.overlap(player, hunterGun.bullets, updateHealth, null, this);
         game.physics.arcade.overlap(player, fishies, collectFish, null, this);
 
         
@@ -229,7 +232,7 @@ function enemyDistanceCheck(enemy){
             else if(angle >= -80)
                 enemy.frame = 0;
         }
-        hunterGun.fire(enemy, player.x, player.y);
+        hunterGuns[enemy].fire(enemy, player.x, player.y);
     }
     else{
         enemy.frame = 7;
