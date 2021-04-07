@@ -1,4 +1,4 @@
-var player, moveKeys, enemies, iceWalk, spin, sealSpin, hunterFall, hunterGun, map, healthBar, energyBar, energy, graphics, isSpin, isJab;
+var player, moveKeys, enemies, iceWalk, spin, sealSpin, hunterFall, hunterGun, map, healthBar, energyBar, energy, graphics, isSpin, isJab, attacking;
 const SPEED = 500, WORLD_LENGTH = 3200, WORLD_HEIGHT = 3200;
 
 demo.state1 = function(){};
@@ -43,7 +43,7 @@ demo.state1.prototype = {
         player.body.collideWorldBounds = true;
         game.camera.follow(player);
         player.animations.add("walk", [0, 1, 2]);
-        player.animations.add("spin", [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]);
+        player.animations.add("spin", [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25]);
         player.animations.add("jab", [26, 27, 27, 28, 28, 29, 29, 30]);
 
         //health bar
@@ -80,7 +80,7 @@ demo.state1.prototype = {
             enemy.animations.add("fall", [7, 15, 16, 17, 17, 17, 17]);
         }, this);
 
-        hunterCounter = game.add.text(10, 10, "Hunters left: " + (15 - enemies.countDead()), { fontSize: "30px" });
+        hunterCounter = game.add.text(10, 10, "Hunters left: " + (enemies.countLiving()), { fontSize: "30px" });
         hunterCounter.fixedToCamera = true;
         hunterCounter.cameraOffset = new Phaser.Point(20, 20);
 
@@ -100,6 +100,7 @@ demo.state1.prototype = {
         hunterGun.fireRate = 1000;
         hunterGun.bulletSpeed = 400;
         hunterGun.bulletClass.physicsBodyType = Phaser.Physics.ARCADE;
+        hunterGun.bullets.alive = false;
 
 
         iceWalk = game.add.audio("iceWalk", 0.6, true);
@@ -139,9 +140,9 @@ demo.state1.prototype = {
     },
 
     update: function (){  
-        if(enemies.countDead() == 15){
-            game.state.start('state4');
-        }  
+        checkEnemies();
+        healthBar.frame = 100 - player.health;
+        energyBar.frame = 100 - energy;
         
         healthBar.x = player.x - 57;
         healthBar.y = player.y + 37;
@@ -242,7 +243,7 @@ function enemyHealthCheck(enemy){
         enemy.animations.play("fall", 8, false, true);
         hunterFall.play();
         enemy.alive = false;
-        hunterCounter.setText("Hunters left: " + (15 - enemies.countDead()));
+        hunterCounter.setText("Hunters left: " + (enemies.countLiving()));
     }
     else{
         enemy.getChildAt(0).frame = 100 - enemy.health;
@@ -253,31 +254,31 @@ function enemyHealthCheck(enemy){
 function doSpin(i, range){
     var cost = 20;
     var enemy = enemies.getClosestTo(player);
-    if(energy >= cost && enemy.health > 0){
+    if(energy >= cost && enemy.health > 0){;
         console.log("spin");
-        if(getDistance(enemy) <= range && !player.animations.getAnimation("spin").isPlaying){
-            player.animations.stop("walk", true);
+        player.animations.stop("walk", true);
+        if( !player.animations.getAnimation("spin").isPlaying){
             player.animations.play("spin", 36);
             player.body.velocity.x = 0, player.body.velocity.y = 0;
             iceWalk.stop();
             sealSpin.play();
-            enemy.health -= 50;
+            //enemy.health -= 50;
             console.log(enemy.health);
-            energy -= cost; 
+            //energy -= cost; 
         }
     } 
 }
 
 function doJab(i, range){
-    var cost = 5
+    var cost = 5;
     var enemy = enemies.getClosestTo(player);
     if(energy >= cost && enemy.health > 0){
         console.log("jab");
-        player.body.velocity.x = 0, player.body.velocity.y = 0;
+        
         if(getDistance(enemy) <= range && !player.animations.getAnimation("jab").isPlaying){
             player.animations.stop("walk", true);
             player.animations.play("jab", 12);
-            
+            player.body.velocity.x = 0, player.body.velocity.y = 0;
             iceWalk.stop();
             sealSpin.play();
             enemy.health -= 10;
@@ -309,7 +310,6 @@ function start(){
 
 function updateHealth(player, bullet){
     player.damage(10); // take 10 damage to health; damage method auto kills sprite when health <= 0
-    healthBar.frame = 100 - player.health;
     console.log(player.health);
     bullet.kill();
 
@@ -351,20 +351,16 @@ function collectFish (player, fish) {
     //  Add health and energy
     if(player.health + 10 > 100) {
         player.health = 100;
-        healthBar.frame = 100 - player.health;
     }    
     else {
         player.health += 10;
-        healthBar.frame = 100 - player.health;
     }
     console.log(player.health);
     if(energy + 25 >= 100) {
         energy = 100;
-        energyBar.frame = 100;
     }
     else {
         energy += 25;
-        energyBar.frame = 100 - energy;
     }
     console.log(energy);
 
@@ -375,6 +371,10 @@ function collectFish (player, fish) {
 
 }
 
+function checkEnemies(){
+    if(enemies.countLiving() == 0)
+        game.state.start("state4");
+}
 // function tileBelow(){
 //     var x, y, tile;
 //     x = player.x;
