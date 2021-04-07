@@ -1,4 +1,5 @@
-var player, moveKeys, enemies, iceWalk, spin, sealSpin, hunterFall, hunterGun, map, healthBar, energyBar, energy, graphics, isSpin, isJab, attacking;
+var player, moveKeys, enemies, iceWalk, spin, sealSpin, hunterFall, hunterGun, map, healthBar, energyBar, energy, graphics, isSpin, isJab;
+var attacking = false;
 const SPEED = 500, WORLD_LENGTH = 3200, WORLD_HEIGHT = 3200;
 
 demo.state1 = function(){};
@@ -45,6 +46,8 @@ demo.state1.prototype = {
         player.animations.add("walk", [0, 1, 2]);
         player.animations.add("spin", [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25]);
         player.animations.add("jab", [26, 27, 27, 28, 28, 29, 29, 30]);
+        player.animations.getAnimation("spin").onComplete.add(function(){ attacking = false; });
+        player.animations.getAnimation("jab").onComplete.add(function(){ attacking = false; });
 
         //health bar
         healthBar = game.add.sprite(0, 0, "healthBar");
@@ -141,8 +144,6 @@ demo.state1.prototype = {
 
     update: function (){  
         checkEnemies();
-        healthBar.frame = 100 - player.health;
-        energyBar.frame = 100 - energy;
         
         healthBar.x = player.x - 57;
         healthBar.y = player.y + 37;
@@ -151,15 +152,17 @@ demo.state1.prototype = {
         
         game.physics.arcade.collide(player, water);
         game.physics.arcade.collide(player, rocks);
-        game.physics.arcade.collide(player, enemies);
+        game.physics.arcade.collide(player, enemies, stopPlayer);
         game.physics.arcade.overlap(player, hunterGun.bullets, updateHealth, null, this);
         game.physics.arcade.overlap(player, fishies, collectFish, null, this);
 
         
         updateEnergy();
-        enemies.forEachAlive(enemyHealthCheck, this);
+        healthBar.frame = 100 - player.health;
+        enemies.forEachAlive(updateEnemy, this);
         
-        if(!player.animations.getAnimation("spin").isPlaying || !player.animations.getAnimation("jab").isPlaying){
+        //if(!player.animations.getAnimation("spin").isPlaying || !player.animations.getAnimation("jab").isPlaying){
+        if(!attacking){
             if(moveKeys.up.isDown){
                 player.body.velocity.y = -SPEED;
                 player.animations.play("walk", 8, true);
@@ -191,6 +194,11 @@ demo.state1.prototype = {
         } 
     }
 };
+
+function stopPlayer(){
+    player.animations.stop("walk", true);
+    iceWalk.stop();
+}
 
 function enemyDistanceCheck(enemy){
     if(getDistance(enemy) <= 300){
@@ -237,7 +245,7 @@ function enemyDistanceCheck(enemy){
     }
 };
 
-function enemyHealthCheck(enemy){
+function updateEnemy(enemy){
     if(enemy.health <= 0){
         enemy.getChildAt(0).frame = 100;
         enemy.animations.play("fall", 8, false, true);
@@ -256,15 +264,15 @@ function doSpin(i, range){
     var enemy = enemies.getClosestTo(player);
     if(energy >= cost && enemy.health > 0){;
         console.log("spin");
-        player.animations.stop("walk", true);
-        if( !player.animations.getAnimation("spin").isPlaying){
+        if(getDistance(enemy) <= range && !player.animations.getAnimation("spin").isPlaying){
+            attacking = true;
             player.animations.play("spin", 36);
             player.body.velocity.x = 0, player.body.velocity.y = 0;
             iceWalk.stop();
             sealSpin.play();
-            //enemy.health -= 50;
+            enemy.health -= 50;
             console.log(enemy.health);
-            //energy -= cost; 
+            energy -= cost; 
         }
     } 
 }
@@ -274,9 +282,8 @@ function doJab(i, range){
     var enemy = enemies.getClosestTo(player);
     if(energy >= cost && enemy.health > 0){
         console.log("jab");
-        
         if(getDistance(enemy) <= range && !player.animations.getAnimation("jab").isPlaying){
-            player.animations.stop("walk", true);
+            attacking = true;
             player.animations.play("jab", 12);
             player.body.velocity.x = 0, player.body.velocity.y = 0;
             iceWalk.stop();
