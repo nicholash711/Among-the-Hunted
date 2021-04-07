@@ -252,39 +252,39 @@ function enemyHealthCheck(enemy){
 
 function doSpin(i, range){
     var cost = 20;
-    if(energy >= cost){
+    var enemy = enemies.getClosestTo(player);
+    if(energy >= cost && enemy.health > 0){
         console.log("spin");
-        enemies.forEachAlive(function(enemy){
-            if(getDistance(enemy) <= range && !player.animations.getAnimation("spin").isPlaying){
-                player.animations.stop("walk", true);
-                player.animations.play("spin", 36);
-                player.body.velocity.x = 0, player.body.velocity.y = 0;
-                iceWalk.stop();
-                sealSpin.play();
-                enemy.health -= 50;
-                console.log(enemy.health);
-                energy -= cost;    
-            }
-        }, this);
+        if(getDistance(enemy) <= range && !player.animations.getAnimation("spin").isPlaying){
+            player.animations.stop("walk", true);
+            player.animations.play("spin", 36);
+            player.body.velocity.x = 0, player.body.velocity.y = 0;
+            iceWalk.stop();
+            sealSpin.play();
+            enemy.health -= 50;
+            console.log(enemy.health);
+            energy -= cost; 
+        }
     } 
 }
 
 function doJab(i, range){
     var cost = 5
-    if(energy >= cost){
+    var enemy = enemies.getClosestTo(player);
+    if(energy >= cost && enemy.health > 0){
         console.log("jab");
-        enemies.forEachAlive(function(enemy){
-            if(getDistance(enemy) <= range && !player.animations.getAnimation("jab").isPlaying){
-                player.animations.stop("walk", true);
-                player.animations.play("jab", 12);
-                player.body.velocity.x = 0, player.body.velocity.y = 0;
-                iceWalk.stop();
-                sealSpin.play();
-                enemy.health -= 10;
-                console.log(enemy.health);
-                energy -= cost;   
-            }
-        }, this);
+        player.body.velocity.x = 0, player.body.velocity.y = 0;
+        if(getDistance(enemy) <= range && !player.animations.getAnimation("jab").isPlaying){
+            player.animations.stop("walk", true);
+            player.animations.play("jab", 12);
+            
+            iceWalk.stop();
+            sealSpin.play();
+            enemy.health -= 10;
+            console.log(enemy.health);
+            energy -= cost;   
+        }
+
     }
 }
 
