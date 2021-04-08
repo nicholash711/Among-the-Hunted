@@ -1,4 +1,5 @@
 var player, moveKeys, enemies, iceWalk, spin, sealSpin, hunterFall, hunterGun, map, healthBar, energyBar, energy, graphics, isSpin, isJab, spinTime, jabTime;
+var jImage, kImage;
 var attacking = false, allowSpin = true, allowJab = true;
 const SPEED = 500, WORLD_LENGTH = 3200, WORLD_HEIGHT = 3200;
 
@@ -9,13 +10,15 @@ demo.state1.prototype = {
         game.load.spritesheet("hunter", "assets/spritesheets/hunter.png", 128, 128);
         game.load.spritesheet("healthBar", "assets/spritesheets/healthBar.png", 102, 12);
         game.load.spritesheet("energyBar", "assets/spritesheets/EnergyBar.png", 102, 12);
+        game.load.spritesheet("jImage", "assets/spritesheets/jAttack.png", 64, 64);
+        game.load.spritesheet("kImage", "assets/spritesheets/kAttack.png", 64, 64);
+        game.load.spritesheet("fish", "assets/sprites/Fish.png", 64, 32);
         game.load.tilemap("Map", "assets/tilemaps/Map.json", null, Phaser.Tilemap.TILED_JSON);
         game.load.image("Ground", "assets/tilemaps/Ground.png");
         game.load.image("Rocks", "assets/tilemaps/Rocks.png");
         game.load.image("Water", "assets/tilemaps/Water.png");
         game.load.image("bullet", "assets/sprites/Bullet.png");
         game.load.image("startButton", "assets/sprites/StartButton.png");
-        game.load.spritesheet("fish", "assets/sprites/Fish.png", 64, 32);
         game.load.audio("iceWalk", "assets/sounds/effects/iceStep.mp3");
         game.load.audio("sealSpin", "assets/sounds/effects/sealSpin.mp3");
         game.load.audio("hunterFall", "assets/sounds/effects/hunterFall.mp3");
@@ -122,6 +125,14 @@ demo.state1.prototype = {
             var frame = Math.floor(Math.random() * 3);
             fishies.create(coords[0], coords[1], "fish", frame);
         }
+
+        jImage = game.add.sprite(724, 504, "jImage");
+        jImage.fixedToCamera = true;
+        jImage.animations.add("countdown", [10]);
+
+        kImage = game.add.sprite(804, 504, "kImage");
+        kImage.fixedToCamera = true;
+        kImage.animations.add("countdown", [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
 
         //TODO Controls Menu before game start
         var text = "Use WASD to move.\nPress K to use your strong attack.\nPress J to use your weak attack."
@@ -277,6 +288,7 @@ function doSpin(i, range){
                 energy -= cost;
                 spinTime = game.time.now;
                 allowSpin = false;
+                kImage.animations.play("countdown", 1);
             }
         }
     }    
@@ -299,6 +311,7 @@ function doJab(i, range){
                 energy -= cost;
                 jabTime = game.time.now;
                 allowJab = false;
+                jImage.animations.play("countdown", 1);
             }
         }
     }   
@@ -392,11 +405,16 @@ function checkEnemies(){
 }
 
 function checkTime(){
-    if(game.time.now >= spinTime + 10000)
+    if(game.time.now >= spinTime + 10000){
         allowSpin = true;
-    if(game.time.now >= jabTime + 1000)
+        kImage.frame = 0;
+    }
+    if(game.time.now >= jabTime + 1000){
         allowJab = true;
+        jImage.frame = 0;
+    } 
 }
+
 // function tileBelow(){
 //     var x, y, tile;
 //     x = player.x;
