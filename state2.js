@@ -2,13 +2,12 @@ var text;
 
 demo.state2 = function(){};
 demo.state2.prototype = {
-    preload: function(){},
+    preload: function(){
+        game.load.image("lose", "assets/actionscreens/healthscreen.png");
+    },
 
     create: function(){
-        text = game.add.text(WIDTH / 2, 200, "GAME OVER\nYour fur was harvested by hunters.", { fontSize: "40px", align: "center" });
-        text.anchor.setTo(0.5, 0);
-        text = game.add.text(WIDTH / 2, 300, "Click anywhere to restart", { fontSize: "20px" });
-        text.anchor.setTo(0.5, 0);
+        game.add.sprite(0,0,"lose");
         game.input.onDown.add(restartOnClick);
     },
     
