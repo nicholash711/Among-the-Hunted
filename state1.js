@@ -1,7 +1,7 @@
 var player, moveKeys, enemies, iceWalk, spin, sealSpin, hunterFall, hunterGun, map, healthBar, energyBar, energy, graphics, isSpin, isJab, spinTime, jabTime;
 var jImage, kImage;
-var attacking = false, allowSpin = true, allowJab = true;
-const SPEED = 500, WORLD_LENGTH = 3200, WORLD_HEIGHT = 3200;
+var attacking = false, allowSpin = true, allowJab = true, firing = false;
+const SPEED = 400, WORLD_LENGTH = 3200, WORLD_HEIGHT = 3200;
 
 demo.state1 = function(){};
 demo.state1.prototype = {
@@ -69,7 +69,7 @@ demo.state1.prototype = {
         enemies.physicsBodyType = Phaser.Physics.ARCADE;
         for(var i = 0; i < 15; i++){
             var coords = getXY();
-            enemies.create(coords[0], coords[1], "hunter", 1);
+            enemies.create(coords[0], coords[1], "hunter", 7);
         }
         enemies.setAll("health", 100);
         enemies.setAll("anchor.x", 0.5);
@@ -78,6 +78,7 @@ demo.state1.prototype = {
         enemies.setAll("scale.y", 1);
         enemies.setAll("body.immovable", true);
         enemies.setAll("body.collideWorldBounds", true);
+        enemies.setAll("body.stopVelocityonCollide", true);
         enemies.forEach(function(enemy){
             var enemyHealth = game.add.sprite(0, -80, "healthBar");
             enemyHealth.anchor.setTo(0.5, 0);
@@ -171,6 +172,8 @@ demo.state1.prototype = {
         game.physics.arcade.collide(player, enemies, stopPlayer);
         game.physics.arcade.overlap(player, hunterGun.bullets, updateHealth, null, this);
         game.physics.arcade.overlap(player, fishies, collectFish, null, this);
+        game.physics.arcade.collide(enemies, water);
+        game.physics.arcade.collide(enemies, rocks);
 
         
         updateEnergy();
@@ -218,6 +221,8 @@ function stopPlayer(){
 
 function enemyDistanceCheck(enemy){
     if(getDistance(enemy) <= 300){
+        enemy.body.stop();
+        firing = true;
         if(player.x - enemy.x > 0) {
             enemy.scale.setTo(1, 1);
             var angle = Math.atan2(player.y - enemy.y, player.x - enemy.x) * 180 / Math.PI;
@@ -258,6 +263,7 @@ function enemyDistanceCheck(enemy){
     }
     else{
         enemy.frame = 7;
+        firing = false;
     }
 };
 
@@ -272,6 +278,10 @@ function updateEnemy(enemy){
     else{
         enemy.getChildAt(0).frame = 100 - enemy.health;
         enemyDistanceCheck(enemy);
+        if(!firing){
+            moveEnemy(enemy);
+        }
+
     }
 }
 
@@ -366,11 +376,12 @@ function startOnClick(){
 }
 
 function getXY(){
-    var x, y, tile = 0;
-    while(tile != null){
+    var x, y, tileW = 0, tileR = 0;
+    while(tileW != null || tileR != null){
         x = Math.floor(Math.random()*WORLD_LENGTH);
         y = Math.floor(Math.random()*WORLD_HEIGHT);
-        tile = map.getTile(Math.floor(x / 32), Math.floor(y / 32), 1);
+        tileW = map.getTile(Math.floor(x / 32), Math.floor(y / 32), 1);
+        tileR = map.getTile(Math.floor(x / 32), Math.floor(y / 32), 2);
     }
     //console.log(x, y);
     return [x, y];
@@ -417,6 +428,16 @@ function checkTime(){
         allowJab = true;
         jImage.frame = 0;
     } 
+}
+
+function moveEnemy(enemy){
+    if(getDistance(enemy) <= 400){
+        game.physics.arcade.moveToObject(enemy, player, 300);
+    }
+    else if(!enemy.body.isMoving){
+        //console.log("stopped");
+        enemy.body.moveFrom(5000, 100, Math.random() * 360);
+    }
 }
 
 // function tileBelow(){
