@@ -120,7 +120,7 @@ demo.state1.prototype = {
         fishies.physicsBodyType = Phaser.Physics.ARCADE;
         fishies.setAll("body.immovable", true);
         fishies.setAll("body.collideWorldBounds", true);
-        for(var i = 0; i < 15; i++){
+        for(var i = 0; i < 20; i++){
             var coords = getXY();
             var frame = Math.floor(Math.random() * 3);
             fishies.create(coords[0], coords[1], "fish", frame);
