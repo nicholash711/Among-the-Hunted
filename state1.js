@@ -295,7 +295,7 @@ function doSpin(i, range){
 }
 
 function doJab(i, range){
-    if(allowJab){
+    //if(allowJab){
         var cost = 5;
         var enemy = enemies.getClosestTo(player);
         if(energy >= cost && enemy.health > 0){
@@ -311,10 +311,10 @@ function doJab(i, range){
                 energy -= cost;
                 jabTime = game.time.now;
                 allowJab = false;
-                jImage.animations.play("countdown", 1);
+                //jImage.animations.play("countdown", 1);
             }
         }
-    }   
+    //}   
 }
 
 function getDistance(enemy){
