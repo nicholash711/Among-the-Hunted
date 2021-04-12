@@ -137,7 +137,7 @@ demo.state1.prototype = {
         kImage.animations.add("countdown", [4, 5, 6, 7, 8, 9, 10]);
 
         //TODO Controls Menu before game start
-        var text = "Use WASD to move.\nPress K to use your strong attack.\nPress J to use your weak attack."
+        var text = "Use WASD or Arrow Keys to move.\nPress K to use your strong attack.\nPress J to use your weak attack."
         game.paused = true;
         graphics = game.add.graphics();
         graphics.fixedToCamera = true;
@@ -153,6 +153,8 @@ demo.state1.prototype = {
         button.anchor.setTo(0.5, 0.5);
         button.scale.setTo(0.7, 0.7);
         graphics.addChild(button);
+
+        cursors = this.input.keyboard.createCursorKeys();
     },
 
     update: function (){  
@@ -177,32 +179,32 @@ demo.state1.prototype = {
         
         //if(!player.animations.getAnimation("spin").isPlaying || !player.animations.getAnimation("jab").isPlaying){
         if(!attacking){
-            if(moveKeys.up.isDown){
+            if(moveKeys.up.isDown || cursors.up.isDown){
                 player.body.velocity.y = -SPEED;
                 player.animations.play("walk", 8, true);
             }
-            else if(moveKeys.down.isDown){
+            else if(moveKeys.down.isDown || cursors.down.isDown){
                 player.body.velocity.y = SPEED;
                 player.animations.play("walk", 8, true);
             }
             else{
                 player.body.velocity.y = 0;
-                if(!moveKeys.left.isDown && !moveKeys.right.isDown)
+                if(!moveKeys.left.isDown && !moveKeys.right.isDown && !cursors.left.isDown && !cursors.right.isDown)
                     player.animations.stop("walk", true);
             }
-            if(moveKeys.left.isDown){
+            if(moveKeys.left.isDown || cursors.left.isDown){
                 player.scale.setTo(0.8, 0.8);
                 player.body.velocity.x = -SPEED;
                 player.animations.play("walk", 8, true);
             }
-            else if(moveKeys.right.isDown){
+            else if(moveKeys.right.isDown || cursors.right.isDown){
                 player.scale.setTo(-0.8, 0.8);
                 player.body.velocity.x = SPEED;
                 player.animations.play("walk", 8, true);
             }
             else{
                 player.body.velocity.x = 0;
-                if(!moveKeys.up.isDown && !moveKeys.down.isDown)
+                if(!moveKeys.up.isDown && !moveKeys.down.isDown  && !cursors.up.isDown && !cursors.down.isDown)
                     player.animations.stop("walk", true);
             }
         } 
