@@ -54,11 +54,13 @@ demo.state1.prototype = {
 
         //health bar
         healthBar = game.add.sprite(0, 0, "healthBar");
+        healthBar.body.collideWorldBounds = true;
         healthBar.addChild(game.add.text(20, 0, "Health", { fontSize: "10px" }));
         //player.addChild(healthBar);
         
         //Energy bar WIP
         energyBar = game.add.sprite(0, 0, "energyBar");
+        energyBar.body.collideWorldBounds = true;
         energyBar.addChild(game.add.text(20, 0, "Energy", { fontSize: "10px" }));
         energy = 100;
         //player.addChild(energyBar);
@@ -82,6 +84,7 @@ demo.state1.prototype = {
             var enemyHealth = game.add.sprite(0, -80, "healthBar");
             enemyHealth.anchor.setTo(0.5, 0);
             enemyHealth.scale.setTo(0.6, 0.6);
+            enemyHealth.body.collideWorldBounds = true;
             enemy.addChild(enemyHealth);
             enemy.animations.add("fall", [7, 15, 16, 17, 17, 17, 17]);
         }, this);
