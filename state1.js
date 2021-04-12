@@ -126,13 +126,15 @@ demo.state1.prototype = {
             fishies.create(coords[0], coords[1], "fish", frame);
         }
 
+        //Attacks HUD things
+        attacking = false;
         jImage = game.add.sprite(724, 504, "jImage");
         jImage.fixedToCamera = true;
         jImage.animations.add("countdown", [10]);
 
         kImage = game.add.sprite(804, 504, "kImage");
         kImage.fixedToCamera = true;
-        kImage.animations.add("countdown", [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+        kImage.animations.add("countdown", [4, 5, 6, 7, 8, 9, 10]);
 
         //TODO Controls Menu before game start
         var text = "Use WASD to move.\nPress K to use your strong attack.\nPress J to use your weak attack."
@@ -405,7 +407,7 @@ function checkEnemies(){
 }
 
 function checkTime(){
-    if(game.time.now >= spinTime + 10000){
+    if(game.time.now >= spinTime + 7000){
         allowSpin = true;
         kImage.frame = 0;
     }
