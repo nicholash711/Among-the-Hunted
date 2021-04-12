@@ -174,6 +174,7 @@ demo.state1.prototype = {
         game.physics.arcade.overlap(player, fishies, collectFish, null, this);
         game.physics.arcade.collide(enemies, water);
         game.physics.arcade.collide(enemies, rocks);
+        game.physics.arcade.collide(enemies, enemies);
 
         
         updateEnergy();
@@ -297,7 +298,7 @@ function doSpin(i, range){
                 player.body.velocity.x = 0, player.body.velocity.y = 0;
                 iceWalk.stop();
                 sealSpin.play();
-                enemy.health -= 50;
+                enemy.health -= 100;
                 console.log(enemy.health);
                 energy -= cost;
                 spinTime = game.time.now;
@@ -337,6 +338,11 @@ function inRange(range){
         if(!kImage.animations.getAnimation("countdown").isPlaying)
             kImage.frame = 11;
         jImage.frame = 11;
+    }
+    else{
+        if(!kImage.animations.getAnimation("countdown").isPlaying)
+            kImage.frame = 0;
+        jImage.frame = 0;
     }
 }
 
@@ -393,11 +399,11 @@ function startOnClick(){
 }
 
 function getXY(){
-    var x, y, tileW = 0, tileR = 0;
+    var x, y, tileW, tileR = 0;
     while(tileW != null || tileR != null){
         x = Math.floor(Math.random()*WORLD_LENGTH);
         y = Math.floor(Math.random()*WORLD_HEIGHT);
-        tileW = map.getTile(Math.floor(x / 32), Math.floor(y / 32), 1);
+        //tileW = map.getTile(Math.floor(x / 32), Math.floor(y / 32), 1);
         tileR = map.getTile(Math.floor(x / 32), Math.floor(y / 32), 2);
     }
     //console.log(x, y);
