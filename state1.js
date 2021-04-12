@@ -179,7 +179,7 @@ demo.state1.prototype = {
         updateEnergy();
         healthBar.frame = 100 - player.health;
         enemies.forEachAlive(updateEnemy, this);
-        
+        inRange(133);
         //if(!player.animations.getAnimation("spin").isPlaying || !player.animations.getAnimation("jab").isPlaying){
         if(!attacking){
             if(moveKeys.up.isDown || cursors.up.isDown){
@@ -331,6 +331,15 @@ function doJab(i, range){
     //}   
 }
 
+function inRange(range){
+    var enemy = enemies.getClosestTo(player);
+    if(getDistance(enemy) > range){
+        if(!kImage.animations.getAnimation("countdown").isPlaying)
+            kImage.frame = 11;
+        jImage.frame = 11;
+    }
+}
+
 function getDistance(enemy){
     deltaX = player.x - enemy.x;
     deltaY = player.y - enemy.y;
@@ -369,6 +378,14 @@ function updateEnergy(){
     else{
         energyBar.frame = 100 - energy;
     }
+    if(energy < 20)
+        kImage.frame = 11;
+    // else if(!kImage.animations.getAnimation("countdown").isPlaying)
+    //     kImage.frame = 0;
+    if(energy < 5)
+        jImage.frame = 11;
+    // else if(!kImage.animations.getAnimation("countdown").isPlaying)
+    //     jImage.frame = 0;
 }
 function startOnClick(){
     graphics.destroy();
