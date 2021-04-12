@@ -308,7 +308,7 @@ function doJab(i, range){
                 player.body.velocity.x = 0, player.body.velocity.y = 0;
                 iceWalk.stop();
                 sealSpin.play();
-                enemy.health -= 10;
+                enemy.health -= 20;
                 console.log(enemy.health);
                 energy -= cost;
                 jabTime = game.time.now;
