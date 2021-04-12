@@ -54,12 +54,14 @@ demo.state1.prototype = {
 
         //health bar
         healthBar = game.add.sprite(0, 0, "healthBar");
+        game.physics.enable(healthBar);
         healthBar.body.collideWorldBounds = true;
         healthBar.addChild(game.add.text(20, 0, "Health", { fontSize: "10px" }));
         //player.addChild(healthBar);
         
         //Energy bar WIP
         energyBar = game.add.sprite(0, 0, "energyBar");
+        game.physics.enable(energyBar);
         energyBar.body.collideWorldBounds = true;
         energyBar.addChild(game.add.text(20, 0, "Energy", { fontSize: "10px" }));
         energy = 100;
@@ -84,6 +86,7 @@ demo.state1.prototype = {
             var enemyHealth = game.add.sprite(0, -80, "healthBar");
             enemyHealth.anchor.setTo(0.5, 0);
             enemyHealth.scale.setTo(0.6, 0.6);
+            game.physics.enable(enemyHealth);
             enemyHealth.body.collideWorldBounds = true;
             enemy.addChild(enemyHealth);
             enemy.animations.add("fall", [7, 15, 16, 17, 17, 17, 17]);
@@ -164,6 +167,8 @@ demo.state1.prototype = {
         healthBar.y = player.y + 37;
         energyBar.x = player.x - 57;
         energyBar.y = player.y + 50;
+        game.physics.arcade.collide(healthBar, game.world);
+        game.physics.arcade.collide(energyBar, game.world);
         
         game.physics.arcade.collide(player, water);
         game.physics.arcade.collide(player, rocks);
