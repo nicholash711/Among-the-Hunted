@@ -26,6 +26,7 @@ demo.infinite.prototype = {
     create: function(){
         game.physics.startSystem(Phaser.Physics.ARCADE);
         game.world.setBounds(0, 0, WORLD_LENGTH, WORLD_HEIGHT);
+        game.camera.bounds = new Phaser.Rectangle(0, -50, WORLD_LENGTH, WORLD_HEIGHT + 100);
         game.stage.backgroundColor = "#2b00ff";
 
         map = game.add.tilemap("Map");
@@ -84,7 +85,7 @@ demo.infinite.prototype = {
             enemy.animations.add("fall", [7, 15, 16, 17, 17, 17, 17]);
         }, this);
 
-        hunterCounter = game.add.text(10, 10, "Hunters left: " + (enemies.countLiving()), { fontSize: "30px" });
+        hunterCounter = game.add.text(10, 10, "There will always be " + (enemies.countLiving()) + " hunters left.", { fontSize: "30px" });
         hunterCounter.fixedToCamera = true;
         hunterCounter.cameraOffset = new Phaser.Point(20, 20);
 
