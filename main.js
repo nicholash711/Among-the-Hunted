@@ -3,9 +3,10 @@ const WIDTH = 900, HEIGHT = 600;
 //const WIDTH = window.innerWidth * window.devicePixelRatio, HEIGHT = window.innerHeight * window.devicePixelRatio
 
 var game = new Phaser.Game(WIDTH, HEIGHT, Phaser.AUTO);
-game.state.add("state0", demo.state0);
-game.state.add("state1", demo.state1);
-game.state.add("state2", demo.state2);
-game.state.add("state3", demo.state3);
-game.state.add("state4", demo.state4);
-game.state.start("state0");
+game.state.add("title", demo.title);
+game.state.add("normal", demo.normal);
+game.state.add("infinite", demo.infinite);
+game.state.add("noHealth", demo.noHealth);
+game.state.add("noEnergy", demo.noEnergy);
+game.state.add("win", demo.win);
+game.state.start("title");

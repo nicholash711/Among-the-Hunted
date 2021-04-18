@@ -1,7 +1,7 @@
 var text;
 
-demo.state4 = function(){};
-demo.state4.prototype = {
+demo.win = function(){};
+demo.win.prototype = {
     preload: function(){
         game.load.image("lose", "assets/actionscreens/winningscreen.png");
     },
@@ -15,5 +15,5 @@ demo.state4.prototype = {
 }
 
 function restartOnClick(){
-    game.state.start("state1");
+    game.state.start("title");
 }

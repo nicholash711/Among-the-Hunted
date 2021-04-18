@@ -3,8 +3,8 @@ var jImage, kImage;
 var attacking = false, allowSpin = true, allowJab = true, firing = false;
 const SPEED = 400, WORLD_LENGTH = 3200, WORLD_HEIGHT = 3200;
 
-demo.state1 = function(){};
-demo.state1.prototype = {
+demo.infinite= function(){};
+demo.infinite.prototype = {
     preload: function(){
         game.load.spritesheet("seal", "assets/spritesheets/HarpSeal.png", 109, 74);
         game.load.spritesheet("hunter", "assets/spritesheets/hunter.png", 128, 128);
@@ -372,14 +372,14 @@ function updateHealth(player, bullet){
 
     if(player.alive == false){
         iceWalk.stop();
-        game.state.start('state2');
+        game.state.start('noHealth');
     }
 }
 
 function updateEnergy(){
     if(energy <= 0){
         energyBar.frame = 100;
-        game.state.start('state3'); // starved
+        game.state.start('noEnergy'); // starved
     }
     else{
         energyBar.frame = 100 - energy;
@@ -439,7 +439,7 @@ function collectFish (player, fish) {
 
 function checkEnemies(){
     if(enemies.countLiving() == 0)
-        game.state.start("state4");
+        game.state.start("win");
 }
 
 function checkTime(){

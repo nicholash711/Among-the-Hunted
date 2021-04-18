@@ -1,9 +1,9 @@
 var text;
 
-demo.state3 = function(){};
-demo.state3.prototype = {
+demo.noHealth = function(){};
+demo.noHealth.prototype = {
     preload: function(){
-        game.load.image("lose", "assets/actionscreens/starvationscreen.png");
+        game.load.image("lose", "assets/actionscreens/healthscreen.png");
     },
 
     create: function(){
@@ -15,5 +15,5 @@ demo.state3.prototype = {
 }
 
 function restartOnClick(){
-    game.state.start("state1");
+    game.state.start("title");
 }
