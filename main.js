@@ -4,6 +4,7 @@ const WIDTH = 900, HEIGHT = 600;
 
 var game = new Phaser.Game(WIDTH, HEIGHT, Phaser.AUTO);
 game.state.add("title", demo.title);
+game.state.add("tutorial", demo.tutorial);
 game.state.add("normal", demo.normal);
 game.state.add("infinite", demo.infinite);
 game.state.add("noHealth", demo.noHealth);
