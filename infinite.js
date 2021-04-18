@@ -1,7 +1,6 @@
 var player, moveKeys, enemies, iceWalk, spin, sealSpin, hunterFall, hunterGun, map, healthBar, energyBar, energy, graphics, isSpin, isJab, spinTime, jabTime;
 var jImage, kImage;
 var attacking = false, allowSpin = true, allowJab = true, firing = false;
-const SPEED = 400, WORLD_LENGTH = 3200, WORLD_HEIGHT = 3200;
 
 demo.infinite= function(){};
 demo.infinite.prototype = {
@@ -55,13 +54,11 @@ demo.infinite.prototype = {
         //health bar
         healthBar = game.add.sprite(0, 0, "healthBar");
         healthBar.addChild(game.add.text(20, 0, "Health", { fontSize: "10px" }));
-        //player.addChild(healthBar);
         
         //Energy bar WIP
         energyBar = game.add.sprite(0, 0, "energyBar");
         energyBar.addChild(game.add.text(20, 0, "Energy", { fontSize: "10px" }));
         energy = 100;
-        //player.addChild(energyBar);
 
         //adds intial enemies
         enemies = game.add.group();
@@ -95,10 +92,8 @@ demo.infinite.prototype = {
             "up": 87, "down": 83, "left": 65, "right": 68
         });
         spin = game.input.keyboard.addKey(75);
-        //spin = game.input.keyboard.addKey(32);
         spin.onDown.add(doSpin, null, null, 133);
-        jab = game.input.keyboard.addKey(74); // J
-        //jab = game.input.keyboard.addKey(69);
+        jab = game.input.keyboard.addKey(74);
         jab.onDown.add(doJab, null, null, 133);
 
         hunterGun = game.add.weapon(10, "bullet", null, enemies);

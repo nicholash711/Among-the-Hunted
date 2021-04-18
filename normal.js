@@ -27,7 +27,10 @@ demo.normal.prototype = {
     create: function(){
         game.physics.startSystem(Phaser.Physics.ARCADE);
         game.world.setBounds(0, 0, WORLD_LENGTH, WORLD_HEIGHT);
-        game.stage.backgroundColor = "#2b00ff";
+        // so health and energy bars don't go off screen
+        game.camera.bounds = new Phaser.Rectangle(0, -50, WORLD_LENGTH, WORLD_HEIGHT + 100);
+        game.stage.backgroundColor = "#dce3e8";
+        console.log(game.camera.bounds);
 
         map = game.add.tilemap("Map");
         map.addTilesetImage("Ground");
@@ -55,13 +58,11 @@ demo.normal.prototype = {
         //health bar
         healthBar = game.add.sprite(0, 0, "healthBar");
         healthBar.addChild(game.add.text(20, 0, "Health", { fontSize: "10px" }));
-        //player.addChild(healthBar);
         
         //Energy bar WIP
         energyBar = game.add.sprite(0, 0, "energyBar");
         energyBar.addChild(game.add.text(20, 0, "Energy", { fontSize: "10px" }));
         energy = 100;
-        //player.addChild(energyBar);
 
         //adds intial enemies
         enemies = game.add.group();
@@ -95,10 +96,8 @@ demo.normal.prototype = {
             "up": 87, "down": 83, "left": 65, "right": 68
         });
         spin = game.input.keyboard.addKey(75);
-        //spin = game.input.keyboard.addKey(32);
         spin.onDown.add(doSpin, null, null, 133);
-        jab = game.input.keyboard.addKey(74); // J
-        //jab = game.input.keyboard.addKey(69);
+        jab = game.input.keyboard.addKey(74);
         jab.onDown.add(doJab, null, null, 133);
 
         hunterGun = game.add.weapon(10, "bullet", null, enemies);
