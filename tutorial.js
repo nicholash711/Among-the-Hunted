@@ -57,6 +57,24 @@ demo.tutorial.prototype = {
         energyBar.addChild(game.add.text(20, 0, "Energy", { fontSize: "10px" }));
         energy = 100;
 
+        // enemy
+        enemy = game.add.sprite(500, 500, "hunter");
+        game.physics.enable(enemy);
+        enemy.physicsBodyType = Phaser.Physics.ARCADE;
+        enemy.health = 100;
+        enemy.anchor.x = 0.5;
+        enemy.anchor.y = 0.5;
+        enemy.scale.x = 1;
+        enemy.scale.x = 1;
+        enemy.body.immovable = true;
+        enemy.body.collideWorldBounds = true;
+        enemy.body.stopVelocityonCollide = true;
+        var enemyHealth = game.add.sprite(0, -80, "healthBar");
+        enemyHealth.anchor.setTo(0.5, 0);
+        enemyHealth.scale.setTo(0.6, 0.6);
+        enemy.addChild(enemyHealth);
+        enemy.animations.add("fall", [7, 15, 16, 17, 17, 17, 17]);
+
         moveKeys = game.input.keyboard.addKeys({
             "up": 87, "down": 83, "left": 65, "right": 68
         });
