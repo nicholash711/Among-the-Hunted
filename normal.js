@@ -173,7 +173,7 @@ demo.normal.prototype = {
         game.physics.arcade.overlap(player, fishies, collectFish, null, this);
         game.physics.arcade.collide(enemies, water);
         game.physics.arcade.collide(enemies, rocks);
-        game.physics.arcade.collide(enemies, enemies);
+        //game.physics.arcade.collide(enemies, enemies);
 
         
         updateEnergy();
