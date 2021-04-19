@@ -41,7 +41,7 @@ demo.tutorial.prototype = {
         map.setCollisionBetween(22, 28, true, 'Collisions');
 
         //TODO Controls Menu before game start
-        var text = "Use WASD or Arrow Keys to move.\nPress K to use your strong attack.\nPress J to use your weak attack."
+        var text = "WARNING: WIP\nUse WASD or Arrow Keys to move.\nPress K to use your strong attack.\nPress J to use your weak attack."
         game.paused = true;
         graphics = game.add.graphics();
         graphics.fixedToCamera = true;

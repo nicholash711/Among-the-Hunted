@@ -134,7 +134,7 @@ demo.infinite.prototype = {
         kImage.animations.add("countdown", [4, 5, 6, 7, 8, 9, 10]);
 
         //TODO Controls Menu before game start
-        var text = "Use WASD or Arrow Keys to move.\nPress K to use your strong attack.\nPress J to use your weak attack."
+        var text = "WARNING: WIP\nUse WASD or Arrow Keys to move.\nPress K to use your strong attack.\nPress J to use your weak attack."
         game.paused = true;
         graphics = game.add.graphics();
         graphics.fixedToCamera = true;
