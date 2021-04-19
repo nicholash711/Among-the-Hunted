@@ -398,11 +398,11 @@ function startOnClick(){
 }
 
 function getXY(){
-    var x, y, tileW, tileR = 0;
+    var x, y, tileW = 0, tileR = 0;
     while(tileW != null || tileR != null){
         x = Math.floor(Math.random()*WORLD_LENGTH);
         y = Math.floor(Math.random()*WORLD_HEIGHT);
-        //tileW = map.getTile(Math.floor(x / 32), Math.floor(y / 32), 1);
+        tileW = map.getTile(Math.floor(x / 32), Math.floor(y / 32), 1);
         tileR = map.getTile(Math.floor(x / 32), Math.floor(y / 32), 2);
     }
     //console.log(x, y);
