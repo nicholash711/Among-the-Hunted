@@ -24,9 +24,9 @@ demo.tutorial.prototype = {
     },
     create: function(){
         game.physics.startSystem(Phaser.Physics.ARCADE);
-        game.world.setBounds(0, 0, WORLD_LENGTH, WORLD_HEIGHT);
+        game.world.setBounds(0, 0, 900, 550);
         // so health and energy bars don't go off screen
-        game.camera.bounds = new Phaser.Rectangle(0, -50, WORLD_LENGTH, WORLD_HEIGHT + 100);
+        game.camera.bounds = new Phaser.Rectangle(0, 0, 900, 600);
         game.stage.backgroundColor = "#dce3e8";
         console.log(game.camera.bounds);
 
