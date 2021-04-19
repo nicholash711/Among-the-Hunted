@@ -79,9 +79,9 @@ demo.tutorial.prototype = {
             "up": 87, "down": 83, "left": 65, "right": 68
         });
         spin = game.input.keyboard.addKey(75);
-        spin.onDown.add(doSpin, null, null, 133);
+        spin.onDown.add(doKick, null, null, 133);
         jab = game.input.keyboard.addKey(74);
-        jab.onDown.add(doJab, null, null, 133);
+        jab.onDown.add(doDab, null, null, 133);
 
         hunterGun = game.add.weapon(10, "bullet", null, enemies);
         hunterGun.bulletKillDistance = 500;
@@ -134,6 +134,8 @@ demo.tutorial.prototype = {
         cursors = this.input.keyboard.createCursorKeys();
     },
     update: function(){
+        checkTime();
+
         healthBar.x = player.x - 57;
         healthBar.y = player.y + 37;
         energyBar.x = player.x - 57;
@@ -169,10 +171,116 @@ demo.tutorial.prototype = {
                     player.animations.stop("walk", true);
             }
         };
+
+        updateEnergy();
+        healthBar.frame = 100 - player.health;
+        updateHunter(enemy);
+        canShoot(133);
+
+        if(!attacking){
+            if(moveKeys.up.isDown || cursors.up.isDown){
+                player.body.velocity.y = -SPEED;
+                player.animations.play("walk", 8, true);
+            }
+            else if(moveKeys.down.isDown || cursors.down.isDown){
+                player.body.velocity.y = SPEED;
+                player.animations.play("walk", 8, true);
+            }
+            else{
+                player.body.velocity.y = 0;
+                if(!moveKeys.left.isDown && !moveKeys.right.isDown && !cursors.left.isDown && !cursors.right.isDown)
+                    player.animations.stop("walk", true);
+            }
+            if(moveKeys.left.isDown || cursors.left.isDown){
+                player.scale.setTo(0.8, 0.8);
+                player.body.velocity.x = -SPEED;
+                player.animations.play("walk", 8, true);
+            }
+            else if(moveKeys.right.isDown || cursors.right.isDown){
+                player.scale.setTo(-0.8, 0.8);
+                player.body.velocity.x = SPEED;
+                player.animations.play("walk", 8, true);
+            }
+            else{
+                player.body.velocity.x = 0;
+                if(!moveKeys.up.isDown && !moveKeys.down.isDown  && !cursors.up.isDown && !cursors.down.isDown)
+                    player.animations.stop("walk", true);
+            }
+        }
     }
 };
 
-function startOnClick(){
-    graphics.destroy();
-    game.paused = false;
-};
+
+function updateHunter(enemy){
+    if(enemy.health <= 0){
+        enemy.alive = false;
+        enemy.getChildAt(0).frame = 100;
+        enemy.animations.play("fall", 8, false, true);
+        hunterFall.play();
+    }
+    else{
+        enemy.getChildAt(0).frame = 100 - enemy.health;
+        enemyDistanceCheck(enemy);
+        if(!firing){
+            moveEnemy(enemy);
+        }
+
+    }
+}
+
+function canShoot(range){
+    if(getDistance(enemy) > range){
+        if(!kImage.animations.getAnimation("countdown").isPlaying)
+            kImage.frame = 11;
+        jImage.frame = 11;
+    }
+    else{
+        if(!kImage.animations.getAnimation("countdown").isPlaying)
+            kImage.frame = 0;
+        jImage.frame = 0;
+    }
+}
+
+function doKick(i, range){
+    if(allowSpin){
+        var cost = 20;
+        if(energy >= cost && enemy.health > 0){;
+            console.log("spin");
+            if(getDistance(enemy) <= range && !player.animations.getAnimation("spin").isPlaying){
+                attacking = true;
+                player.animations.play("spin", 36);
+                player.body.velocity.x = 0, player.body.velocity.y = 0;
+                iceWalk.stop();
+                sealSpin.play();
+                enemy.health -= 100;
+                console.log(enemy.health);
+                energy -= cost;
+                spinTime = game.time.now;
+                allowSpin = false;
+                kImage.animations.play("countdown", 1);
+            }
+        }
+    }    
+}
+
+function doDab(i, range){
+    //if(allowJab){
+        var cost = 5;
+        if(energy >= cost && enemy.health > 0){
+            console.log("jab");
+            if(getDistance(enemy) <= range && !player.animations.getAnimation("jab").isPlaying){
+                attacking = true;
+                player.animations.play("jab", 12);
+                player.body.velocity.x = 0, player.body.velocity.y = 0;
+                iceWalk.stop();
+                sealSpin.play();
+                enemy.health -= 20;
+                console.log(enemy.health);
+                energy -= cost;
+                jabTime = game.time.now;
+                allowJab = false;
+                //jImage.animations.play("countdown", 1);
+            }
+        }
+    //}   
+}
