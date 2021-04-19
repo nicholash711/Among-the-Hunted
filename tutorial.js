@@ -34,23 +34,6 @@ demo.tutorial.prototype = {
         map.addTilesetImage("Ground");
         bounds = map.createLayer("Background");
 
-        //TODO Controls Menu before game start
-        var text = "WARNING: WIP\nUse WASD or Arrow Keys to move.\nPress K to use your strong attack.\nPress J to use your weak attack."
-        game.paused = true;
-        graphics = game.add.graphics();
-        graphics.fixedToCamera = true;
-        graphics.beginFill(0x99ffff, .7);
-        graphics.lineStyle(4, 0x00b3b3, 1);
-        graphics.drawRect(200, 100, 500, 400);
-        graphics.endFill();
-        var instruct = game.add.text(game.camera.centerX, 150, text, { fontSize: "20px" });
-        instruct.fixedtoCamera = true;
-        instruct.anchor.setTo(0.5, 0);
-        graphics.addChild(instruct);
-        var button = game.add.button(game.camera.centerX, 450, "startButton", startOnClick);
-        button.anchor.setTo(0.5, 0.5);
-        button.scale.setTo(0.7, 0.7);
-        graphics.addChild(button);
 
         player = game.add.sprite(game.world.centerX, game.world.centerY, "seal");
         player.health = 100;
@@ -81,6 +64,54 @@ demo.tutorial.prototype = {
         spin.onDown.add(doSpin, null, null, 133);
         jab = game.input.keyboard.addKey(74);
         jab.onDown.add(doJab, null, null, 133);
+
+        hunterGun = game.add.weapon(10, "bullet", null, enemies);
+        hunterGun.bulletKillDistance = 500;
+        hunterGun.bulletKillType = Phaser.Weapon.KILL_DISTANCE;
+        hunterGun.fireRate = 1000;
+        hunterGun.bulletSpeed = 400;
+        hunterGun.bulletClass.physicsBodyType = Phaser.Physics.ARCADE;
+        hunterGun.bullets.alive = false;
+
+        iceWalk = game.add.audio("iceWalk", 0.6, true);
+        sealSpin = game.add.audio("sealSpin", 1);
+        hunterFall = game.add.audio("hunterFall", 1);
+        game.sound.setDecodedCallback(iceWalk, start, this);
+
+        //add fish
+        fish = game.add.sprite(100, 100, "fish");
+        game.physics.enable(fish);
+        fish.physicsBodyType = Phaser.Physics.ARCADE;
+        fish.body.immovable;
+        fish.body.collideWorldBounds = true;
+
+        //Attacks HUD things
+        attacking = false;
+        jImage = game.add.sprite(724, 504, "jImage");
+        jImage.fixedToCamera = true;
+        jImage.animations.add("countdown", [10]);
+
+        kImage = game.add.sprite(804, 504, "kImage");
+        kImage.fixedToCamera = true;
+        kImage.animations.add("countdown", [4, 5, 6, 7, 8, 9, 10]);
+
+        //TODO Controls Menu before game start
+        var text = "WARNING: Work In Progress\nUse WASD or Arrow Keys to move.\nPress K to use your strong attack.\nPress J to use your weak attack.\nYou can start attacking\nwhen the 'J' and 'K' in the\nbottom right coner turns white."
+        game.paused = true;
+        graphics = game.add.graphics();
+        graphics.fixedToCamera = true;
+        graphics.beginFill(0x99ffff, .7);
+        graphics.lineStyle(4, 0x00b3b3, 1);
+        graphics.drawRect(200, 100, 500, 400);
+        graphics.endFill();
+        var instruct = game.add.text(game.camera.centerX, 150, text, { fontSize: "20px" });
+        instruct.fixedtoCamera = true;
+        instruct.anchor.setTo(0.5, 0);
+        graphics.addChild(instruct);
+        var button = game.add.button(game.camera.centerX, 450, "startButton", startOnClick);
+        button.anchor.setTo(0.5, 0.5);
+        button.scale.setTo(0.7, 0.7);
+        graphics.addChild(button);
 
         cursors = this.input.keyboard.createCursorKeys();
     },

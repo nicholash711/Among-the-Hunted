@@ -13,13 +13,13 @@ demo.title.prototype = {
         game.stage.backgroundColor = '#b5e7ff';
         game.add.text(50, 50, 'Among The Hunted', { fontSize: '50px'});
         game.add.text(50, 200, 'You are a harp seal\njust abandoned by your mother,\nleft to fend for yourself.\nYou are being hunted\nfor your soft fur.\nTry your best to survive.', { fontsize: '20px'});
-        game.add.text(game.world.centerX + 100, 200, 'Choose a mode to begin', { fontSize: '18px'});
+        game.add.text(game.camera.centerX + 100, 200, 'Choose a mode to begin', { fontSize: '18px'});
         console.log('Welcome Haha',);
         var normalBtn = game.add.button(50, 450, "tutorial-btn", clickTutorial);
         normalBtn.scale.setTo(2, 2);
-        var normalBtn = game.add.button(game.world.centerX + 100, 250, "normal-btn", clickNormal);
+        var normalBtn = game.add.button(game.camera.centerX + 100, 250, "normal-btn", clickNormal);
         normalBtn.scale.setTo(2, 2);
-        var normalBtn = game.add.button(game.world.centerX + 100, 350, "infinite-btn", clickInfinite);
+        var normalBtn = game.add.button(game.camera.centerX + 100, 350, "infinite-btn", clickInfinite);
         normalBtn.scale.setTo(2, 2);
 
 
