@@ -12,7 +12,7 @@ demo.tutorial.prototype = {
         game.load.spritesheet("jImage", "assets/spritesheets/jAttack.png", 64, 64);
         game.load.spritesheet("kImage", "assets/spritesheets/kAttack.png", 64, 64);
         game.load.spritesheet("fish", "assets/sprites/Fish.png", 64, 32);
-        game.load.tilemap("Map", "assets/tilemaps/Map.json", null, Phaser.Tilemap.TILED_JSON);
+        game.load.tilemap("Map", "assets/tilemaps/Tutorial.json", null, Phaser.Tilemap.TILED_JSON);
         game.load.image("Ground", "assets/tilemaps/Ground.png");
         game.load.image("Rocks", "assets/tilemaps/Rocks.png");
         game.load.image("Water", "assets/tilemaps/Water.png");
@@ -32,13 +32,7 @@ demo.tutorial.prototype = {
 
         map = game.add.tilemap("Map");
         map.addTilesetImage("Ground");
-        map.addTilesetImage('Water');
-        map.addTilesetImage('Rocks');
         bounds = map.createLayer("Background");
-        rocks = map.createLayer("Collisions");
-        water = map.createLayer("Water");
-        map.setCollision(17, true, 'Water');
-        map.setCollisionBetween(22, 28, true, 'Collisions');
 
         //TODO Controls Menu before game start
         var text = "WARNING: WIP\nUse WASD or Arrow Keys to move.\nPress K to use your strong attack.\nPress J to use your weak attack."
