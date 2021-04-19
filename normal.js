@@ -168,7 +168,7 @@ demo.normal.prototype = {
         
         game.physics.arcade.collide(player, water);
         game.physics.arcade.collide(player, rocks);
-        game.physics.arcade.collide(player, enemies, stopPlayer);
+        game.physics.arcade.collide(player, enemies, stopPlayer, function(enemy) { console.log(enemy); return enemy.alive; }, this);
         game.physics.arcade.overlap(player, hunterGun.bullets, updateHealth, null, this);
         game.physics.arcade.overlap(player, fishies, collectFish, null, this);
         game.physics.arcade.collide(enemies, water);
@@ -269,10 +269,10 @@ function enemyDistanceCheck(enemy){
 
 function updateEnemy(enemy){
     if(enemy.health <= 0){
+        enemy.alive = false;
         enemy.getChildAt(0).frame = 100;
         enemy.animations.play("fall", 8, false, true);
         hunterFall.play();
-        enemy.alive = false;
         hunterCounter.setText("Hunters left: " + (enemies.countLiving()));
     }
     else{
