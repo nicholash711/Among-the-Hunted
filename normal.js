@@ -168,7 +168,7 @@ demo.normal.prototype = {
         
         game.physics.arcade.collide(player, water);
         game.physics.arcade.collide(player, rocks);
-        game.physics.arcade.collide(player, enemies, stopPlayer, function(enemy) { console.log(enemy); return enemy.alive; }, this);
+        game.physics.arcade.collide(player, enemies, stopPlayer, function(enemy) { return enemy.alive; }, this);
         game.physics.arcade.overlap(player, hunterGun.bullets, updateHealth, null, this);
         game.physics.arcade.overlap(player, fishies, collectFish, null, this);
         game.physics.arcade.collide(enemies, water);
