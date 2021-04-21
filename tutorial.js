@@ -14,9 +14,8 @@ demo.tutorial.prototype = {
         game.load.spritesheet("fish", "assets/sprites/Fish.png", 64, 32);
         game.load.tilemap("Map", "assets/tilemaps/Tutorial.json", null, Phaser.Tilemap.TILED_JSON);
         game.load.image("Ground", "assets/tilemaps/Ground.png");
-        game.load.image("Rocks", "assets/tilemaps/Rocks.png");
-        game.load.image("Water", "assets/tilemaps/Water.png");
         game.load.image("bullet", "assets/sprites/Bullet.png");
+        game.load.image("homeBtn", "assets/sprites/HomeButton.png");
         game.load.image("startButton", "assets/sprites/StartButton.png");
         game.load.audio("iceWalk", "assets/sounds/effects/iceStep.mp3");
         game.load.audio("sealSpin", "assets/sounds/effects/sealSpin.mp3");
@@ -35,7 +34,7 @@ demo.tutorial.prototype = {
         bounds = map.createLayer("Background");
 
 
-        player = game.add.sprite(game.world.centerX, game.world.centerY, "seal");
+        player = game.add.sprite(400, 300, "seal");
         player.health = 100;
         player.anchor.setTo(0.5, 0.5);
         player.scale.setTo(-0.8, 0.8)
@@ -58,7 +57,7 @@ demo.tutorial.prototype = {
         energy = 100;
 
         // enemy
-        enemy = game.add.sprite(500, 500, "hunter");
+        enemy = game.add.sprite(900, 440, "hunter");
         game.physics.enable(enemy);
         enemy.physicsBodyType = Phaser.Physics.ARCADE;
         enemy.health = 100;
@@ -103,6 +102,10 @@ demo.tutorial.prototype = {
         fish.body.immovable;
         fish.body.collideWorldBounds = true;
 
+        //add home button
+        var homeBtn = game.add.button(0, 550, "homeBtn", goBack);
+        homeBtn.scale.setTo(1, 1);
+
         //Attacks HUD things
         attacking = false;
         jImage = game.add.sprite(724, 504, "jImage");
@@ -141,6 +144,10 @@ demo.tutorial.prototype = {
         energyBar.x = player.x - 57;
         energyBar.y = player.y + 50;
 
+        game.physics.arcade.collide(player, enemy, stopPlayer, function(enemy) { return enemy.alive; }, this);
+        game.physics.arcade.overlap(player, hunterGun.bullets, updateHealth, null, this);
+        game.physics.arcade.overlap(player, fish, eatFish, null, this);
+
         if(!attacking){
             if(moveKeys.up.isDown || cursors.up.isDown){
                 player.body.velocity.y = -SPEED;
@@ -174,7 +181,7 @@ demo.tutorial.prototype = {
 
         updateEnergy();
         healthBar.frame = 100 - player.health;
-        updateHunter(enemy);
+        if (enemy.alive) {updateHunter(enemy)};
         canShoot(133);
 
         if(!attacking){
@@ -215,21 +222,18 @@ function updateHunter(enemy){
     if(enemy.health <= 0){
         enemy.alive = false;
         enemy.getChildAt(0).frame = 100;
-        enemy.animations.play("fall", 8, false, true);
         hunterFall.play();
+        enemy.animations.play("fall", 8, false, true);
+        console.log('dead');
     }
     else{
         enemy.getChildAt(0).frame = 100 - enemy.health;
         enemyDistanceCheck(enemy);
-        if(!firing){
-            moveEnemy(enemy);
-        }
-
     }
 }
 
 function canShoot(range){
-    if(getDistance(enemy) > range){
+    if(getDistance(enemy) > range || enemy.alive == false){
         if(!kImage.animations.getAnimation("countdown").isPlaying)
             kImage.frame = 11;
         jImage.frame = 11;
@@ -283,4 +287,29 @@ function doDab(i, range){
             }
         }
     //}   
+}
+
+function goBack() {
+    iceWalk.stop();
+    game.state.start('title');
+}
+
+function eatFish() {
+    // Removes the fish from the screen
+    fish.kill();
+    //  Add health and energy
+    if(player.health + 10 > 100) {
+        player.health = 100;
+    }    
+    else {
+        player.health += 10;
+    }
+    console.log(player.health);
+    if(energy + 25 >= 100) {
+        energy = 100;
+    }
+    else {
+        energy += 25;
+    }
+    console.log(energy);
 }
