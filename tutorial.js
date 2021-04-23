@@ -103,7 +103,7 @@ demo.tutorial.prototype = {
         fish.body.collideWorldBounds = true;
 
         //add home button
-        var homeBtn = game.add.button(0, 550, "homeBtn", goBack);
+        var homeBtn = game.add.button(5, 550, "homeBtn", goBack);
         homeBtn.scale.setTo(1, 1);
 
         //Attacks HUD things
