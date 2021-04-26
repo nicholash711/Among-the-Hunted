@@ -1,5 +1,5 @@
 var player, moveKeys, enemies, iceWalk, spin, sealSpin, hunterFall, hunterGun, map, healthBar, energyBar, energy, graphics, isSpin, isJab, spinTime, jabTime;
-var jImage, kImage;
+var jImage, kImage, score = 0, scoreText;
 var attacking = false, allowSpin = true, allowJab = true, firing = false;
 
 demo.infinite= function(){};
@@ -27,7 +27,7 @@ demo.infinite.prototype = {
         game.physics.startSystem(Phaser.Physics.ARCADE);
         game.world.setBounds(0, 0, WORLD_LENGTH, WORLD_HEIGHT);
         game.camera.bounds = new Phaser.Rectangle(0, -50, WORLD_LENGTH, WORLD_HEIGHT + 100);
-        game.stage.backgroundColor = "#2b00ff";
+        game.stage.backgroundColor = "#dce3e8";
 
         map = game.add.tilemap("Map");
         map.addTilesetImage("Ground");
@@ -69,14 +69,12 @@ demo.infinite.prototype = {
             var coords = getXY();
             enemies.create(coords[0], coords[1], "hunter", 7);
         }
-        enemies.setAll("health", 100);
-        enemies.setAll("anchor.x", 0.5);
-        enemies.setAll("anchor.y", 0.5);
-        enemies.setAll("scale.x", 1);
-        enemies.setAll("scale.y", 1);
-        enemies.setAll("body.immovable", true);
-        enemies.setAll("body.collideWorldBounds", true);
-        enemies.setAll("body.stopVelocityonCollide", true);
+        enemies.setAll("health", 100, null, null, null, true);
+        enemies.setAll("anchor.x", 0.5, null, null, null, true);
+        enemies.setAll("anchor.y", 0.5, null, null, null, true);
+        enemies.setAll("body.immovable", true, null, null, null, true);
+        enemies.setAll("body.collideWorldBounds", true, null, null, null, true);
+        enemies.setAll("body.stopVelocityonCollide", true, null, null, null, true);
         enemies.forEach(function(enemy){
             var enemyHealth = game.add.sprite(0, -80, "healthBar");
             enemyHealth.anchor.setTo(0.5, 0);
@@ -114,8 +112,9 @@ demo.infinite.prototype = {
         fishies = game.add.group();
         fishies.enableBody = true;
         fishies.physicsBodyType = Phaser.Physics.ARCADE;
-        fishies.setAll("body.immovable", true);
-        fishies.setAll("body.collideWorldBounds", true);
+        fishies.setAll("body.immovable", true, null, null, null, true);
+        fishies.setAll("body.collideWorldBounds", true, null, null, null, true);
+        fishies.setAll("anchor", new Phaser.Point(0, 0), null, null, null, true);
         for(var i = 0; i < 20; i++){
             var coords = getXY();
             var frame = Math.floor(Math.random() * 3);
@@ -149,10 +148,10 @@ demo.infinite.prototype = {
         button.anchor.setTo(0.5, 0.5);
         button.scale.setTo(0.7, 0.7);
         graphics.addChild(button);
-        
-        hunterCounter = game.add.text(10, 10, "There will always be " + (enemies.countLiving()) + " hunters left.", { fontSize: "30px" });
-        hunterCounter.fixedToCamera = true;
-        hunterCounter.cameraOffset = new Phaser.Point(20, 20);
+
+        scoreText = game.add.text(10, 10, "Survive as Long as Possible\nScore: " + score, { fontSize: "30px" });
+        scoreText.fixedToCamera = true;
+        scoreText.cameraOffset = new Phaser.Point(20, 20);
 
         cursors = this.input.keyboard.createCursorKeys();
     },
@@ -169,7 +168,7 @@ demo.infinite.prototype = {
         game.physics.arcade.collide(player, water);
         game.physics.arcade.collide(player, rocks);
         game.physics.arcade.collide(player, enemies, stopPlayer);
-        game.physics.arcade.overlap(player, hunterGun.bullets, updateHealth, null, this);
+        game.physics.arcade.overlap(player, weapons.getAll("bullets"), updateHealth, null, this);
         game.physics.arcade.overlap(player, fishies, collectFish, null, this);
         game.physics.arcade.collide(enemies, water);
         game.physics.arcade.collide(enemies, rocks);
@@ -178,7 +177,7 @@ demo.infinite.prototype = {
         
         updateEnergy();
         healthBar.frame = 100 - player.health;
-        enemies.forEachAlive(updateEnemy, this);
+        enemies.forEachAlive(updateEnemyInfinite, this);
         inRange(133);
         //if(!player.animations.getAnimation("spin").isPlaying || !player.animations.getAnimation("jab").isPlaying){
         if(!attacking){
@@ -213,3 +212,76 @@ demo.infinite.prototype = {
         } 
     }
 };
+
+function updateEnemyInfinite(enemy){
+    if(enemy.health <= 0){
+        score += 100;
+        scoreText.setText("Survive as Long as Possible\nScore: " + score);
+        enemy.alive = false;
+        enemy.getChildAt(0).frame = 100;
+        enemy.animations.play("fall", 8, false, true);
+        hunterFall.play();
+
+        addHunter();
+        
+    }
+    else{
+        enemy.getChildAt(0).frame = 100 - enemy.health;
+        enemyDistanceCheck(enemy);
+        if(!firing){
+            moveEnemy(enemy);
+        }
+    }
+}
+
+function addHunter(){
+    var coords = getXY();
+    enemies.create(coords[0], coords[1], "hunter", 7);
+    enemy = enemies.getTop();
+
+    enemy.health = 100;
+    enemy.anchor = new Phaser.Point(0.5, 0.5);
+    enemy.body.immovable = true;
+    enemy.body.collideWorldBounds = true;
+    enemy.body.stopVelocityonCollide = true;
+
+    var enemyHealth = game.add.sprite(0, -80, "healthBar");
+    enemyHealth.anchor.setTo(0.5, 0);
+    enemyHealth.scale.setTo(0.6, 0.6);
+    enemy.addChild(enemyHealth);
+    enemy.animations.add("fall", [7, 15, 16, 17, 17, 17, 17]);
+
+    enemy.weapon = game.add.weapon(10, "bullet", null, weapons);
+    enemy.weapon.bulletKillDistance = 500;
+    enemy.weapon.bulletKillType = Phaser.Weapon.KILL_DISTANCE;
+    enemy.weapon.fireRate = 1000;
+    enemy.weapon.bulletSpeed = 400;
+    enemy.weapon.bulletClass.physicsBodyType = Phaser.Physics.ARCADE;
+    enemy.weapon.bullets.alive = false;
+}
+
+function updateHealthInfinite(player, bullet){
+    player.damage(10); // take 10 damage to health; damage method auto kills sprite when health <= 0
+    console.log(player.health);
+    bullet.kill();
+
+    if(player.alive == false){
+        iceWalk.stop();
+        game.state.start('noHealthInfinite');
+    }
+}
+
+function updateEnergyInfinite(){
+    if(energy <= 0){
+        energyBar.frame = 100;
+        iceWalk.stop();
+        game.state.start('noEnergyInfinite'); // starved
+    }
+    else{
+        energyBar.frame = 100 - energy;
+    }
+    if(energy < 20)
+        kImage.frame = 11;
+    if(energy < 5)
+        jImage.frame = 11;
+}

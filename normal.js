@@ -73,14 +73,12 @@ demo.normal.prototype = {
             var coords = getXY();
             enemies.create(coords[0], coords[1], "hunter", 7);
         }
-        enemies.setAll("health", 100);
-        enemies.setAll("anchor.x", 0.5);
-        enemies.setAll("anchor.y", 0.5);
-        enemies.setAll("scale.x", 1);
-        enemies.setAll("scale.y", 1);
-        enemies.setAll("body.immovable", true);
-        enemies.setAll("body.collideWorldBounds", true);
-        enemies.setAll("body.stopVelocityonCollide", true);
+        enemies.setAll("health", 100, null, null, null, true);
+        enemies.setAll("anchor.x", 0.5, null, null, null, true);
+        enemies.setAll("anchor.y", 0.5, null, null, null, true);
+        enemies.setAll("body.immovable", true, null, null, null, true);
+        enemies.setAll("body.collideWorldBounds", true, null, null, null, true);
+        enemies.setAll("body.stopVelocityonCollide", true, null, null, null, true);
         enemies.forEach(function(enemy){
             var enemyHealth = game.add.sprite(0, -80, "healthBar");
             enemyHealth.anchor.setTo(0.5, 0);
@@ -286,7 +284,6 @@ function updateEnemy(enemy){
         if(!firing){
             moveEnemy(enemy);
         }
-
     }
 }
 
@@ -383,6 +380,7 @@ function updateHealth(player, bullet){
 function updateEnergy(){
     if(energy <= 0){
         energyBar.frame = 100;
+        iceWalk.stop();
         game.state.start('noEnergy'); // starved
     }
     else{
@@ -390,13 +388,10 @@ function updateEnergy(){
     }
     if(energy < 20)
         kImage.frame = 11;
-    // else if(!kImage.animations.getAnimation("countdown").isPlaying)
-    //     kImage.frame = 0;
     if(energy < 5)
         jImage.frame = 11;
-    // else if(!kImage.animations.getAnimation("countdown").isPlaying)
-    //     jImage.frame = 0;
 }
+
 function startOnClick(){
     graphics.destroy();
     game.paused = false;
