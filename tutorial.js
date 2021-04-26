@@ -117,7 +117,7 @@ demo.tutorial.prototype = {
         kImage.animations.add("countdown", [4, 5, 6, 7, 8, 9, 10]);
 
         //TODO Controls Menu before game start
-        var text = "WARNING: Work In Progress\nUse WASD or Arrow Keys to move.\nPress K to use your strong attack.\nPress J to use your weak attack.\nYou can start attacking\nwhen the 'J' and 'K' in the\nbottom right coner turns white."
+        var text = "WARNING: Work In Progress\nUse WASD or Arrow Keys to move.\nPress K to use your strong attack.\nPress J to use your weak attack.\nYou can start attacking\nwhen the 'J' and 'K' in the\nbottom right corner turns white."
         game.paused = true;
         graphics = game.add.graphics();
         graphics.fixedToCamera = true;

@@ -140,7 +140,7 @@ demo.normal.prototype = {
         hunterCounter.cameraOffset = new Phaser.Point(20, 20);
 
         //TODO Controls Menu before game start
-        var text = "Use WASD or Arrow Keys to move.\nPress K to use your strong attack.\nPress J to use your weak attack."
+        var text = "Use WASD or Arrow Keys to move.\nPress K to use your strong attack.\nPress J to use your weak attack.\nCollect fish to replenish health and energy."
         game.paused = true;
         graphics = game.add.graphics();
         graphics.fixedToCamera = true;
