@@ -85,9 +85,17 @@ demo.infinite.prototype = {
             enemy.animations.add("fall", [7, 15, 16, 17, 17, 17, 17]);
         }, this);
 
-        hunterCounter = game.add.text(10, 10, "There will always be " + (enemies.countLiving()) + " hunters left.", { fontSize: "30px" });
-        hunterCounter.fixedToCamera = true;
-        hunterCounter.cameraOffset = new Phaser.Point(20, 20);
+        weapons = game.add.group();
+        enemies.forEach(function(enemy){
+            enemy.weapon = game.add.weapon(10, "bullet", null, weapons);
+            enemy.weapon.bulletKillDistance = 500;
+            enemy.weapon.bulletKillType = Phaser.Weapon.KILL_DISTANCE;
+            enemy.weapon.fireRate = 1000;
+            enemy.weapon.bulletSpeed = 400;
+            enemy.weapon.bulletClass.physicsBodyType = Phaser.Physics.ARCADE;
+            enemy.weapon.bullets.alive = false;
+    
+        }, this);
 
         moveKeys = game.input.keyboard.addKeys({
             "up": 87, "down": 83, "left": 65, "right": 68
@@ -96,15 +104,6 @@ demo.infinite.prototype = {
         spin.onDown.add(doSpin, null, null, 133);
         jab = game.input.keyboard.addKey(74);
         jab.onDown.add(doJab, null, null, 133);
-
-        hunterGun = game.add.weapon(10, "bullet", null, enemies);
-        hunterGun.bulletKillDistance = 500;
-        hunterGun.bulletKillType = Phaser.Weapon.KILL_DISTANCE;
-        hunterGun.fireRate = 1000;
-        hunterGun.bulletSpeed = 400;
-        hunterGun.bulletClass.physicsBodyType = Phaser.Physics.ARCADE;
-        hunterGun.bullets.alive = false;
-
 
         iceWalk = game.add.audio("iceWalk", 0.6, true);
         sealSpin = game.add.audio("sealSpin", 1);
@@ -150,6 +149,10 @@ demo.infinite.prototype = {
         button.anchor.setTo(0.5, 0.5);
         button.scale.setTo(0.7, 0.7);
         graphics.addChild(button);
+        
+        hunterCounter = game.add.text(10, 10, "There will always be " + (enemies.countLiving()) + " hunters left.", { fontSize: "30px" });
+        hunterCounter.fixedToCamera = true;
+        hunterCounter.cameraOffset = new Phaser.Point(20, 20);
 
         cursors = this.input.keyboard.createCursorKeys();
     },

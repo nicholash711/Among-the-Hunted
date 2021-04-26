@@ -99,7 +99,7 @@ demo.normal.prototype = {
             enemy.weapon.bulletClass.physicsBodyType = Phaser.Physics.ARCADE;
             enemy.weapon.bullets.alive = false;
     
-        }, this)
+        }, this);
 
         moveKeys = game.input.keyboard.addKeys({
             "up": 87, "down": 83, "left": 65, "right": 68
