@@ -118,8 +118,9 @@ demo.normal.prototype = {
         fishies = game.add.group();
         fishies.enableBody = true;
         fishies.physicsBodyType = Phaser.Physics.ARCADE;
-        fishies.setAll("body.immovable", true);
-        fishies.setAll("body.collideWorldBounds", true);
+        fishies.setAll("body.immovable", true, null, null, null, true);
+        fishies.setAll("body.collideWorldBounds", true, null, null, null, true);
+        fishies.setAll("anchor", new Phaser.Point(0, 0), null, null, null, true);
         for(var i = 0; i < 20; i++){
             var coords = getXY();
             var frame = Math.floor(Math.random() * 3);
