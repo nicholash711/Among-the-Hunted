@@ -69,12 +69,12 @@ demo.infinite.prototype = {
             var coords = getXY();
             enemies.create(coords[0], coords[1], "hunter", 7);
         }
-        enemies.setAll("health", 100, null, null, null, true);
-        enemies.setAll("anchor.x", 0.5, null, null, null, true);
-        enemies.setAll("anchor.y", 0.5, null, null, null, true);
-        enemies.setAll("body.immovable", true, null, null, null, true);
-        enemies.setAll("body.collideWorldBounds", true, null, null, null, true);
-        enemies.setAll("body.stopVelocityonCollide", true, null, null, null, true);
+        enemies.setAll("health", 100);
+        enemies.setAll("anchor.x", 0.5);
+        enemies.setAll("anchor.y", 0.5);
+        enemies.setAll("body.immovable", true);
+        enemies.setAll("body.collideWorldBounds", true);
+        enemies.setAll("body.stopVelocityonCollide", true);
         enemies.forEach(function(enemy){
             var enemyHealth = game.add.sprite(0, -80, "healthBar");
             enemyHealth.anchor.setTo(0.5, 0);
@@ -168,14 +168,14 @@ demo.infinite.prototype = {
         game.physics.arcade.collide(player, water);
         game.physics.arcade.collide(player, rocks);
         game.physics.arcade.collide(player, enemies, stopPlayer);
-        game.physics.arcade.overlap(player, weapons.getAll("bullets"), updateHealth, null, this);
+        game.physics.arcade.overlap(player, weapons.getAll("bullets"), updateHealthInfinite, null, this);
         game.physics.arcade.overlap(player, fishies, collectFish, null, this);
         game.physics.arcade.collide(enemies, water);
         game.physics.arcade.collide(enemies, rocks);
         game.physics.arcade.collide(enemies, enemies);
 
         
-        updateEnergy();
+        updateEnergyInfinite();
         healthBar.frame = 100 - player.health;
         enemies.forEachAlive(updateEnemyInfinite, this);
         inRange(133);
