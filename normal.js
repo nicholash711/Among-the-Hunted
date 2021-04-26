@@ -18,6 +18,7 @@ demo.normal.prototype = {
         game.load.image("Rocks", "assets/tilemaps/Rocks.png");
         game.load.image("Water", "assets/tilemaps/Water.png");
         game.load.image("bullet", "assets/sprites/Bullet.png");
+        game.load.image("homeBtn", "assets/sprites/HomeButton.png");
         game.load.image("startButton", "assets/sprites/StartButton.png");
         game.load.audio("iceWalk", "assets/sounds/effects/iceStep.mp3");
         game.load.audio("sealSpin", "assets/sounds/effects/sealSpin.mp3");
@@ -320,7 +321,7 @@ function doJab(i, range){
                 player.body.velocity.x = 0, player.body.velocity.y = 0;
                 iceWalk.stop();
                 sealSpin.play();
-                enemy.health -= 20;
+                enemy.health -= 25;
                 console.log(enemy.health);
                 energy -= cost;
                 jabTime = game.time.now;
@@ -414,6 +415,17 @@ function collectFish (player, fish) {
     // Removes the fish from the screen
     fish.kill();
     //  Add health and energy
+    increaseHealth(player);
+    increaseEnergy(player);
+
+    //TODO add fish somewhere else?
+    var coords = getXY();
+    var frame = Math.floor(Math.random() * 3);
+    fishies.create(coords[0], coords[1], "fish", frame);
+
+}
+
+function increaseHealth(player){
     if(player.health + 10 > 100) {
         player.health = 100;
     }    
@@ -421,6 +433,9 @@ function collectFish (player, fish) {
         player.health += 10;
     }
     console.log(player.health);
+}
+
+function increaseEnergy(player){
     if(energy + 25 >= 100) {
         energy = 100;
     }
@@ -428,12 +443,6 @@ function collectFish (player, fish) {
         energy += 25;
     }
     console.log(energy);
-
-    //TODO add fish somewhere else?
-    var coords = getXY();
-    var frame = Math.floor(Math.random() * 3);
-    fishies.create(coords[0], coords[1], "fish", frame);
-
 }
 
 function checkEnemies(){
@@ -462,6 +471,10 @@ function moveEnemy(enemy){
     }
 }
 
+function goBack() {
+    iceWalk.stop();
+    game.state.start('title');
+}
 // function tileBelow(){
 //     var x, y, tile;
 //     x = player.x;
