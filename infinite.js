@@ -1,5 +1,5 @@
 var player, moveKeys, enemies, iceWalk, spin, sealSpin, hunterFall, hunterGun, map, healthBar, energyBar, energy, graphics, isSpin, isJab, spinTime, jabTime;
-var jImage, kImage, score = 0, scoreText;
+var jImage, kImage, score = 0, highscore = 0,scoreText;
 var attacking = false, allowSpin = true, allowJab = true, firing = false;
 
 demo.infinite= function(){};
@@ -18,6 +18,7 @@ demo.infinite.prototype = {
         game.load.image("Water", "assets/tilemaps/Water.png");
         game.load.image("bullet", "assets/sprites/Bullet.png");
         game.load.image("startButton", "assets/sprites/StartButton.png");
+        game.load.image("homeBtn", "assets/sprites/HomeButton.png");
         game.load.audio("iceWalk", "assets/sounds/effects/iceStep.mp3");
         game.load.audio("sealSpin", "assets/sounds/effects/sealSpin.mp3");
         game.load.audio("hunterFall", "assets/sounds/effects/hunterFall.mp3");
@@ -144,22 +145,26 @@ demo.infinite.prototype = {
         instruct.fixedtoCamera = true;
         instruct.anchor.setTo(0.5, 0);
         graphics.addChild(instruct);
-        var button = game.add.button(game.camera.centerX, 450, "startButton", startOnClick);
+        var button = game.add.button(game.camera.centerX, 450, "startButton", startOnClick, score = 0);
         button.anchor.setTo(0.5, 0.5);
         button.scale.setTo(0.7, 0.7);
         graphics.addChild(button);
 
-        scoreText = game.add.text(10, 10, "Survive as Long as Possible\nScore: " + score, { fontSize: "30px" });
+        scoreText = game.add.text(10, 10, "Survive as Long as Possible\nScore: " + score + "\nCurrent High Score: " + highscore, { fontSize: "30px" });
         scoreText.fixedToCamera = true;
         scoreText.cameraOffset = new Phaser.Point(20, 20);
 
         cursors = this.input.keyboard.createCursorKeys();
+
+        var homeBtn = game.add.button(5, 550, "homeBtn", goBackInfinite);
+        homeBtn.scale.setTo(1, 1);
+        homeBtn.fixedToCamera = true;
     },
 
     update: function (){  
         checkEnemies();
         checkTime();
-        
+        checkHighScore();
         healthBar.x = player.x - 57;
         healthBar.y = player.y + 37;
         energyBar.x = player.x - 57;
@@ -173,6 +178,7 @@ demo.infinite.prototype = {
         game.physics.arcade.collide(enemies, water);
         game.physics.arcade.collide(enemies, rocks);
         game.physics.arcade.collide(enemies, enemies);
+        game.physics.arcade.collide(rocks, weapons.getAll("bullets"), killBullet, null, this);
 
         
         updateEnergyInfinite();
@@ -216,7 +222,7 @@ demo.infinite.prototype = {
 function updateEnemyInfinite(enemy){
     if(enemy.health <= 0){
         score += 100;
-        scoreText.setText("Survive as Long as Possible\nScore: " + score);
+        scoreText.setText("Survive as Long as Possible\nScore: " + score + "\nSession High Score: " + highscore);
         enemy.alive = false;
         enemy.getChildAt(0).frame = 100;
         enemy.animations.play("fall", 8, false, true);
@@ -284,4 +290,17 @@ function updateEnergyInfinite(){
         kImage.frame = 11;
     if(energy < 5)
         jImage.frame = 11;
+}
+
+function goBackInfinite() {
+    iceWalk.stop();
+    game.state.start('title');
+    score = 0;
+}
+
+function checkHighScore(){
+    if(score > highscore){
+        highscore = score;
+        scoreText.setText("Survive as Long as Possible\nScore: " + score + "\nSession High Score: " + highscore);
+    }
 }
