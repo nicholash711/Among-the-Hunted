@@ -1,5 +1,5 @@
 var player, moveKeys, enemies, iceWalk, spin, sealSpin, hunterFall, hunterGun, map, healthBar, energyBar, energy, graphics, isSpin, isJab, spinTime, jabTime;
-var jImage, kImage;
+var jImage, kImage, weapons;
 var attacking = false, allowSpin = true, allowJab = true, firing = false;
 const SPEED = 400, WORLD_LENGTH = 3200, WORLD_HEIGHT = 3200;
 
@@ -89,9 +89,17 @@ demo.normal.prototype = {
             enemy.animations.add("fall", [7, 15, 16, 17, 17, 17, 17]);
         }, this);
 
-        hunterCounter = game.add.text(10, 10, "Hunters left: " + (enemies.countLiving()), { fontSize: "30px" });
-        hunterCounter.fixedToCamera = true;
-        hunterCounter.cameraOffset = new Phaser.Point(20, 20);
+        weapons = game.add.group();
+        enemies.forEach(function(enemy){
+            enemy.weapon = game.add.weapon(10, "bullet", null, weapons);
+            enemy.weapon.bulletKillDistance = 500;
+            enemy.weapon.bulletKillType = Phaser.Weapon.KILL_DISTANCE;
+            enemy.weapon.fireRate = 1000;
+            enemy.weapon.bulletSpeed = 400;
+            enemy.weapon.bulletClass.physicsBodyType = Phaser.Physics.ARCADE;
+            enemy.weapon.bullets.alive = false;
+    
+        }, this)
 
         moveKeys = game.input.keyboard.addKeys({
             "up": 87, "down": 83, "left": 65, "right": 68
@@ -100,15 +108,6 @@ demo.normal.prototype = {
         spin.onDown.add(doSpin, null, null, 133);
         jab = game.input.keyboard.addKey(74);
         jab.onDown.add(doJab, null, null, 133);
-
-        hunterGun = game.add.weapon(10, "bullet", null, enemies);
-        hunterGun.bulletKillDistance = 500;
-        hunterGun.bulletKillType = Phaser.Weapon.KILL_DISTANCE;
-        hunterGun.fireRate = 1000;
-        hunterGun.bulletSpeed = 400;
-        hunterGun.bulletClass.physicsBodyType = Phaser.Physics.ARCADE;
-        hunterGun.bullets.alive = false;
-
 
         iceWalk = game.add.audio("iceWalk", 0.6, true);
         sealSpin = game.add.audio("sealSpin", 1);
@@ -136,6 +135,10 @@ demo.normal.prototype = {
         kImage = game.add.sprite(804, 504, "kImage");
         kImage.fixedToCamera = true;
         kImage.animations.add("countdown", [4, 5, 6, 7, 8, 9, 10]);
+
+        hunterCounter = game.add.text(10, 10, "Hunters left: " + (enemies.countLiving()), { fontSize: "30px" });
+        hunterCounter.fixedToCamera = true;
+        hunterCounter.cameraOffset = new Phaser.Point(20, 20);
 
         //TODO Controls Menu before game start
         var text = "Use WASD or Arrow Keys to move.\nPress K to use your strong attack.\nPress J to use your weak attack."
@@ -170,11 +173,11 @@ demo.normal.prototype = {
         game.physics.arcade.collide(player, water);
         game.physics.arcade.collide(player, rocks);
         game.physics.arcade.collide(player, enemies, stopPlayer, function(enemy) { return enemy.alive; }, this);
-        game.physics.arcade.overlap(player, hunterGun.bullets, updateHealth, null, this);
+        game.physics.arcade.overlap(player, weapons.getAll("bullets"), updateHealth, null, this);
         game.physics.arcade.overlap(player, fishies, collectFish, null, this);
         game.physics.arcade.collide(enemies, water);
         game.physics.arcade.collide(enemies, rocks);
-        //game.physics.arcade.collide(enemies, enemies);
+        game.physics.arcade.collide(enemies, enemies);
 
         
         updateEnergy();
@@ -260,7 +263,7 @@ function enemyDistanceCheck(enemy){
             else if(angle >= -80)
                 enemy.frame = 0;
         }
-        hunterGuns[enemy].fire(enemy, player.x, player.y);
+        enemy.weapon.fire(enemy, player.x, player.y);
     }
     else{
         enemy.frame = 7;
