@@ -73,6 +73,13 @@ demo.tutorial.prototype = {
         enemyHealth.scale.setTo(0.6, 0.6);
         enemy.addChild(enemyHealth);
         enemy.animations.add("fall", [7, 15, 16, 17, 17, 17, 17]);
+        enemy.weapon = game.add.weapon(10, "bullet", null, weapons);
+        enemy.weapon.bulletKillDistance = 500;
+        enemy.weapon.bulletKillType = Phaser.Weapon.KILL_DISTANCE;
+        enemy.weapon.fireRate = 1000;
+        enemy.weapon.bulletSpeed = 400;
+        enemy.weapon.bulletClass.physicsBodyType = Phaser.Physics.ARCADE;
+        enemy.weapon.bullets.alive = false;
 
         moveKeys = game.input.keyboard.addKeys({
             "up": 87, "down": 83, "left": 65, "right": 68
@@ -81,14 +88,6 @@ demo.tutorial.prototype = {
         spin.onDown.add(doKick, null, null, 133);
         jab = game.input.keyboard.addKey(74);
         jab.onDown.add(doDab, null, null, 133);
-
-        hunterGun = game.add.weapon(10, "bullet", null, enemies);
-        hunterGun.bulletKillDistance = 500;
-        hunterGun.bulletKillType = Phaser.Weapon.KILL_DISTANCE;
-        hunterGun.fireRate = 1000;
-        hunterGun.bulletSpeed = 400;
-        hunterGun.bulletClass.physicsBodyType = Phaser.Physics.ARCADE;
-        hunterGun.bullets.alive = false;
 
         iceWalk = game.add.audio("iceWalk", 0.6, true);
         sealSpin = game.add.audio("sealSpin", 1);
@@ -117,7 +116,7 @@ demo.tutorial.prototype = {
         kImage.animations.add("countdown", [4, 5, 6, 7, 8, 9, 10]);
 
         //TODO Controls Menu before game start
-        var text = "WARNING: Work In Progress\nUse WASD or Arrow Keys to move.\nPress K to use your strong attack.\nPress J to use your weak attack.\nYou can start attacking\nwhen the 'J' and 'K' in the\nbottom right corner turns white."
+        var text = "Use WASD or Arrow Keys to move.\nPress K to use your strong attack.\nPress J to use your weak attack.\nYou can start attacking\nwhen the 'J' and 'K' in the\nbottom right corner turns white."
         game.paused = true;
         graphics = game.add.graphics();
         graphics.fixedToCamera = true;
@@ -145,7 +144,7 @@ demo.tutorial.prototype = {
         energyBar.y = player.y + 50;
 
         game.physics.arcade.collide(player, enemy, stopPlayer, function(enemy) { return enemy.alive; }, this);
-        game.physics.arcade.overlap(player, hunterGun.bullets, updateHealth, null, this);
+        game.physics.arcade.overlap(player, enemy.weapon.bullets, updateHealth, null, this);
         game.physics.arcade.overlap(player, fish, eatFish, null, this);
 
         if(!attacking){
