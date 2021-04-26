@@ -181,6 +181,7 @@ demo.normal.prototype = {
         game.physics.arcade.collide(enemies, water);
         game.physics.arcade.collide(enemies, rocks);
         game.physics.arcade.collide(enemies, enemies);
+        game.physics.arcade.collide(rocks, weapons.getAll("bullets"), killBullet, null, this);
 
         
         updateEnergy();
@@ -474,6 +475,9 @@ function moveEnemy(enemy){
     }
 }
 
+function killBullet(bullet){
+    bullet.kill();
+}
 function goBack() {
     iceWalk.stop();
     game.state.start('title');
