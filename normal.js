@@ -158,6 +158,10 @@ demo.normal.prototype = {
         graphics.addChild(button);
 
         cursors = this.input.keyboard.createCursorKeys();
+
+        var homeBtn = game.add.button(5, 550, "homeBtn", goBack);
+        homeBtn.scale.setTo(1, 1);
+        homeBtn.fixedToCamera = true;
     },
 
     update: function (){  
