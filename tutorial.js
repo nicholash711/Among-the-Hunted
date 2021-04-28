@@ -17,7 +17,7 @@ demo.tutorial.prototype = {
         game.load.image("bullet", "assets/sprites/Bullet.png");
         game.load.image("homeBtn", "assets/sprites/HomeButton.png");
         game.load.image("startButton", "assets/sprites/StartButton.png");
-        game.load.audio("iceWalk", "assets/sounds/effects/iceStep.mp3");
+        game.load.audio("iceWalk", "assets/sounds/effects/snowStep2.mp3");
         game.load.audio("sealSpin", "assets/sounds/effects/sealSpin.mp3");
         game.load.audio("hunterFall", "assets/sounds/effects/hunterFall.mp3");
     },
@@ -89,7 +89,7 @@ demo.tutorial.prototype = {
         jab = game.input.keyboard.addKey(74);
         jab.onDown.add(doDab, null, null, 133);
 
-        iceWalk = game.add.audio("iceWalk", 0.6, true);
+        iceWalk = game.add.audio("iceWalk", 1.25, true);
         sealSpin = game.add.audio("sealSpin", 1);
         hunterFall = game.add.audio("hunterFall", 1);
         game.sound.setDecodedCallback(iceWalk, start, this);
