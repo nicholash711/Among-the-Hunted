@@ -129,11 +129,11 @@ demo.normal.prototype = {
         attacking = false;
         jImage = game.add.sprite(724, 504, "jImage");
         jImage.fixedToCamera = true;
-        jImage.animations.add("countdown", [10]);
+        jImage.animations.add("countdown", [9, 10]);
 
         kImage = game.add.sprite(804, 504, "kImage");
         kImage.fixedToCamera = true;
-        kImage.animations.add("countdown", [4, 5, 6, 7, 8, 9, 10]);
+        kImage.animations.add("countdown", [6, 7, 8, 9, 10]);
 
         hunterCounter = game.add.text(10, 10, "Hunters left: " + (enemies.countLiving()), { fontSize: "30px" });
         hunterCounter.fixedToCamera = true;
@@ -332,7 +332,7 @@ function doJab(i, range){
                 energy -= cost;
                 jabTime = game.time.now;
                 allowJab = false;
-                //jImage.animations.play("countdown", 1);
+                jImage.animations.play("countdown", 1);
             }
         }
     //}   
@@ -455,11 +455,11 @@ function checkEnemies(){
 }
 
 function checkTime(){
-    if(game.time.now >= spinTime + 7000){
+    if(game.time.now >= spinTime + 5000){
         allowSpin = true;
         kImage.frame = 0;
     }
-    if(game.time.now >= jabTime + 1000){
+    if(game.time.now >= jabTime + 2000){
         allowJab = true;
         jImage.frame = 0;
     } 
