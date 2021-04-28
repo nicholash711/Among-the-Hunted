@@ -391,9 +391,9 @@ function updateEnergy(){
     else{
         energyBar.frame = 100 - energy;
     }
-    if(energy < 20)
+    if(energy < 30)
         kImage.frame = 11;
-    if(energy < 5)
+    if(energy < 15)
         jImage.frame = 11;
 }
 

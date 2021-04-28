@@ -116,7 +116,7 @@ demo.infinite.prototype = {
         fishies.setAll("body.immovable", true, null, null, null, true);
         fishies.setAll("body.collideWorldBounds", true, null, null, null, true);
         fishies.setAll("anchor", new Phaser.Point(0, 0), null, null, null, true);
-        for(var i = 0; i < 20; i++){
+        for(var i = 0; i < 15; i++){
             var coords = getXY();
             var frame = Math.floor(Math.random() * 3);
             fishies.create(coords[0], coords[1], "fish", frame);
@@ -286,9 +286,9 @@ function updateEnergyInfinite(){
     else{
         energyBar.frame = 100 - energy;
     }
-    if(energy < 20)
+    if(energy < 30)
         kImage.frame = 11;
-    if(energy < 5)
+    if(energy < 15)
         jImage.frame = 11;
 }
 
