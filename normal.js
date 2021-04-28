@@ -119,7 +119,7 @@ demo.normal.prototype = {
         fishies.setAll("body.immovable", true, null, null, null, true);
         fishies.setAll("body.collideWorldBounds", true, null, null, null, true);
         fishies.setAll("anchor", new Phaser.Point(0, 0), null, null, null, true);
-        for(var i = 0; i < 20; i++){
+        for(var i = 0; i < 15; i++){
             var coords = getXY();
             var frame = Math.floor(Math.random() * 3);
             fishies.create(coords[0], coords[1], "fish", frame);
@@ -304,7 +304,7 @@ function doSpin(i, range){
                 player.body.velocity.x = 0, player.body.velocity.y = 0;
                 iceWalk.stop();
                 sealSpin.play();
-                enemy.health -= 100;
+                enemy.health -= 66;
                 console.log(enemy.health);
                 energy -= cost;
                 spinTime = game.time.now;
@@ -317,7 +317,7 @@ function doSpin(i, range){
 
 function doJab(i, range){
     //if(allowJab){
-        var cost = 5;
+        var cost = 15;
         var enemy = enemies.getClosestTo(player);
         if(energy >= cost && enemy.health > 0){
             console.log("jab");
@@ -327,7 +327,7 @@ function doJab(i, range){
                 player.body.velocity.x = 0, player.body.velocity.y = 0;
                 iceWalk.stop();
                 sealSpin.play();
-                enemy.health -= 25;
+                enemy.health -= 33;
                 console.log(enemy.health);
                 energy -= cost;
                 jabTime = game.time.now;
