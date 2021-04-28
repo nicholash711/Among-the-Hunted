@@ -29,7 +29,7 @@ demo.normal.prototype = {
         game.physics.startSystem(Phaser.Physics.ARCADE);
         game.world.setBounds(0, 0, WORLD_LENGTH, WORLD_HEIGHT);
         // so health and energy bars don't go off screen
-        game.camera.bounds = new Phaser.Rectangle(0, -50, WORLD_LENGTH, WORLD_HEIGHT + 100);
+        game.camera.bounds = new Phaser.Rectangle(-50, -50, WORLD_LENGTH + 100, WORLD_HEIGHT + 100);
         game.stage.backgroundColor = "#dce3e8";
         console.log(game.camera.bounds);
 
@@ -430,11 +430,11 @@ function collectFish (player, fish) {
 }
 
 function increaseHealth(player){
-    if(player.health + 10 > 100) {
+    if(player.health + 20 > 100) {
         player.health = 100;
     }    
     else {
-        player.health += 10;
+        player.health += 20;
     }
     console.log(player.health);
 }
