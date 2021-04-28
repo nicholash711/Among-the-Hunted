@@ -294,7 +294,7 @@ function updateEnemy(enemy){
 
 function doSpin(i, range){
     if(allowSpin){
-        var cost = 30;
+        var cost = 25;
         var enemy = enemies.getClosestTo(player);
         if(energy >= cost && enemy.health > 0){;
             console.log("spin");
@@ -317,7 +317,7 @@ function doSpin(i, range){
 
 function doJab(i, range){
     //if(allowJab){
-        var cost = 15;
+        var cost = 13;
         var enemy = enemies.getClosestTo(player);
         if(energy >= cost && enemy.health > 0){
             console.log("jab");
