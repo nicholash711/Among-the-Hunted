@@ -294,7 +294,7 @@ function updateEnemy(enemy){
 
 function doSpin(i, range){
     if(allowSpin){
-        var cost = 20;
+        var cost = 30;
         var enemy = enemies.getClosestTo(player);
         if(energy >= cost && enemy.health > 0){;
             console.log("spin");
@@ -327,7 +327,7 @@ function doJab(i, range){
                 player.body.velocity.x = 0, player.body.velocity.y = 0;
                 iceWalk.stop();
                 sealSpin.play();
-                enemy.health -= 33;
+                enemy.health -= 34;
                 console.log(enemy.health);
                 energy -= cost;
                 jabTime = game.time.now;
