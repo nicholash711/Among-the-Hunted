@@ -184,7 +184,7 @@ demo.infinite.prototype = {
         updateEnergyInfinite();
         healthBar.frame = 100 - player.health;
         enemies.forEachAlive(updateEnemyInfinite, this);
-        inRange(133);
+        inRange(150);
         //if(!player.animations.getAnimation("spin").isPlaying || !player.animations.getAnimation("jab").isPlaying){
         if(!attacking){
             if(moveKeys.up.isDown || cursors.up.isDown){

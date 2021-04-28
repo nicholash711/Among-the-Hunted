@@ -181,7 +181,7 @@ demo.tutorial.prototype = {
         updateEnergy();
         healthBar.frame = 100 - player.health;
         if (enemy.alive) {updateHunter(enemy)};
-        canShoot(133);
+        canShoot(150);
 
         if(!attacking){
             if(moveKeys.up.isDown || cursors.up.isDown){

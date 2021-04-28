@@ -187,7 +187,7 @@ demo.normal.prototype = {
         updateEnergy();
         healthBar.frame = 100 - player.health;
         enemies.forEachAlive(updateEnemy, this);
-        inRange(133);
+        inRange(150);
         //if(!player.animations.getAnimation("spin").isPlaying || !player.animations.getAnimation("jab").isPlaying){
         if(!attacking){
             if(moveKeys.up.isDown || cursors.up.isDown){
