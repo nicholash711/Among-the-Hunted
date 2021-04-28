@@ -85,9 +85,9 @@ demo.tutorial.prototype = {
             "up": 87, "down": 83, "left": 65, "right": 68
         });
         spin = game.input.keyboard.addKey(75);
-        spin.onDown.add(doKick, null, null, 133);
+        spin.onDown.add(doKick, null, null, 150);
         jab = game.input.keyboard.addKey(74);
-        jab.onDown.add(doDab, null, null, 133);
+        jab.onDown.add(doDab, null, null, 150);
 
         iceWalk = game.add.audio("iceWalk", 1.25, true);
         sealSpin = game.add.audio("sealSpin", 1);
