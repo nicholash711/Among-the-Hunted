@@ -126,11 +126,11 @@ demo.infinite.prototype = {
         attacking = false;
         jImage = game.add.sprite(724, 504, "jImage");
         jImage.fixedToCamera = true;
-        jImage.animations.add("countdown", [10]);
+        jImage.animations.add("countdown", [9, 10]);
 
         kImage = game.add.sprite(804, 504, "kImage");
         kImage.fixedToCamera = true;
-        kImage.animations.add("countdown", [4, 5, 6, 7, 8, 9, 10]);
+        kImage.animations.add("countdown", [6, 7, 8, 9, 10]);
 
         //TODO Controls Menu before game start
         var text = "WARNING: WIP\nUse WASD or Arrow Keys to move.\nPress K to use your strong attack.\nPress J to use your weak attack.\nCollect fish to replenish health and energy."
