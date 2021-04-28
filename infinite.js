@@ -133,7 +133,7 @@ demo.infinite.prototype = {
         kImage.animations.add("countdown", [6, 7, 8, 9, 10]);
 
         //TODO Controls Menu before game start
-        var text = "WARNING: WIP\nUse WASD or Arrow Keys to move.\nPress K to use your strong attack.\nPress J to use your weak attack.\nCollect fish to replenish health and energy."
+        var text = "Use WASD or Arrow Keys to move.\nPress K to use your strong attack.\nPress J to use your weak attack.\nCollect fish to replenish health and energy."
         game.paused = true;
         graphics = game.add.graphics();
         graphics.fixedToCamera = true;
