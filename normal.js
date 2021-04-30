@@ -9,7 +9,7 @@ demo.normal.prototype = {
         game.load.spritesheet("seal", "assets/spritesheets/HarpSeal.png", 109, 74);
         game.load.spritesheet("hunter", "assets/spritesheets/hunter.png", 128, 128);
         game.load.spritesheet("healthBar", "assets/spritesheets/healthBar.png", 102, 12);
-        game.load.spritesheet("energyBar", "assets/spritesheets/EnergyBar.png", 102, 12);
+        game.load.spritesheet("energyBar", "assets/spritesheets/energyBar.png", 102, 12);
         game.load.spritesheet("jImage", "assets/spritesheets/jAttack.png", 64, 64);
         game.load.spritesheet("kImage", "assets/spritesheets/kAttack.png", 64, 64);
         game.load.spritesheet("fish", "assets/sprites/Fish.png", 64, 32);

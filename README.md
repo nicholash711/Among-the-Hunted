@@ -6,7 +6,7 @@ You are a harp seal just abandoned by your mother, left to fend for yourself. Yo
 ### Project Tree
 
 ```
-Among-the-Hunted/                  //
+Among-the-Hunted./                 //
 ├─ assets/                         //
 │  ├─ actionscreens/               //
 │  │  ├─ healthscreen.png          //died from loss of life
@@ -24,24 +24,24 @@ Among-the-Hunted/                  //
 │  ├─ sprites/                     //
 │  │  ├─ Bullet.png                //
 │  │  ├─ Fish.png                  //
-│  │  ├─ HomeButton.png            //
+│  │  ├─ HomeButton.png            //can choose to leave game to go back to title screen
 │  │  ├─ infinite-btn.png          //
 │  │  ├─ normal-btn.png            //
-│  │  ├─ StartButton.png           //
+│  │  ├─ StartButton.png           //please read instructions befire clicking Start button
 │  │  └─ tutorial-btn.png          //
 │  ├─ spritesheets/                //
-│  │  ├─ EnergyBar.png             //
+│  │  ├─ energyBar.png             //
 │  │  ├─ HarpSeal.png              //
-│  │  ├─ harp_seal_shooting.png    //
+│  │  ├─ harp_seal_shooting.png    //gif on title screen
 │  │  ├─ healthBar.png             //
 │  │  ├─ hunter.png                //
-│  │  ├─ jAttack.png               //
-│  │  └─ kAttack.png               //
+│  │  ├─ jAttack.png               //jab indicator in bottom right
+│  │  └─ kAttack.png               //spin indicator in bottom right
 │  └─ tilemaps/                    //
 │     ├─ Ground.png                //
 │     ├─ Map.json                  //
 │     ├─ Rocks.png                 //
-│     ├─ Tutorial.json             //
+│     ├─ Tutorial.json             //smaller map for tutorial
 │     └─ Water.png                 //
 ├─ README.md                       //
 ├─ style.css                       //
