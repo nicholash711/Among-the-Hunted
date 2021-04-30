@@ -246,7 +246,7 @@ function canShoot(range){
 
 function doKick(i, range){
     if(allowSpin){
-        var cost = 20;
+        var cost = 25;
         if(energy >= cost && enemy.health > 0){;
             console.log("spin");
             if(getDistance(enemy) <= range && !player.animations.getAnimation("spin").isPlaying){
@@ -255,7 +255,7 @@ function doKick(i, range){
                 player.body.velocity.x = 0, player.body.velocity.y = 0;
                 iceWalk.stop();
                 sealSpin.play();
-                enemy.health -= 100;
+                enemy.health -= 66;
                 console.log(enemy.health);
                 energy -= cost;
                 spinTime = game.time.now;
@@ -268,7 +268,7 @@ function doKick(i, range){
 
 function doDab(i, range){
     //if(allowJab){
-        var cost = 5;
+        var cost = 13;
         if(energy >= cost && enemy.health > 0){
             console.log("jab");
             if(getDistance(enemy) <= range && !player.animations.getAnimation("jab").isPlaying){
@@ -277,7 +277,7 @@ function doDab(i, range){
                 player.body.velocity.x = 0, player.body.velocity.y = 0;
                 iceWalk.stop();
                 sealSpin.play();
-                enemy.health -= 20;
+                enemy.health -= 34;
                 console.log(enemy.health);
                 energy -= cost;
                 jabTime = game.time.now;
@@ -297,11 +297,11 @@ function eatFish() {
     // Removes the fish from the screen
     fish.kill();
     //  Add health and energy
-    if(player.health + 10 > 100) {
+    if(player.health +20 > 100) {
         player.health = 100;
     }    
     else {
-        player.health += 10;
+        player.health += 20;
     }
     console.log(player.health);
     if(energy + 25 >= 100) {
