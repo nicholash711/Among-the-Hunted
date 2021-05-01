@@ -43,7 +43,7 @@ Among-the-Hunted./                 //
 │     ├─ Rocks.png                 //
 │     ├─ Tutorial.json             // smaller map for tutorial
 │     └─ Water.png                 //
-├─ README.md                       //
+├─ [README.md](https://github.com/nicholash711/Among-the-Hunted/blob/main/README.md)                       //
 ├─ style.css                       //
 ├─ index.html                      // webpage, fetches all js files and loads main
 ├─ main.js                         // loads title js file
