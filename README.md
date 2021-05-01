@@ -9,33 +9,31 @@ You are a harp seal just abandoned by your mother, left to fend for yourself. Yo
 
 Among-the-Hunted./
 
-├─ assets/
+├─ [assets/](https://github.com/nicholash711/Among-the-Hunted/tree/main/assets)
 
-│  ├─ actionscreens/
+│  ├─ [actionscreens/](https://github.com/nicholash711/Among-the-Hunted/tree/main/assets/actionscreens)
 
-│  │  ├─ healthscreen.png
+│  │  ├─ [healthscreen.png](https://github.com/nicholash711/Among-the-Hunted/blob/main/assets/actionscreens/healthscreen.png)
 
-│  │  ├─ starvationscreen.png
+│  │  ├─ [starvationscreen.png](https://github.com/nicholash711/Among-the-Hunted/blob/main/assets/actionscreens/starvationscreen.png)
 
-│  │  └─ winningscreen.png
+│  │  └─ [winningscreen.png](https://github.com/nicholash711/Among-the-Hunted/blob/main/assets/actionscreens/winningscreen.png)
 
-│  ├─ sounds/
+│  ├─ [sounds/](https://github.com/nicholash711/Among-the-Hunted/tree/main/assets/sounds)
 
-│  │  ├─ effects/
+│  │  ├─ [effects/](https://github.com/nicholash711/Among-the-Hunted/tree/main/assets/sounds/effects)
 
-│  │  │  ├─ hunterFall.mp3
+│  │  │  ├─ [hunterFall.mp3](https://github.com/nicholash711/Among-the-Hunted/blob/main/assets/sounds/effects/hunterFall.mp3)
 
-│  │  │  ├─ iceStep.mp3
+│  │  │  ├─ [sealSpin.mp3](https://github.com/nicholash711/Among-the-Hunted/blob/main/assets/sounds/effects/sealSpin.mp3)
 
-│  │  │  ├─ sealSpin.mp3
+│  │  │  ├─ [snowStep1.mp3](https://github.com/nicholash711/Among-the-Hunted/blob/main/assets/sounds/effects/snowStep1.mp3)
 
-│  │  │  ├─ snowStep1.mp3
+│  │  │  └─ [snowStep2.mp3](https://github.com/nicholash711/Among-the-Hunted/blob/main/assets/sounds/effects/snowStep2.mp3)
 
-│  │  │  └─ snowStep2.mp3
+│  │  └─ [music/](https://github.com/nicholash711/Among-the-Hunted/tree/main/assets/sounds/music)
 
-│  │  └─ music/
-
-│  │     └─ suspense.mp3
+│  │     └─ [suspense.mp3](https://github.com/nicholash711/Among-the-Hunted/blob/main/assets/sounds/music/suspense.mp3)
 
 │  ├─ sprites/
 
