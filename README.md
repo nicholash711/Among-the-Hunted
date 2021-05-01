@@ -5,56 +5,104 @@ You are a harp seal just abandoned by your mother, left to fend for yourself. Yo
 
 ### Project Tree
 
-```
-Among-the-Hunted./                 //
-├─ assets/                         //
-│  ├─ actionscreens/               //
-│  │  ├─ healthscreen.png          //died from loss of life
-│  │  ├─ starvationscreen.png      //died from no energy left
-│  │  └─ winningscreen.png         //killed all hunters
-│  ├─ sounds/                      //
-│  │  ├─ effects/                  //
-│  │  │  ├─ hunterFall.mp3         //sound of hunter death
-│  │  │  ├─ iceStep.mp3            //no longer used; complaints from testplayers: too crunchy
-│  │  │  ├─ sealSpin.mp3           //sound when seal spins and jabs
-│  │  │  ├─ snowStep1.mp3          //unused
-│  │  │  └─ snowStep2.mp3          //used for seal walking
-│  │  └─ music/                    //
-│  │     └─ suspense.mp3           //music for the title screen
-│  ├─ sprites/                     //
-│  │  ├─ Bullet.png                //
-│  │  ├─ Fish.png                  //
-│  │  ├─ HomeButton.png            //can choose to leave game to go back to title screen
-│  │  ├─ infinite-btn.png          //
-│  │  ├─ normal-btn.png            //
-│  │  ├─ StartButton.png           //please read instructions befire clicking Start button
-│  │  └─ tutorial-btn.png          //
-│  ├─ spritesheets/                //
-│  │  ├─ energyBar.png             //
-│  │  ├─ HarpSeal.png              //
-│  │  ├─ harp_seal_shooting.png    //gif on title screen
-│  │  ├─ healthBar.png             //
-│  │  ├─ hunter.png                //
-│  │  ├─ jAttack.png               //jab indicator in bottom right
-│  │  └─ kAttack.png               //spin indicator in bottom right
-│  └─ tilemaps/                    //
-│     ├─ Ground.png                //
-│     ├─ Map.json                  //
-│     ├─ Rocks.png                 //
-│     ├─ Tutorial.json             //smaller map for tutorial
-│     └─ Water.png                 //
-├─ README.md                       //
-├─ style.css                       //
-├─ index.html                      //webpage, fetches all js files and loads main
-├─ main.js                         //loads title js file
-├─ title.js                        //title screen
-├─ tutorial.js                     //recommend doing tutorial first
-├─ normal.js                       //and then normal mode to get used to the game
-├─ infinite.js                     //and then die, infinitely
-├─ noEnergy.js                     //for normal mode
-├─ noEnergyInfinite.js             //infinite mode
-├─ noHealth.js                     //normal mode
-├─ noHealthInfinite.js             //infinite
-└─ win.js                          //normal, there is no winning for infinite
+#### why i found it necessary to do this idk lol
 
-```
+Among-the-Hunted./
+
+├─ assets/
+
+│  ├─ actionscreens/
+
+│  │  ├─ healthscreen.png
+
+│  │  ├─ starvationscreen.png
+
+│  │  └─ winningscreen.png
+
+│  ├─ sounds/
+
+│  │  ├─ effects/
+
+│  │  │  ├─ hunterFall.mp3
+
+│  │  │  ├─ iceStep.mp3
+
+│  │  │  ├─ sealSpin.mp3
+
+│  │  │  ├─ snowStep1.mp3
+
+│  │  │  └─ snowStep2.mp3
+
+│  │  └─ music/
+
+│  │     └─ suspense.mp3
+
+│  ├─ sprites/
+
+│  │  ├─ Bullet.png
+
+│  │  ├─ Fish.png
+
+│  │  ├─ HomeButton.png
+
+│  │  ├─ infinite-btn.png
+
+│  │  ├─ normal-btn.png
+
+│  │  ├─ StartButton.png
+
+│  │  └─ tutorial-btn.png
+
+│  ├─ spritesheets/
+
+│  │  ├─ energyBar.png
+
+│  │  ├─ HarpSeal.png
+
+│  │  ├─ harp_seal_shooting.png
+
+│  │  ├─ healthBar.png
+
+│  │  ├─ hunter.png
+
+│  │  ├─ jAttack.png
+
+│  │  └─ kAttack.png
+
+│  └─ tilemaps/
+
+│     ├─ Ground.png
+
+│     ├─ Map.json
+
+│     ├─ Rocks.png
+
+│     ├─ Tutorial.json
+
+│     └─ Water.png
+
+├─ [README.md](https://github.com/nicholash711/Among-the-Hunted/blob/main/README.md)
+
+├─ [style.css](https://github.com/nicholash711/Among-the-Hunted/blob/main/style.css)
+
+├─ [index.html](https://github.com/nicholash711/Among-the-Hunted/blob/main/index.html)
+
+├─ [main.js](https://github.com/nicholash711/Among-the-Hunted/blob/main/main.js)
+
+├─ [title.js](https://github.com/nicholash711/Among-the-Hunted/blob/main/title.js)
+
+├─ [tutorial.js](https://github.com/nicholash711/Among-the-Hunted/blob/main/tutorial.js)
+
+├─ [normal.js](https://github.com/nicholash711/Among-the-Hunted/blob/main/normal.js)
+
+├─ [infinite.js](https://github.com/nicholash711/Among-the-Hunted/blob/main/infinite.js)
+
+├─ [noEnergy.js](https://github.com/nicholash711/Among-the-Hunted/blob/main/noEnergy.js)
+
+├─ [noEnergyInfinite.js](https://github.com/nicholash711/Among-the-Hunted/blob/main/noEnergyInfinite.js)
+
+├─ [noHealth.js](https://github.com/nicholash711/Among-the-Hunted/blob/main/noHealth.js)
+
+├─ [noHealthInfinite.js](https://github.com/nicholash711/Among-the-Hunted/blob/main/noHealthInfinite.js)
+
+└─ [win.js](https://github.com/nicholash711/Among-the-Hunted/blob/main/win.js)
