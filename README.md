@@ -7,6 +7,10 @@ You are a harp seal just abandoned by your mother, left to fend for yourself. Yo
 
 #### why i found it necessary to do this idk lol
 
+___
+
+<div style = "font-family: Consolas; white-space: pre; line-height: 0.4;" markdown = "1">
+
 Among-the-Hunted./
 
 ├─ [assets/](https://github.com/nicholash711/Among-the-Hunted/tree/main/assets)
@@ -35,49 +39,49 @@ Among-the-Hunted./
 
 │  │     └─ [suspense.mp3](https://github.com/nicholash711/Among-the-Hunted/blob/main/assets/sounds/music/suspense.mp3)
 
-│  ├─ sprites/
+│  ├─ [sprites/](https://github.com/nicholash711/Among-the-Hunted/tree/main/assets/sprites)
 
-│  │  ├─ Bullet.png
+│  │  ├─ [Bullet.png](https://github.com/nicholash711/Among-the-Hunted/blob/main/assets/sprites/Bullet.png)
 
-│  │  ├─ Fish.png
+│  │  ├─ [Fish.png](https://github.com/nicholash711/Among-the-Hunted/blob/main/assets/sprites/Fish.png)
 
-│  │  ├─ HomeButton.png
+│  │  ├─ [HomeButton.png](https://github.com/nicholash711/Among-the-Hunted/blob/main/assets/sprites/HomeButton.png)
 
-│  │  ├─ infinite-btn.png
+│  │  ├─ [StartButton.png](https://github.com/nicholash711/Among-the-Hunted/blob/main/assets/sprites/StartButton.png)
 
-│  │  ├─ normal-btn.png
+│  │  └─ [tutorial-btn.png](https://github.com/nicholash711/Among-the-Hunted/blob/main/assets/sprites/tutorial-btn.png)
 
-│  │  ├─ StartButton.png
+│  │  ├─ [normal-btn.png](https://github.com/nicholash711/Among-the-Hunted/blob/main/assets/sprites/normal-btn.png)
 
-│  │  └─ tutorial-btn.png
+│  │  ├─ [infinite-btn.png](https://github.com/nicholash711/Among-the-Hunted/blob/main/assets/sprites/infinite-btn.png)
 
-│  ├─ spritesheets/
+│  ├─ [spritesheets/](https://github.com/nicholash711/Among-the-Hunted/tree/main/assets/spritesheets)
 
-│  │  ├─ energyBar.png
+│  │  ├─ [harp_seal_shooting.png](https://github.com/nicholash711/Among-the-Hunted/blob/main/assets/spritesheets/harp_seal_shooting.png)
 
-│  │  ├─ HarpSeal.png
+│  │  ├─ [HarpSeal.png](https://github.com/nicholash711/Among-the-Hunted/blob/main/assets/spritesheets/HarpSeal.png)
 
-│  │  ├─ harp_seal_shooting.png
+│  │  ├─ [hunter.png](https://github.com/nicholash711/Among-the-Hunted/blob/main/assets/spritesheets/hunter.png)
 
-│  │  ├─ healthBar.png
+│  │  ├─ [healthBar.png](https://github.com/nicholash711/Among-the-Hunted/blob/main/assets/spritesheets/healthBar.png)
 
-│  │  ├─ hunter.png
+│  │  ├─ [energyBar.png](https://github.com/nicholash711/Among-the-Hunted/blob/main/assets/spritesheets/energyBar.png)
 
-│  │  ├─ jAttack.png
+│  │  ├─ [jAttack.png](https://github.com/nicholash711/Among-the-Hunted/blob/main/assets/spritesheets/jAttack.png)
 
-│  │  └─ kAttack.png
+│  │  └─ [kAttack.png](https://github.com/nicholash711/Among-the-Hunted/blob/main/assets/spritesheets/kAttack.png)
 
-│  └─ tilemaps/
+│  └─ [tilemaps/](https://github.com/nicholash711/Among-the-Hunted/tree/main/assets/tilemaps)
 
-│     ├─ Ground.png
+│     ├─ [Map.json](https://github.com/nicholash711/Among-the-Hunted/blob/main/assets/tilemaps/Map.json)
 
-│     ├─ Map.json
+│     ├─ [Ground.png](https://github.com/nicholash711/Among-the-Hunted/blob/main/assets/tilemaps/Ground.png)
 
-│     ├─ Rocks.png
+│     ├─ [Water.png](https://github.com/nicholash711/Among-the-Hunted/blob/main/assets/tilemaps/Water.png)
 
-│     ├─ Tutorial.json
+│     ├─ [Rocks.png](https://github.com/nicholash711/Among-the-Hunted/blob/main/assets/tilemaps/Rocks.png)
 
-│     └─ Water.png
+│     └─ [Tutorial.json](https://github.com/nicholash711/Among-the-Hunted/blob/main/assets/tilemaps/Tutorial.json)
 
 ├─ [README.md](https://github.com/nicholash711/Among-the-Hunted/blob/main/README.md)
 
@@ -104,3 +108,4 @@ Among-the-Hunted./
 ├─ [noHealthInfinite.js](https://github.com/nicholash711/Among-the-Hunted/blob/main/noHealthInfinite.js)
 
 └─ [win.js](https://github.com/nicholash711/Among-the-Hunted/blob/main/win.js)
+</div>
