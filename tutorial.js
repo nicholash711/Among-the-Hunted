@@ -116,7 +116,7 @@ demo.tutorial.prototype = {
         kImage.animations.add("countdown", [4, 5, 6, 7, 8, 9, 10]);
 
         //TODO Controls Menu before game start
-        var text = "Use WASD or Arrow Keys to move.\nPress K to use your strong attack.\nPress J to use your weak attack.\nYou can start attacking\nwhen the 'J' and 'K' in the\nbottom right corner turns white."
+        var text = "Use WASD or Arrow Keys to move.\nPress K to use your strong attack.\nPress J to use your weak attack.\nYou can start attacking\nwhen the 'J' and 'K' in the\nbottom right corner turns white.\nKill the hunter first,\nthen eat the fish to replenish health and energy."
         game.paused = true;
         graphics = game.add.graphics();
         graphics.fixedToCamera = true;
@@ -182,6 +182,8 @@ demo.tutorial.prototype = {
         healthBar.frame = 100 - player.health;
         if (enemy.alive) {updateHunter(enemy)};
         canShoot(150);
+
+        checkEnd()
 
         if(!attacking){
             if(moveKeys.up.isDown || cursors.up.isDown){
@@ -290,11 +292,12 @@ function doDab(i, range){
 
 function goBack() {
     iceWalk.stop();
-    game.state.start('title');
+    game.state.start("title");
 }
 
 function eatFish() {
     // Removes the fish from the screen
+    fish.alive = false;
     fish.kill();
     //  Add health and energy
     if(player.health +20 > 100) {
@@ -311,4 +314,15 @@ function eatFish() {
         energy += 25;
     }
     console.log(energy);
+}
+
+function checkEnd() {
+    if (enemy.alive == false && fish.alive == false) {
+        timmy = game.time.now;
+        var text = "Congrats! You completed the tutorial."
+        game.add.text(game.camera.centerX, 150, text, { fontSize: "20px" });
+        game.time.events.add(1600, function () {
+            game.state.start("title");
+        });
+    }
 }
