@@ -9,7 +9,7 @@ You are a harp seal just abandoned by your mother, left to fend for yourself. Yo
 
 ___
 
-<div style = "font-family: Consolas; white-space: pre; line-height: 0.4;" markdown = "1">
+<code style = "display: block; line-height: 1.0; padding: 10px;" markdown = "1">
 
 Among-the-Hunted./
 
@@ -108,4 +108,4 @@ Among-the-Hunted./
 ├─ [noHealthInfinite.js](https://github.com/nicholash711/Among-the-Hunted/blob/main/noHealthInfinite.js)
 
 └─ [win.js](https://github.com/nicholash711/Among-the-Hunted/blob/main/win.js)
-</div>
+</code>
