@@ -14,6 +14,7 @@ demo.tutorial.prototype = {
         game.load.spritesheet("fish", "assets/sprites/Fish.png", 64, 32);
         game.load.tilemap("Map", "assets/tilemaps/Tutorial.json", null, Phaser.Tilemap.TILED_JSON);
         game.load.image("Ground", "assets/tilemaps/Ground.png");
+        game.load.image("Rock", "assets/tilemaps/Rocks.png");
         game.load.image("bullet", "assets/sprites/Bullet.png");
         game.load.image("homeBtn", "assets/sprites/HomeButton.png");
         game.load.image("startButton", "assets/sprites/StartButton.png");
@@ -34,7 +35,7 @@ demo.tutorial.prototype = {
         bounds = map.createLayer("Background");
 
 
-        player = game.add.sprite(400, 300, "seal");
+        player = game.add.sprite(100, 100, "seal");
         player.health = 100;
         player.anchor.setTo(0.5, 0.5);
         player.scale.setTo(-0.8, 0.8)
@@ -57,9 +58,8 @@ demo.tutorial.prototype = {
         energy = 100;
 
         // enemy
-        enemy = game.add.sprite(900, 440, "hunter");
+        enemy = game.add.sprite(500, 450, "hunter");
         game.physics.enable(enemy);
-        enemy.physicsBodyType = Phaser.Physics.ARCADE;
         enemy.health = 100;
         enemy.anchor.x = 0.5;
         enemy.anchor.y = 0.5;
@@ -73,7 +73,7 @@ demo.tutorial.prototype = {
         enemyHealth.scale.setTo(0.6, 0.6);
         enemy.addChild(enemyHealth);
         enemy.animations.add("fall", [7, 15, 16, 17, 17, 17, 17]);
-        enemy.weapon = game.add.weapon(10, "bullet", null, weapons);
+        enemy.weapon = game.add.weapon(10, "bullet");
         enemy.weapon.bulletKillDistance = 500;
         enemy.weapon.bulletKillType = Phaser.Weapon.KILL_DISTANCE;
         enemy.weapon.fireRate = 1000;
@@ -95,11 +95,19 @@ demo.tutorial.prototype = {
         game.sound.setDecodedCallback(iceWalk, start, this);
 
         //add fish
-        fish = game.add.sprite(100, 100, "fish");
+        fish = game.add.sprite(900, 440, "fish");
         game.physics.enable(fish);
         fish.physicsBodyType = Phaser.Physics.ARCADE;
-        fish.body.immovable;
+        fish.body.immovable = true;
         fish.body.collideWorldBounds = true;
+
+        //add rock
+        rock = game.add.sprite(300, 250, "Rock")
+        game.physics.enable(rock);
+        //rock.physicsBodyType = Phaser.Physics.ARCADE;
+        rock.body.immovable = true;
+        rock.body.moves = false;
+        rock.body.collideWorldBounds = true;
 
         //add home button
         var homeBtn = game.add.button(5, 550, "homeBtn", goBack);
@@ -109,11 +117,11 @@ demo.tutorial.prototype = {
         attacking = false;
         jImage = game.add.sprite(724, 504, "jImage");
         jImage.fixedToCamera = true;
-        jImage.animations.add("countdown", [10]);
+        jImage.animations.add("countdown", [9, 10]);
 
         kImage = game.add.sprite(804, 504, "kImage");
         kImage.fixedToCamera = true;
-        kImage.animations.add("countdown", [4, 5, 6, 7, 8, 9, 10]);
+        kImage.animations.add("countdown", [6, 7, 8, 9, 10]);
 
         //TODO Controls Menu before game start
         var text = "Use WASD or Arrow Keys to move.\nPress K to use your strong attack.\nPress J to use your weak attack.\nYou can start attacking\nwhen the 'J' and 'K' in the\nbottom right corner turns white.\nKill the hunter first,\nthen eat the fish to replenish health and energy."
@@ -143,9 +151,12 @@ demo.tutorial.prototype = {
         energyBar.x = player.x - 57;
         energyBar.y = player.y + 50;
 
+        game.physics.arcade.collide(player, rock);
+        game.physics.arcade.collide(enemy, rock);
         game.physics.arcade.collide(player, enemy, stopPlayer, function(enemy) { return enemy.alive; }, this);
-        game.physics.arcade.overlap(player, enemy.weapon.bullets, updateHealth, null, this);
+        game.physics.arcade.overlap(player, enemy.weapon.bullets, updateHealthTutorial, null, this);
         game.physics.arcade.overlap(player, fish, eatFish, null, this);
+        game.physics.arcade.collide(rock, enemy.weapon.bullets, yeetBullet, null, this);
 
         if(!attacking){
             if(moveKeys.up.isDown || cursors.up.isDown){
@@ -178,7 +189,7 @@ demo.tutorial.prototype = {
             }
         };
 
-        updateEnergy();
+        updateEnergyTutorial();
         healthBar.frame = 100 - player.health;
         if (enemy.alive) {updateHunter(enemy)};
         canShoot(150);
@@ -230,7 +241,48 @@ function updateHunter(enemy){
     else{
         enemy.getChildAt(0).frame = 100 - enemy.health;
         enemyDistanceCheck(enemy);
+        if(!firing){
+            moveEnemy(enemy);
+        }
     }
+}
+
+function updateHealthTutorial(player, bullet){
+    player.damage(10); // take 10 damage to health; damage method auto kills sprite when health <= 0
+    console.log(player.health);
+    bullet.kill();
+
+    if(player.alive == false){
+        iceWalk.stop();
+        timmy = game.time.now;
+        var text = "Try Again"
+        game.add.text(game.camera.centerX, 150, text, { fontSize: "20px" });
+        game.time.events.add(1000, function () {
+            iceWalk.stop();
+            game.state.start("tutorial");
+        });
+    }
+}
+
+function updateEnergyTutorial(){
+    if(energy <= 0){
+        energyBar.frame = 100;
+        iceWalk.stop();
+        timmy = game.time.now;
+        var text = "Try Again"
+        game.add.text(game.camera.centerX, 150, text, { fontSize: "20px" });
+        game.time.events.add(1000, function () {
+            iceWalk.stop();
+            game.state.start("tutorial");
+        });
+    }
+    else{
+        energyBar.frame = 100 - energy;
+    }
+    if(energy < 30)
+        kImage.frame = 11;
+    if(energy < 15)
+        jImage.frame = 11;
 }
 
 function canShoot(range){
@@ -316,12 +368,17 @@ function eatFish() {
     console.log(energy);
 }
 
+function yeetBullet(rock, bullet) {
+    bullet.kill();
+}
+
 function checkEnd() {
     if (enemy.alive == false && fish.alive == false) {
         timmy = game.time.now;
         var text = "Congrats! You completed the tutorial."
         game.add.text(game.camera.centerX, 150, text, { fontSize: "20px" });
         game.time.events.add(1600, function () {
+            iceWalk.stop();
             game.state.start("title");
         });
     }
