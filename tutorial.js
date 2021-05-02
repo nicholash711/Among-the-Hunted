@@ -60,6 +60,7 @@ demo.tutorial.prototype = {
         // enemy
         enemy = game.add.sprite(500, 450, "hunter");
         game.physics.enable(enemy);
+        enemy.physicsBodyType = Phaser.Physics.ARCADE;
         enemy.health = 100;
         enemy.anchor.x = 0.5;
         enemy.anchor.y = 0.5;
