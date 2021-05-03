@@ -6,20 +6,23 @@ demo.title.prototype = {
         game.load.image('tutorial-btn', 'assets/sprites/tutorial-btn.png');
         game.load.image('normal-btn', 'assets/sprites/normal-btn.png');
         game.load.image('infinite-btn', 'assets/sprites/infinite-btn.png');
+        game.load.image('about-btn', 'assets/sprites/about-btn.png');
         game.load.audio("music", "assets/sounds/music/suspense.mp3");
     },
 
     create: function(){
         game.stage.backgroundColor = '#b5e7ff';
         game.add.text(50, 50, 'Among The Hunted', { fontSize: '50px'});
-        game.add.text(50, 200, 'You are a harp seal\njust abandoned by your mother,\nleft to fend for yourself.\nYou are being hunted\nfor your soft fur.\nTry your best to survive.', { fontsize: '20px'});
-        game.add.text(game.camera.centerX + 100, 200, 'Choose a mode to begin', { fontSize: '18px'});
+        game.add.text(50, 150, 'You are a harp seal\njust abandoned by your mother,\nleft to fend for yourself.\nYou are being hunted\nfor your soft fur.\nTry your best to survive.', { fontsize: '20px'});
+        game.add.text(game.camera.centerX + 100, 150, 'Choose a mode to begin', { fontSize: '18px'});
         console.log('Welcome Haha',);
-        var normalBtn = game.add.button(50, 450, "tutorial-btn", clickTutorial);
+        var normalBtn = game.add.button(50, 400, "tutorial-btn", clickTutorial);
         normalBtn.scale.setTo(2, 2);
-        var normalBtn = game.add.button(game.camera.centerX + 100, 250, "normal-btn", clickNormal);
+        var normalBtn = game.add.button(game.camera.centerX + 100, 200, "normal-btn", clickNormal);
         normalBtn.scale.setTo(2, 2);
-        var normalBtn = game.add.button(game.camera.centerX + 100, 350, "infinite-btn", clickInfinite);
+        var normalBtn = game.add.button(game.camera.centerX + 100, 300, "infinite-btn", clickInfinite);
+        normalBtn.scale.setTo(2, 2);
+        var normalBtn = game.add.button(game.camera.centerX + 100, 450, "about-btn", clickAbout);
         normalBtn.scale.setTo(2, 2);
 
 
@@ -46,4 +49,10 @@ function clickInfinite () {
     music.stop();
     console.log('start infinite');
     game.state.start('infinite');
+};
+
+function clickAbout () {
+    music.stop();
+    console.log('credits');
+    window.open("/about.html", "_blank")
 };
