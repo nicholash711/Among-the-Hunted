@@ -1,5 +1,5 @@
 var player, moveKeys, enemies, iceWalk, spin, sealSpin, hunterFall, hunterGun, map, healthBar, energyBar, energy, graphics, isSpin, isJab, spinTime, jabTime;
-var jImage, kImage, weapons;
+var jImage, kImage, weapons, startTime, endTime;
 var attacking = false, allowSpin = true, allowJab = true, firing = false, added = false;
 const SPEED = 400, WORLD_LENGTH = 3200, WORLD_HEIGHT = 3200;
 
@@ -163,6 +163,8 @@ demo.normal.prototype = {
         var homeBtn = game.add.button(5, 550, "homeBtn", goBack);
         homeBtn.scale.setTo(1, 1);
         homeBtn.fixedToCamera = true;
+
+        
     },
 
     update: function (){  
@@ -297,7 +299,7 @@ function doSpin(i, range){
     if(allowSpin){
         var cost = 25;
         var enemy = enemies.getClosestTo(player);
-        if(energy >= cost && enemy.health > 0){;
+        if(enemy.health > 0){;
             console.log("spin");
             if(getDistance(enemy) <= range && !player.animations.getAnimation("spin").isPlaying){
                 attacking = true;
@@ -320,7 +322,7 @@ function doJab(i, range){
     //if(allowJab){
         var cost = 13;
         var enemy = enemies.getClosestTo(player);
-        if(energy >= cost && enemy.health > 0){
+        if(enemy.health > 0){
             console.log("jab");
             if(getDistance(enemy) <= range && !player.animations.getAnimation("jab").isPlaying){
                 attacking = true;
@@ -401,6 +403,7 @@ function updateEnergy(){
 function startOnClick(){
     graphics.destroy();
     game.paused = false;
+    startTime = game.time.now;
 }
 
 function getXY(){
@@ -464,7 +467,10 @@ function increaseEnergy(player){
 
 function checkEnemies(){
     if(enemies.countLiving() == 0)
+    {
+        endTime = game.time.now;
         game.state.start("win"); 
+    }
 }
 
 function checkTime(){
