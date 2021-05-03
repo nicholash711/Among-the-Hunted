@@ -14,7 +14,7 @@ demo.tutorial.prototype = {
         game.load.spritesheet("fish", "assets/sprites/Fish.png", 64, 32);
         game.load.tilemap("Map", "assets/tilemaps/Tutorial.json", null, Phaser.Tilemap.TILED_JSON);
         game.load.image("Ground", "assets/tilemaps/Ground.png");
-        game.load.image("Rock", "assets/tilemaps/Rocks.png");
+        game.load.image("Rocks", "assets/tilemaps/Rocks.png");
         game.load.image("bullet", "assets/sprites/Bullet.png");
         game.load.image("homeBtn", "assets/sprites/HomeButton.png");
         game.load.image("startButton", "assets/sprites/StartButton.png");
@@ -32,8 +32,10 @@ demo.tutorial.prototype = {
 
         map = game.add.tilemap("Map");
         map.addTilesetImage("Ground");
+        map.addTilesetImage('Rocks');
         bounds = map.createLayer("Background");
-
+        rocks = map.createLayer("Collisions");
+        map.setCollisionBetween(22, 28, true, 'Collisions');
 
         player = game.add.sprite(100, 100, "seal");
         player.health = 100;
@@ -100,13 +102,6 @@ demo.tutorial.prototype = {
         fish.body.immovable = true;
         fish.body.collideWorldBounds = true;
 
-        //add rock
-        rock = game.add.sprite(300, 250, "Rock")
-        game.physics.enable(rock);
-        rock.body.immovable = true;
-        rock.body.moves = false;
-        rock.body.collideWorldBounds = true;
-
         //add home button
         var homeBtn = game.add.button(5, 550, "homeBtn", goBack);
         homeBtn.scale.setTo(1, 1);
@@ -149,12 +144,12 @@ demo.tutorial.prototype = {
         energyBar.x = player.x - 57;
         energyBar.y = player.y + 50;
 
-        game.physics.arcade.collide(player, rock);
-        game.physics.arcade.collide(enemy, rock);
+        game.physics.arcade.collide(player, rocks);
+        game.physics.arcade.collide(enemy, rocks);
         game.physics.arcade.collide(player, enemy, stopPlayer, function(enemy) { return enemy.alive; }, this);
         game.physics.arcade.overlap(player, enemy.weapon.bullets, updateHealthTutorial, null, this);
         game.physics.arcade.overlap(player, fish, eatFish, null, this);
-        game.physics.arcade.collide(rock, enemy.weapon.bullets, yeetBullet, null, this);
+        game.physics.arcade.collide(rocks, enemy.weapon.bullets, killBullet, null, this);
 
         if(!attacking){
             if(moveKeys.up.isDown || cursors.up.isDown){
