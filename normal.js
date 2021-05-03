@@ -19,7 +19,7 @@ demo.normal.prototype = {
         game.load.image("Water", "assets/tilemaps/Water.png");
         game.load.image("bullet", "assets/sprites/Bullet.png");
         game.load.image("homeBtn", "assets/sprites/HomeButton.png");
-        game.load.image("arrow", "assets/sprites/arrow.png");
+        game.load.image("arrow", "assets/sprites/Arrow.png");
         game.load.image("startButton", "assets/sprites/StartButton.png");
         game.load.audio("iceWalk", "assets/sounds/effects/snowStep2.mp3");
         game.load.audio("sealSpin", "assets/sounds/effects/sealSpin.mp3");

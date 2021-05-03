@@ -150,7 +150,7 @@ demo.infinite.prototype = {
         button.scale.setTo(0.7, 0.7);
         graphics.addChild(button);
 
-        scoreText = game.add.text(10, 10, "Survive as Long as Possible\nScore: " + score + "\nCurrent High Score: " + highscore, { fontSize: "30px" });
+        scoreText = game.add.text(10, 10, "Survive as Long as Possible\nHunters Killed: " + score + "\nCurrent High Score: " + highscore, { fontSize: "15px" });
         scoreText.fixedToCamera = true;
         scoreText.cameraOffset = new Phaser.Point(20, 20);
 
@@ -221,8 +221,8 @@ demo.infinite.prototype = {
 
 function updateEnemyInfinite(enemy){
     if(enemy.health <= 0){
-        score += 100;
-        scoreText.setText("Survive as Long as Possible\nScore: " + score + "\nSession High Score: " + highscore);
+        score += 1;
+        scoreText.setText("Survive as Long as Possible\nHunters Killed: " + score + "\nSession High Score: " + highscore);
         enemy.alive = false;
         enemy.getChildAt(0).frame = 100;
         enemy.animations.play("fall", 8, false, true);
@@ -302,6 +302,6 @@ function goBackInfinite() {
 function checkHighScore(){
     if(score > highscore){
         highscore = score;
-        scoreText.setText("Survive as Long as Possible\nScore: " + score + "\nSession High Score: " + highscore);
+        scoreText.setText("Survive as Long as Possible\nHunters Killed: " + score + "\nSession High Score: " + highscore);
     }
 }
