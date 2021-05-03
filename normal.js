@@ -414,6 +414,18 @@ function getXY(){
     return [x, y];
 }
 
+function getXYFish(){
+    var x, y, tileW = 0, tileR = 0;
+    while(tileW != null || tileR != null){
+        x = Math.floor(Math.random()*(WORLD_LENGTH - 64));
+        y = Math.floor(Math.random()*(WORLD_HEIGHT - 32));
+        tileW = map.getTile(Math.floor(x / 32), Math.floor(y / 32), 1);
+        tileR = map.getTile(Math.floor(x / 32), Math.floor(y / 32), 2);
+    }
+    //console.log(x, y);
+    return [x, y];
+}
+
 function collectFish (player, fish) {
 
     // Removes the fish from the screen
@@ -423,7 +435,7 @@ function collectFish (player, fish) {
     increaseEnergy(player);
 
     //TODO add fish somewhere else?
-    var coords = getXY();
+    var coords = getXYFish();
     var frame = Math.floor(Math.random() * 3);
     fishies.create(coords[0], coords[1], "fish", frame);
 
