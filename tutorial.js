@@ -184,7 +184,7 @@ demo.tutorial.prototype = {
 
         updateEnergyTutorial();
         healthBar.frame = 100 - player.health;
-        if (enemy.alive) {updateHunter(player, enemy)};
+        if (enemy.alive) {updateHunter(enemy)};
         canShoot(150);
 
         checkEnd()
@@ -223,7 +223,7 @@ demo.tutorial.prototype = {
 };
 
 
-function updateHunter(player, enemy){
+function updateHunter(enemy){
     if(enemy.health <= 0){
         enemy.alive = false;
         enemy.getChildAt(0).frame = 100;
@@ -235,7 +235,7 @@ function updateHunter(player, enemy){
         enemy.getChildAt(0).frame = 100 - enemy.health;
         enemyDistanceCheck(enemy);
         if(!firing){
-            moveHunter(player, enemy);
+            moveEnemy(enemy);
         }
     }
 }
@@ -359,20 +359,6 @@ function eatFish() {
         energy += 25;
     }
     console.log(energy);
-}
-
-function moveHunter(player, enemy){
-    if(getDistance(enemy) <= 400){
-        game.physics.arcade.moveToObject(enemy, player, 300);
-    }
-    else if(!enemy.body.isMoving){
-        //console.log("stopped");
-        enemy.body.moveFrom(5000, 100, Math.random() * 360);
-    }
-}
-
-function yeetBullet(rock, bullet) {
-    bullet.kill();
 }
 
 function checkEnd() {
