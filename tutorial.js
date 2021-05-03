@@ -64,8 +64,6 @@ demo.tutorial.prototype = {
         enemy.health = 100;
         enemy.anchor.x = 0.5;
         enemy.anchor.y = 0.5;
-        enemy.scale.x = 1;
-        enemy.scale.x = 1;
         enemy.body.immovable = true;
         enemy.body.collideWorldBounds = true;
         enemy.body.stopVelocityonCollide = true;
@@ -105,7 +103,6 @@ demo.tutorial.prototype = {
         //add rock
         rock = game.add.sprite(300, 250, "Rock")
         game.physics.enable(rock);
-        //rock.physicsBodyType = Phaser.Physics.ARCADE;
         rock.body.immovable = true;
         rock.body.moves = false;
         rock.body.collideWorldBounds = true;
@@ -192,7 +189,7 @@ demo.tutorial.prototype = {
 
         updateEnergyTutorial();
         healthBar.frame = 100 - player.health;
-        if (enemy.alive) {updateHunter(enemy)};
+        if (enemy.alive) {updateHunter(player, enemy)};
         canShoot(150);
 
         checkEnd()
@@ -231,7 +228,7 @@ demo.tutorial.prototype = {
 };
 
 
-function updateHunter(enemy){
+function updateHunter(player, enemy){
     if(enemy.health <= 0){
         enemy.alive = false;
         enemy.getChildAt(0).frame = 100;
@@ -243,7 +240,7 @@ function updateHunter(enemy){
         enemy.getChildAt(0).frame = 100 - enemy.health;
         enemyDistanceCheck(enemy);
         if(!firing){
-            moveEnemy(enemy);
+            moveHunter(player, enemy);
         }
     }
 }
@@ -367,6 +364,16 @@ function eatFish() {
         energy += 25;
     }
     console.log(energy);
+}
+
+function moveHunter(player, enemy){
+    if(getDistance(enemy) <= 400){
+        game.physics.arcade.moveToObject(enemy, player, 300);
+    }
+    else if(!enemy.body.isMoving){
+        //console.log("stopped");
+        enemy.body.moveFrom(5000, 100, Math.random() * 360);
+    }
 }
 
 function yeetBullet(rock, bullet) {
