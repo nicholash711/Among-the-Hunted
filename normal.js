@@ -1,6 +1,6 @@
 var player, moveKeys, enemies, iceWalk, spin, sealSpin, hunterFall, hunterGun, map, healthBar, energyBar, energy, graphics, isSpin, isJab, spinTime, jabTime;
 var jImage, kImage, weapons;
-var attacking = false, allowSpin = true, allowJab = true, firing = false;
+var attacking = false, allowSpin = true, allowJab = true, firing = false, added = false;
 const SPEED = 400, WORLD_LENGTH = 3200, WORLD_HEIGHT = 3200;
 
 demo.normal= function(){};
@@ -19,6 +19,7 @@ demo.normal.prototype = {
         game.load.image("Water", "assets/tilemaps/Water.png");
         game.load.image("bullet", "assets/sprites/Bullet.png");
         game.load.image("homeBtn", "assets/sprites/HomeButton.png");
+        game.load.image("arrow", "assets/sprites/arrow.png");
         game.load.image("startButton", "assets/sprites/StartButton.png");
         game.load.audio("iceWalk", "assets/sounds/effects/snowStep2.mp3");
         game.load.audio("sealSpin", "assets/sounds/effects/sealSpin.mp3");
@@ -463,7 +464,7 @@ function increaseEnergy(player){
 
 function checkEnemies(){
     if(enemies.countLiving() == 0)
-        game.state.start("win");
+        game.state.start("win"); 
 }
 
 function checkTime(){
