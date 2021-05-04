@@ -16,13 +16,13 @@ demo.credits.prototype = {
         console.log('Roll the Credits');
 
         //add home button
-        var homeBtn = game.add.button(5, 550, "homeBtn", goBack);
+        var homeBtn = game.add.button(5, 550, "homeBtn", restartOnClick);
         homeBtn.scale.setTo(1, 1);
     },
     
     update: function(){}
 }
 
-function goBack(){
+function restartOnClick(){
     game.state.start("title");
 }

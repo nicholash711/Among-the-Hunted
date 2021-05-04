@@ -13,7 +13,3 @@ demo.noEnergy.prototype = {
     
     update: function(){}
 }
-
-function restartOnClick(){
-    game.state.start("title");
-}
