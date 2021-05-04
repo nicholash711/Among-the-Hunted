@@ -1,6 +1,6 @@
 var player, moveKeys, enemies, iceWalk, spin, sealSpin, hunterFall, hunterGun, map, healthBar, energyBar, energy, graphics, isSpin, isJab, spinTime, jabTime;
 var jImage, kImage, weapons, startTime, endTime;
-var attacking = false, allowSpin = true, allowJab = true, firing = false, added = false;
+var attacking = false, allowSpin = true, firing = false, added = false;
 const SPEED = 400, WORLD_LENGTH = 3200, WORLD_HEIGHT = 3200;
 
 demo.normal= function(){};
@@ -61,7 +61,7 @@ demo.normal.prototype = {
         healthBar = game.add.sprite(0, 0, "healthBar");
         healthBar.addChild(game.add.text(20, 0, "Health", { fontSize: "10px" }));
         
-        //Energy bar WIP
+        //Energy bar
         energyBar = game.add.sprite(0, 0, "energyBar");
         energyBar.addChild(game.add.text(20, 0, "Energy", { fontSize: "10px" }));
         energy = 100;
@@ -126,11 +126,10 @@ demo.normal.prototype = {
             fishies.create(coords[0], coords[1], "fish", frame);
         }
 
-        //Attacks HUD things
+        //Attacks
         attacking = false;
         jImage = game.add.sprite(724, 504, "jImage");
         jImage.fixedToCamera = true;
-        jImage.animations.add("countdown", [9, 10]);
 
         kImage = game.add.sprite(804, 504, "kImage");
         kImage.fixedToCamera = true;
@@ -140,7 +139,7 @@ demo.normal.prototype = {
         hunterCounter.fixedToCamera = true;
         hunterCounter.cameraOffset = new Phaser.Point(20, 20);
 
-        //TODO Controls Menu before game start
+        //Controls Menu before game start
         var text = "Use WASD or Arrow Keys to move.\nPress K to use your strong attack.\nPress J to use your weak attack.\nCollect fish to replenish health and energy."
         game.paused = true;
         graphics = game.add.graphics();
@@ -190,7 +189,6 @@ demo.normal.prototype = {
         healthBar.frame = 100 - player.health;
         enemies.forEachAlive(updateEnemy, this);
         inRange(150);
-        //if(!player.animations.getAnimation("spin").isPlaying || !player.animations.getAnimation("jab").isPlaying){
         if(!attacking){
             if(moveKeys.up.isDown || cursors.up.isDown){
                 player.body.velocity.y = -SPEED;
@@ -318,24 +316,19 @@ function doSpin(i, range){
 }
 
 function doJab(i, range){
-    if(allowJab){
-        var cost = 13;
-        var enemy = enemies.getClosestTo(player);
-        if(enemy.health > 0){
-            console.log("jab");
-            if(getDistance(enemy) <= range && !player.animations.getAnimation("jab").isPlaying){
-                attacking = true;
-                player.animations.play("jab", 12);
-                player.body.velocity.x = 0, player.body.velocity.y = 0;
-                iceWalk.stop();
-                sealSpin.play();
-                enemy.health -= 34;
-                console.log(enemy.health);
-                energy -= cost;
-                jabTime = game.time.now;
-                allowJab = false;
-                jImage.animations.play("countdown", 1);
-            }
+    var cost = 13;
+    var enemy = enemies.getClosestTo(player);
+    if(enemy.health > 0){
+        console.log("jab");
+        if(getDistance(enemy) <= range && !player.animations.getAnimation("jab").isPlaying){
+            attacking = true;
+            player.animations.play("jab", 12);
+            player.body.velocity.x = 0, player.body.velocity.y = 0;
+            iceWalk.stop();
+            sealSpin.play();
+            enemy.health -= 34;
+            console.log(enemy.health);
+            energy -= cost;
         }
     }
 }
@@ -346,17 +339,13 @@ function inRange(range){
         if(!kImage.animations.getAnimation("countdown").isPlaying){
             kImage.frame = 11;
         }
-        if(!jImage.animations.getAnimation("countdown").isPlaying){
-            jImage.frame = 11;
-        }
+        jImage.frame = 11;
     }
     else{
         if(!kImage.animations.getAnimation("countdown").isPlaying){
             kImage.frame = 0;
         }
-        if(!jImage.animations.getAnimation("countdown").isPlaying){
-            jImage.frame = 0;
-        }
+        jImage.frame = 0;
     }
 }
 
@@ -419,7 +408,6 @@ function getXY(){
         tileW = map.getTile(Math.floor(x / 32), Math.floor(y / 32), 1);
         tileR = map.getTile(Math.floor(x / 32), Math.floor(y / 32), 2);
     }
-    //console.log(x, y);
     return [x, y];
 }
 
@@ -431,7 +419,6 @@ function getXYFish(){
         tileW = map.getTile(Math.floor(x / 32), Math.floor(y / 32), 1);
         tileR = map.getTile(Math.floor(x / 32), Math.floor(y / 32), 2);
     }
-    //console.log(x, y);
     return [x, y];
 }
 
@@ -443,7 +430,6 @@ function collectFish (player, fish) {
     increaseHealth(player);
     increaseEnergy(player);
 
-    //TODO add fish somewhere else?
     var coords = getXYFish();
     var frame = Math.floor(Math.random() * 3);
     fishies.create(coords[0], coords[1], "fish", frame);
@@ -484,10 +470,6 @@ function checkTime(){
         allowSpin = true;
         kImage.frame = 0;
     }
-    if(now >= jabTime + 2000){
-        allowJab = true;
-        jImage.frame = 0;
-    } 
 }
 
 function moveEnemy(enemy){
@@ -495,7 +477,6 @@ function moveEnemy(enemy){
         game.physics.arcade.moveToObject(enemy, player, 300);
     }
     else if(!enemy.body.isMoving){
-        //console.log("stopped");
         enemy.body.moveFrom(5000, 100, Math.random() * 360);
     }
 }

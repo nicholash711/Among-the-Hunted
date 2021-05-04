@@ -1,6 +1,6 @@
 var player, moveKeys, enemies, iceWalk, spin, sealSpin, hunterFall, hunterGun, map, healthBar, energyBar, energy, graphics, isSpin, isJab, spinTime, jabTime;
 var jImage, kImage, score = 0, highscore = 0,scoreText;
-var attacking = false, allowSpin = true, allowJab = true, firing = false;
+var attacking = false, allowSpin = true, firing = false;
 
 demo.infinite= function(){};
 demo.infinite.prototype = {
@@ -57,7 +57,7 @@ demo.infinite.prototype = {
         healthBar = game.add.sprite(0, 0, "healthBar");
         healthBar.addChild(game.add.text(20, 0, "Health", { fontSize: "10px" }));
         
-        //Energy bar WIP
+        //Energy bar
         energyBar = game.add.sprite(0, 0, "energyBar");
         energyBar.addChild(game.add.text(20, 0, "Energy", { fontSize: "10px" }));
         energy = 100;
@@ -122,17 +122,16 @@ demo.infinite.prototype = {
             fishies.create(coords[0], coords[1], "fish", frame);
         }
 
-        //Attacks HUD things
+        //Attacks
         attacking = false;
         jImage = game.add.sprite(724, 504, "jImage");
         jImage.fixedToCamera = true;
-        jImage.animations.add("countdown", [9, 10]);
 
         kImage = game.add.sprite(804, 504, "kImage");
         kImage.fixedToCamera = true;
         kImage.animations.add("countdown", [6, 7, 8, 9, 10]);
 
-        //TODO Controls Menu before game start
+        //Controls Menu before game start
         var text = "Use WASD or Arrow Keys to move.\nPress K to use your strong attack.\nPress J to use your weak attack.\nCollect fish to replenish health and energy.\nWARNING: The number of hunters will increase!"
         game.paused = true;
         graphics = game.add.graphics();
@@ -184,7 +183,6 @@ demo.infinite.prototype = {
         healthBar.frame = 100 - player.health;
         enemies.forEachAlive(updateEnemyInfinite, this);
         inRange(150);
-        //if(!player.animations.getAnimation("spin").isPlaying || !player.animations.getAnimation("jab").isPlaying){
         if(!attacking){
             if(moveKeys.up.isDown || cursors.up.isDown){
                 player.body.velocity.y = -SPEED;
