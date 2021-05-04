@@ -150,7 +150,7 @@ demo.infinite.prototype = {
         button.scale.setTo(0.7, 0.7);
         graphics.addChild(button);
 
-        scoreText = game.add.text(10, 10, "Survive as Long as Possible\nHunters Killed: " + score + "\nCurrent High Score: " + highscore, { fontSize: "15px" });
+        scoreText = game.add.text(10, 10, "Survive as Long as Possible\nHunters Killed: " + score + "\nCurrent High Score: " + highscore, { fontSize: "20px" });
         scoreText.fixedToCamera = true;
         scoreText.cameraOffset = new Phaser.Point(20, 20);
 
