@@ -270,6 +270,7 @@ function updateHealthInfinite(player, bullet){
     bullet.kill();
 
     if(player.alive == false){
+        checkHighScore();
         iceWalk.stop();
         game.state.start('noHealthInfinite');
     }
@@ -277,6 +278,7 @@ function updateHealthInfinite(player, bullet){
 
 function updateEnergyInfinite(){
     if(energy <= 0){
+        checkHighScore();
         energyBar.frame = 100;
         iceWalk.stop();
         game.state.start('noEnergyInfinite'); // starved
