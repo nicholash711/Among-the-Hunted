@@ -219,7 +219,7 @@ demo.infinite.prototype = {
 function updateEnemyInfinite(enemy){
     if(enemy.health <= 0){
         score += 1;
-        checkHighScore();
+        checkHighScore(); //update check
         scoreText.setText("Survive as Long as Possible\nHunters Killed: " + score + "\nSession High Score: " + highscore);
         enemy.alive = false;
         enemy.getChildAt(0).frame = 100;
