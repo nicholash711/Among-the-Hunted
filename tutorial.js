@@ -335,11 +335,6 @@ function doDab(i, range){
     //}   
 }
 
-function goBack() {
-    iceWalk.stop();
-    game.state.start("title");
-}
-
 function eatFish() {
     // Removes the fish from the screen
     fish.alive = false;
