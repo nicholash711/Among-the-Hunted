@@ -508,3 +508,11 @@ function goBack() {
 //     tile = map.getTile(Math.floor(x / 32), Math.floor(y / 32), 1);
 //     return tile;
 // }
+
+/*
+function pointEnemies () {
+    if (enemies.countLiving() <= 3) {
+        arrow things
+    }
+}
+*/

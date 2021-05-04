@@ -16,7 +16,7 @@ demo.title.prototype = {
         game.add.text(50, 150, 'You are a harp seal\njust abandoned by your mother,\nleft to fend for yourself.\nYou are being hunted\nfor your soft fur.\nTry your best to survive.', { fontSize: '30px'});
         game.add.text(game.camera.centerX + 100, 150, 'Choose a mode to begin', { fontSize: '18px'});
         console.log('Welcome Haha');
-        var normalBtn = game.add.button(50, 400, "tutorial-btn", clickTutorial);
+        var normalBtn = game.add.button(50, 450, "tutorial-btn", clickTutorial);
         normalBtn.scale.setTo(2, 2);
         var normalBtn = game.add.button(game.camera.centerX + 100, 200, "normal-btn", clickNormal);
         normalBtn.scale.setTo(2, 2);
