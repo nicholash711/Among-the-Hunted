@@ -43,7 +43,7 @@ demo.infinite.prototype = {
         player = game.add.sprite(game.world.centerX, game.world.centerY, "seal");
         player.health = 100;
         player.anchor.setTo(0.5, 0.5);
-        player.scale.setTo(0.8, 0.8)
+        player.scale.setTo(-0.8, 0.8)
         game.physics.enable(player);
         player.body.collideWorldBounds = true;
         game.camera.follow(player);

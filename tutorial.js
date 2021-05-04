@@ -40,7 +40,7 @@ demo.tutorial.prototype = {
         player = game.add.sprite(100, 100, "seal");
         player.health = 100;
         player.anchor.setTo(0.5, 0.5);
-        player.scale.setTo(0.8, 0.8)
+        player.scale.setTo(-0.8, 0.8)
         game.physics.enable(player);
         player.body.collideWorldBounds = true;
         game.camera.follow(player);
@@ -280,14 +280,20 @@ function updateEnergyTutorial(){
 
 function canShoot(range){
     if(getDistance(enemy) > range || enemy.alive == false){
-        if(!kImage.animations.getAnimation("countdown").isPlaying)
+        if(!kImage.animations.getAnimation("countdown").isPlaying){
             kImage.frame = 11;
-        jImage.frame = 11;
+        }
+        if(!jImage.animations.getAnimation("countdown").isPlaying){
+            jImage.frame = 11;
+        }
     }
     else{
-        if(!kImage.animations.getAnimation("countdown").isPlaying)
+        if(!kImage.animations.getAnimation("countdown").isPlaying){
             kImage.frame = 0;
-        jImage.frame = 0;
+        }
+        if(!jImage.animations.getAnimation("countdown").isPlaying){
+            jImage.frame = 0;
+        }
     }
 }
 
@@ -314,7 +320,7 @@ function doKick(i, range){
 }
 
 function doDab(i, range){
-    //if(allowJab){
+    if(allowJab){
         var cost = 13;
         if(energy >= cost && enemy.health > 0){
             console.log("jab");
@@ -329,10 +335,10 @@ function doDab(i, range){
                 energy -= cost;
                 jabTime = game.time.now;
                 allowJab = false;
-                //jImage.animations.play("countdown", 1);
+                jImage.animations.play("countdown", 1);
             }
         }
-    //}   
+    }
 }
 
 function eatFish() {

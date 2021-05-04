@@ -47,7 +47,7 @@ demo.normal.prototype = {
         player = game.add.sprite(game.world.centerX, game.world.centerY, "seal");
         player.health = 100;
         player.anchor.setTo(0.5, 0.5);
-        player.scale.setTo(0.8, 0.8)
+        player.scale.setTo(-0.8, 0.8)
         game.physics.enable(player);
         player.body.collideWorldBounds = true;
         game.camera.follow(player);
@@ -318,7 +318,7 @@ function doSpin(i, range){
 }
 
 function doJab(i, range){
-    //if(allowJab){
+    if(allowJab){
         var cost = 13;
         var enemy = enemies.getClosestTo(player);
         if(enemy.health > 0){
@@ -337,20 +337,26 @@ function doJab(i, range){
                 jImage.animations.play("countdown", 1);
             }
         }
-    //}   
+    }
 }
 
 function inRange(range){
     var enemy = enemies.getClosestTo(player);
     if(getDistance(enemy) > range){
-        if(!kImage.animations.getAnimation("countdown").isPlaying)
+        if(!kImage.animations.getAnimation("countdown").isPlaying){
             kImage.frame = 11;
-        jImage.frame = 11;
+        }
+        if(!jImage.animations.getAnimation("countdown").isPlaying){
+            jImage.frame = 11;
+        }
     }
     else{
-        if(!kImage.animations.getAnimation("countdown").isPlaying)
+        if(!kImage.animations.getAnimation("countdown").isPlaying){
             kImage.frame = 0;
-        jImage.frame = 0;
+        }
+        if(!jImage.animations.getAnimation("countdown").isPlaying){
+            jImage.frame = 0;
+        }
     }
 }
 
@@ -473,11 +479,12 @@ function checkEnemies(){
 }
 
 function checkTime(){
-    if(game.time.now >= spinTime + 5000){
+    now = game.time.now
+    if(now >= spinTime + 5000){
         allowSpin = true;
         kImage.frame = 0;
     }
-    if(game.time.now >= jabTime + 2000){
+    if(now >= jabTime + 2000){
         allowJab = true;
         jImage.frame = 0;
     } 
