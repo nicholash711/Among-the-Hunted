@@ -117,7 +117,7 @@ demo.infinite.prototype = {
         fishies.setAll("body.collideWorldBounds", true, null, null, null, true);
         fishies.setAll("anchor", new Phaser.Point(0, 0), null, null, null, true);
         for(var i = 0; i < 15; i++){
-            var coords = getXY();
+            var coords = getXYFish();
             var frame = Math.floor(Math.random() * 3);
             fishies.create(coords[0], coords[1], "fish", frame);
         }

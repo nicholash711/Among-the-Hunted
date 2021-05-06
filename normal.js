@@ -121,7 +121,7 @@ demo.normal.prototype = {
         fishies.setAll("body.collideWorldBounds", true, null, null, null, true);
         fishies.setAll("anchor", new Phaser.Point(0, 0), null, null, null, true);
         for(var i = 0; i < 15; i++){
-            var coords = getXY();
+            var coords = getXYFish();
             var frame = Math.floor(Math.random() * 3);
             fishies.create(coords[0], coords[1], "fish", frame);
         }
@@ -401,13 +401,17 @@ function startOnClick(){
 }
 
 function getXY(){
+    var boundsX = [Math.floor(player.x - 500), Math.floor(player.x + 500)];
+    var boundsY = [Math.floor(player.y - 500), Math.floor(player.y + 500)];
     var x, y, tileW = 0, tileR = 0;
     while(tileW != null || tileR != null){
-        x = Math.floor(Math.random()*WORLD_LENGTH);
-        y = Math.floor(Math.random()*WORLD_HEIGHT);
+        x = generateRandomNumber(boundsX);
+        y = generateRandomNumber(boundsY);
         tileW = map.getTile(Math.floor(x / 32), Math.floor(y / 32), 1);
         tileR = map.getTile(Math.floor(x / 32), Math.floor(y / 32), 2);
     }
+
+    console.log(x, y);
     return [x, y];
 }
 
@@ -484,6 +488,7 @@ function moveEnemy(enemy){
 function killBullet(bullet){
     bullet.kill();
 }
+
 function goBack() {
     iceWalk.stop();
     game.state.start('title');
@@ -503,3 +508,22 @@ function pointEnemies () {
     }
 }
 */
+
+function generateRandomNumber(bounds)
+{
+    if(bounds[0] < 0){
+        return Math.floor(Math.random() * (3200 - bounds[1]) + bounds[1]); 
+    }
+    else if (bounds[1] > 3200){
+        return Math.floor(Math.random() * bounds[0]);
+    }
+    else{
+        var random = Math.floor(Math.random() * 2);
+        if(random == 1){
+            return Math.floor(Math.random() * (3200 - bounds[1]) + bounds[1]); 
+        }
+        else{
+            return Math.floor(Math.random() * bounds[0]);
+        }
+    }
+}
