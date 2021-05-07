@@ -17,16 +17,16 @@ demo.title.prototype = {
         game.add.text(50, 150, 'You are a harp seal\njust abandoned by your mother,\nleft to fend for yourself.\nYou are being hunted\nfor your soft fur.\nTry your best to survive.', { fontSize: '30px'});
         game.add.text(game.camera.centerX + 150, 70, 'Choose a mode to begin', { fontSize: '18px'});
         console.log('Welcome Haha');
-        var normalBtn = game.add.button(50, 450, "tutorial-btn", clickTutorial);
-        normalBtn.scale.setTo(2, 2);
+        var tutorialBtn = game.add.button(50, 450, "tutorial-btn", clickTutorial);
+        tutorialBtn.scale.setTo(2, 2);
         var normalBtn = game.add.button(game.camera.centerX + 150, 100, "normal-btn", clickNormal);
         normalBtn.scale.setTo(2, 2);
-        var normalBtn = game.add.button(game.camera.centerX + 150, 200, "hard-btn", clickHard);
-        normalBtn.scale.setTo(2, 2);
-        var normalBtn = game.add.button(game.camera.centerX + 150, 300, "infinite-btn", clickInfinite);
-        normalBtn.scale.setTo(2, 2);
-        var normalBtn = game.add.button(game.camera.centerX + 150, 450, "credits-btn", clickCredits);
-        normalBtn.scale.setTo(2, 2);
+        var hardBtn = game.add.button(game.camera.centerX + 150, 200, "hard-btn", clickHard);
+        hardBtn.scale.setTo(2, 2);
+        var infiniteBtn = game.add.button(game.camera.centerX + 150, 300, "infinite-btn", clickInfinite);
+        infiniteBtn.scale.setTo(2, 2);
+        var creditsBtn = game.add.button(game.camera.centerX + 150, 450, "credits-btn", clickCredits);
+        creditsBtn.scale.setTo(2, 2);
 
 
         music = game.add.audio("music", 0.2, true);
