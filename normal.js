@@ -58,11 +58,11 @@ demo.normal.prototype = {
         player.animations.getAnimation("jab").onComplete.add(function(){ attacking = false; });
 
         //health bar
-        healthBar = game.add.sprite(0, 0, "healthBar");
+        healthBar = game.add.sprite(game.world.centerX, game.world.centerY, "healthBar");
         healthBar.addChild(game.add.text(20, 0, "Health", { fontSize: "10px" }));
         
         //Energy bar
-        energyBar = game.add.sprite(0, 0, "energyBar");
+        energyBar = game.add.sprite(game.world.centerX, game.world.centerY, "energyBar");
         energyBar.addChild(game.add.text(20, 0, "Energy", { fontSize: "10px" }));
         energy = 100;
 
@@ -70,7 +70,8 @@ demo.normal.prototype = {
         enemies = game.add.group();
         enemies.enableBody = true;
         enemies.physicsBodyType = Phaser.Physics.ARCADE;
-        for(var i = 0; i < 15; i++){
+        //for(var i = 0; i < 15; i++){
+        for(var i = 0; i < 3; i++){
             var coords = getXY();
             enemies.create(coords[0], coords[1], "hunter", 7);
         }
@@ -82,9 +83,13 @@ demo.normal.prototype = {
         enemies.setAll("body.stopVelocityonCollide", true, null, null, null, true);
         enemies.forEach(function(enemy){
             var enemyHealth = game.add.sprite(0, -80, "healthBar");
+            var arrow = game.add.sprite(0, 0, "arrow");
+            arrow.fixedToCamera = true;
+            arrow.visible = false;
             enemyHealth.anchor.setTo(0.5, 0);
             enemyHealth.scale.setTo(0.6, 0.6);
             enemy.addChild(enemyHealth);
+            enemy.addChild(arrow);
             enemy.animations.add("fall", [7, 15, 16, 17, 17, 17, 17]);
         }, this);
 
@@ -218,7 +223,10 @@ demo.normal.prototype = {
                 if(!moveKeys.up.isDown && !moveKeys.down.isDown  && !cursors.up.isDown && !cursors.down.isDown)
                     player.animations.stop("walk", true);
             }
-        } 
+        }
+        if (enemies.countLiving() <=3) {
+            enemies.forEachAlive(pointEnemies, this, player);
+        }
     }
 };
 
@@ -432,7 +440,7 @@ function collectFish (player, fish) {
     fish.kill();
     //  Add health and energy
     increaseHealth(player);
-    increaseEnergy(player);
+    increaseEnergy();
 
     var coords = getXYFish();
     var frame = Math.floor(Math.random() * 3);
@@ -450,7 +458,7 @@ function increaseHealth(player){
     console.log(player.health);
 }
 
-function increaseEnergy(player){
+function increaseEnergy(){
     if(energy + 25 >= 100) {
         energy = 100;
     }
@@ -461,8 +469,7 @@ function increaseEnergy(player){
 }
 
 function checkEnemies(){
-    if(enemies.countLiving() == 0)
-    {
+    if(enemies.countLiving() == 0) {
         endTime = game.time.now;
         game.state.start("win"); 
     }
@@ -501,13 +508,66 @@ function goBack() {
 //     return tile;
 // }
 
-/*
-function pointEnemies () {
-    if (enemies.countLiving() <= 3) {
-        arrow things
+// WIP; point to enemy, *screams into the void*
+function pointEnemies (enemy, player) {
+    var pointy = enemy.getChildAt(1);
+    if (!enemy.inCamera) {
+        var angle = Math.atan2(enemy.y - player.y, enemy.x - player.x) * 180 / Math.PI;
+        pointy.visible = true;
+        pointy.angle = angle;
+        if (-15 <= angle < 15) {
+            //pointy.cameraOffset = new Phaser.Point(450, 150);
+            pointy.alignTo(game.camera.view, Phaser.TOP_CENTER);
+        }
+        else if (15 <= angle < 45) {
+            //pointy.cameraOffset = new Phaser.Point(600, 100);
+            pointy.alignTo(game.camera.view, Phaser.TOP_RIGHT);
+        }
+        else if (45 <= angle < 75) {
+            //pointy.cameraOffset = new Phaser.Point(600, 200);
+            pointy.alignTo(game.camera.view, Phaser.RIGHT_TOP);
+        }
+        else if (75 <= angle < 105) {
+            //pointy.cameraOffset = new Phaser.Point(600, 300);
+            pointy.alignTo(game.camera.view, Phaser.RIGHT_CENTER);
+        }
+        else if (105 <= angle < 135) {
+            //pointy.cameraOffset = new Phaser.Point(600, 400);
+            pointy.alignTo(game.camera.view, Phaser.RIGHT_BOTTOM);
+        }
+        else if (135 <= angle < 165) {
+            //pointy.cameraOffset = new Phaser.Point(600, 500);
+            pointy.alignTo(game.camera.view, Phaser.BOTTOM_RIGHT);
+        }
+        else if (-180 <= angle < -165 ||165 <= angle <= 180) {
+            //pointy.cameraOffset = new Phaser.Point(450, 450);
+            pointy.alignTo(game.camera.view, Phaser.BOTTOM_CENTER);
+        }
+        else if (-165 <= angle < -135) {
+            //pointy.cameraOffset = new Phaser.Point(300, 500);
+            pointy.alignTo(game.camera.view, Phaser.BOTTOM_LEFT);
+        }
+        else if (-135 <= angle < -105) {
+            //pointy.cameraOffset = new Phaser.Point(300, 400);
+            pointy.alignTo(game.camera.view, Phaser.LEFT_BOTTOM);
+        }
+        else if (-105 <= angle < -75) {
+            //pointy.cameraOffset = new Phaser.Point(300, 300);
+            pointy.alignTo(game.camera.view, Phaser.LEFT_CENTER);
+        }
+        else if (-75 <= angle < -45) {
+            //pointy.cameraOffset = new Phaser.Point(300, 200);
+            pointy.alignTo(game.camera.view, Phaser.LEFT_TOP);
+        }
+        else {
+            //pointy.cameraOffset = new Phaser.Point(300, 100);
+            pointy.alignTo(game.camera.view, Phaser.TOP_LEFT);
+        }
+    }
+    else {
+        pointy.visible = false;
     }
 }
-*/
 
 function generateRandomNumber(bounds)
 {
