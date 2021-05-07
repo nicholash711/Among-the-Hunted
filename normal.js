@@ -73,8 +73,7 @@ demo.normal.prototype = {
         enemies = game.add.group();
         enemies.enableBody = true;
         enemies.physicsBodyType = Phaser.Physics.ARCADE;
-        //for(var i = 0; i < 15; i++){
-        for(var i = 0; i < 3; i++){
+        for(var i = 0; i < 15; i++){
             var coords = getXY();
             enemies.create(coords[0], coords[1], "hunter", 7);
         }
