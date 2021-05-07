@@ -57,6 +57,9 @@ demo.normal.prototype = {
         player.animations.getAnimation("spin").onComplete.add(function(){ attacking = false; });
         player.animations.getAnimation("jab").onComplete.add(function(){ attacking = false; });
 
+        arrow = game.add.sprite(0, 0, "arrow");
+        arrow.visible = false;
+
         //health bar
         healthBar = game.add.sprite(game.world.centerX, game.world.centerY, "healthBar");
         healthBar.addChild(game.add.text(20, 0, "Health", { fontSize: "10px" }));
@@ -83,13 +86,9 @@ demo.normal.prototype = {
         enemies.setAll("body.stopVelocityonCollide", true, null, null, null, true);
         enemies.forEach(function(enemy){
             var enemyHealth = game.add.sprite(0, -80, "healthBar");
-            var arrow = game.add.sprite(0, 0, "arrow");
-            arrow.fixedToCamera = true;
-            arrow.visible = false;
             enemyHealth.anchor.setTo(0.5, 0);
             enemyHealth.scale.setTo(0.6, 0.6);
             enemy.addChild(enemyHealth);
-            enemy.addChild(arrow);
             enemy.animations.add("fall", [7, 15, 16, 17, 17, 17, 17]);
         }, this);
 
@@ -225,7 +224,7 @@ demo.normal.prototype = {
             }
         }
         if (enemies.countLiving() <=3) {
-            enemies.forEachAlive(pointEnemies, this, player);
+            pointEnemies(enemies, player, arrow);
         }
     }
 };
@@ -500,72 +499,19 @@ function goBack() {
     iceWalk.stop();
     game.state.start('title');
 }
-// function tileBelow(){
-//     var x, y, tile;
-//     x = player.x;
-//     y = player.y;
-//     tile = map.getTile(Math.floor(x / 32), Math.floor(y / 32), 1);
-//     return tile;
-// }
 
-// WIP; point to enemy, *screams into the void*
-function pointEnemies (enemy, player) {
-    var pointy = enemy.getChildAt(1);
+// point to closest enemy
+function pointEnemies (enemies, player, arrow) {
+    var enemy = enemies.getClosestTo(player)
     if (!enemy.inCamera) {
-        var angle = Math.atan2(enemy.y - player.y, enemy.x - player.x) * 180 / Math.PI;
-        pointy.visible = true;
-        pointy.angle = angle;
-        if (-15 <= angle < 15) {
-            //pointy.cameraOffset = new Phaser.Point(450, 150);
-            pointy.alignTo(game.camera.view, Phaser.TOP_CENTER);
-        }
-        else if (15 <= angle < 45) {
-            //pointy.cameraOffset = new Phaser.Point(600, 100);
-            pointy.alignTo(game.camera.view, Phaser.TOP_RIGHT);
-        }
-        else if (45 <= angle < 75) {
-            //pointy.cameraOffset = new Phaser.Point(600, 200);
-            pointy.alignTo(game.camera.view, Phaser.RIGHT_TOP);
-        }
-        else if (75 <= angle < 105) {
-            //pointy.cameraOffset = new Phaser.Point(600, 300);
-            pointy.alignTo(game.camera.view, Phaser.RIGHT_CENTER);
-        }
-        else if (105 <= angle < 135) {
-            //pointy.cameraOffset = new Phaser.Point(600, 400);
-            pointy.alignTo(game.camera.view, Phaser.RIGHT_BOTTOM);
-        }
-        else if (135 <= angle < 165) {
-            //pointy.cameraOffset = new Phaser.Point(600, 500);
-            pointy.alignTo(game.camera.view, Phaser.BOTTOM_RIGHT);
-        }
-        else if (-180 <= angle < -165 ||165 <= angle <= 180) {
-            //pointy.cameraOffset = new Phaser.Point(450, 450);
-            pointy.alignTo(game.camera.view, Phaser.BOTTOM_CENTER);
-        }
-        else if (-165 <= angle < -135) {
-            //pointy.cameraOffset = new Phaser.Point(300, 500);
-            pointy.alignTo(game.camera.view, Phaser.BOTTOM_LEFT);
-        }
-        else if (-135 <= angle < -105) {
-            //pointy.cameraOffset = new Phaser.Point(300, 400);
-            pointy.alignTo(game.camera.view, Phaser.LEFT_BOTTOM);
-        }
-        else if (-105 <= angle < -75) {
-            //pointy.cameraOffset = new Phaser.Point(300, 300);
-            pointy.alignTo(game.camera.view, Phaser.LEFT_CENTER);
-        }
-        else if (-75 <= angle < -45) {
-            //pointy.cameraOffset = new Phaser.Point(300, 200);
-            pointy.alignTo(game.camera.view, Phaser.LEFT_TOP);
-        }
-        else {
-            //pointy.cameraOffset = new Phaser.Point(300, 100);
-            pointy.alignTo(game.camera.view, Phaser.TOP_LEFT);
-        }
+        arrow.visible = true;
+        arrow.x = player.x - 57;
+        arrow.y = player.y - 100;
+        var angy = Math.atan2(enemy.y - player.y, enemy.x - player.x) * 180 / Math.PI;
+        arrow.angle = angy
     }
     else {
-        pointy.visible = false;
+        arrow.visible = false;
     }
 }
 
