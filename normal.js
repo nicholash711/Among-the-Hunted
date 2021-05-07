@@ -144,7 +144,7 @@ demo.normal.prototype = {
         hunterCounter.cameraOffset = new Phaser.Point(20, 20);
 
         //Controls Menu before game start
-        var text = "Use WASD or Arrow Keys to move.\nPress K to use your strong attack.\nPress J to use your weak attack.\nCollect fish to replenish health and energy."
+        var text = "Use WASD or Arrow Keys to move.\nPress K to use your strong attack.\nPress J to use your weak attack.\nCollect fish to replenish health and energy.\n when you get to the last three hunter,\nthere will be an arrow to point you\nto the closest hunter."
         game.paused = true;
         graphics = game.add.graphics();
         graphics.fixedToCamera = true;
