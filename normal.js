@@ -58,6 +58,7 @@ demo.normal.prototype = {
         player.animations.getAnimation("jab").onComplete.add(function(){ attacking = false; });
 
         arrow = game.add.sprite(0, 0, "arrow");
+        arrow.anchor.setTo(0.5, 0.5);
         arrow.visible = false;
 
         //health bar
@@ -504,8 +505,8 @@ function pointEnemies (enemies, player, arrow) {
     var enemy = enemies.getClosestTo(player)
     if (!enemy.inCamera) {
         arrow.visible = true;
-        arrow.x = player.x - 57;
-        arrow.y = player.y - 100;
+        arrow.x = player.x;
+        arrow.y = player.y - 90;
         var angy = Math.atan2(enemy.y - player.y, enemy.x - player.x) * 180 / Math.PI;
         arrow.angle = angy
     }
