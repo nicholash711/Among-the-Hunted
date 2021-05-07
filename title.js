@@ -8,14 +8,14 @@ demo.title.prototype = {
         game.load.image('hard-btn', 'assets/sprites/hard-btn.png');
         game.load.image('infinite-btn', 'assets/sprites/infinite-btn.png');
         game.load.image('credits-btn', 'assets/sprites/credits-btn.png');
-        game.load.audio("music", "assets/sounds/music/suspense.mp3");
+        game.load.audio('music', 'assets/sounds/music/suspense.mp3');
     },
 
     create: function(){
         game.stage.backgroundColor = '#b5e7ff';
-        game.add.text(50, 50, 'Among The Hunted', { fontSize: '50px'});
-        game.add.text(50, 150, 'You are a harp seal\njust abandoned by your mother,\nleft to fend for yourself.\nYou are being hunted\nfor your soft fur.\nTry your best to survive.', { fontSize: '30px'});
-        game.add.text(game.camera.centerX + 150, 70, 'Choose a mode to begin', { fontSize: '18px'});
+        game.add.text(50, 50, 'Among The Hunted', { font: 'bold 60px Iceland'});
+        game.add.text(50, 150, 'You are a harp seal\njust abandoned by your mother,\nleft to fend for yourself.\nYou are being hunted\nfor your soft fur.\nTry your best to survive.', { font: '40px Iceland'});
+        game.add.text(game.camera.centerX + 150, 70, 'Choose a mode to begin', { font: '24px Iceland'});
         console.log('Welcome Haha');
         var tutorialBtn = game.add.button(50, 450, "tutorial-btn", clickTutorial);
         tutorialBtn.scale.setTo(2, 2);

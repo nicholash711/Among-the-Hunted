@@ -8,12 +8,12 @@ demo.credits.prototype = {
 
     create: function(){
         game.stage.backgroundColor = '#b5e7ff';
-        game.add.text(50, 50, 'Producer: Paul Toprac', { fontSize: '40px'});
-        game.add.text(50, 150, 'Associate Producer: Biswajit Saha', { fontSize: '40px'});
-        game.add.text(50, 250, 'Programmer: Nicholas Hoang', { fontSize: '40px'});
-        game.add.text(50, 350, 'Programmer: Marianne Le', { fontSize: '40px'});
-        game.add.text(50, 450, 'Artist: Craig Jaffe', { fontSize: '40px'});
-        game.add.text(55, 550, 'Title Music: La Vie En Suspense by Tagirijus', { fontSize: '40px'});
+        game.add.text(50, 20, 'Producer: Paul Toprac', { font: "45px Iceland" });
+        game.add.text(50, 125, 'Associate Producer: Biswajit Saha', { font: "45px Iceland" });
+        game.add.text(50, 225, 'Programmer: Nicholas Hoang', { font: "45px Iceland" });
+        game.add.text(50, 325, 'Programmer: Marianne Le', { font: "45px Iceland" });
+        game.add.text(50, 425, 'Artist: Craig Jaffe', { font: "45px Iceland" });
+        game.add.text(55, 525, 'Title Music: La Vie En Suspense by Tagirijus', { font: "45px Iceland" });
         console.log('Roll the Credits');
 
         //add home button

@@ -9,7 +9,7 @@ demo.noEnergyInfinite.prototype = {
     create: function(){
         game.add.sprite(0,0,"lose");
         game.input.onDown.add(restartOnClick);
-        text = game.add.text(game.camera.centerX, 400, "Final Score: " + score, { fontSize: "30px" });
+        text = game.add.text(game.camera.centerX, 400, "Final Score: " + score, { font: "35px Iceland" });
         text.anchor = new Phaser.Point(0.5, 0);
     },
     

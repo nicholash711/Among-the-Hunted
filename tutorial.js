@@ -124,7 +124,7 @@ demo.tutorial.prototype = {
         graphics.lineStyle(4, 0x00b3b3, 1);
         graphics.drawRect(200, 100, 500, 400);
         graphics.endFill();
-        var instruct = game.add.text(game.camera.centerX, 150, text, { fontSize: "20px" });
+        var instruct = game.add.text(game.camera.centerX, 150, text, { font: "25px Iceland" });
         instruct.fixedtoCamera = true;
         instruct.anchor.setTo(0.5, 0);
         graphics.addChild(instruct);
@@ -248,7 +248,7 @@ function updateHealthTutorial(player, bullet){
         iceWalk.stop();
         timmy = game.time.now;
         var text = "Try Again"
-        game.add.text(game.camera.centerX, 150, text, { fontSize: "20px" });
+        game.add.text(game.camera.centerX, 150, text, { font: "25px Iceland" });
         game.time.events.add(1000, function () {
             iceWalk.stop();
             game.state.start("tutorial");
@@ -262,7 +262,7 @@ function updateEnergyTutorial(){
         iceWalk.stop();
         timmy = game.time.now;
         var text = "Try Again"
-        game.add.text(game.camera.centerX, 150, text, { fontSize: "20px" });
+        game.add.text(game.camera.centerX, 150, text, { font: "25px Iceland" });
         game.time.events.add(1000, function () {
             iceWalk.stop();
             game.state.start("tutorial");
@@ -356,7 +356,7 @@ function checkEnd() {
     if (enemy.alive == false && fish.alive == false) {
         timmy = game.time.now;
         var text = "Congrats! You completed the tutorial."
-        game.add.text(game.camera.centerX, 150, text, { fontSize: "20px" });
+        game.add.text(game.camera.centerX, 150, text, { font: "25px Iceland" });
         game.time.events.add(1600, function () {
             iceWalk.stop();
             game.state.start("title");

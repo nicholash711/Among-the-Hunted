@@ -140,7 +140,7 @@ demo.infinite.prototype = {
         graphics.lineStyle(4, 0x00b3b3, 1);
         graphics.drawRect(200, 100, 500, 400);
         graphics.endFill();
-        var instruct = game.add.text(game.camera.centerX, 150, text, { fontSize: "20px" });
+        var instruct = game.add.text(game.camera.centerX, 150, text, { font: "25px Iceland" });
         instruct.fixedtoCamera = true;
         instruct.anchor.setTo(0.5, 0);
         graphics.addChild(instruct);
@@ -149,7 +149,7 @@ demo.infinite.prototype = {
         button.scale.setTo(0.7, 0.7);
         graphics.addChild(button);
 
-        scoreText = game.add.text(10, 10, "Survive as Long as Possible\nHunters Killed: " + score + "\nSession High Score: " + highscore, { fontSize: "20px" });
+        scoreText = game.add.text(10, 10, "Survive as Long as Possible\nHunters Killed: " + score + "\nSession High Score: " + highscore, { font: "bold 30px Iceland" });
         scoreText.fixedToCamera = true;
         scoreText.cameraOffset = new Phaser.Point(20, 20);
 

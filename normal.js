@@ -139,12 +139,12 @@ demo.normal.prototype = {
         kImage.fixedToCamera = true;
         kImage.animations.add("countdown", [6, 7, 8, 9, 10]);
 
-        hunterCounter = game.add.text(10, 10, "Hunters left: " + (enemies.countLiving()), { fontSize: "30px" });
+        hunterCounter = game.add.text(10, 10, "Hunters left: " + (enemies.countLiving()), { font: "bold 35px Iceland" });
         hunterCounter.fixedToCamera = true;
         hunterCounter.cameraOffset = new Phaser.Point(20, 20);
 
         //Controls Menu before game start
-        var text = "Use WASD or Arrow Keys to move.\nPress K to use your strong attack.\nPress J to use your weak attack.\nCollect fish to replenish health and energy.\n When you get to the last three hunters,\nthere will be an arrow to point you\nto the closest hunter."
+        var text = "Use WASD or Arrow Keys to move.\nPress K to use your strong attack.\nPress J to use your weak attack.\nCollect fish to replenish health and energy.\nWhen you get to the last three hunters,\nthere will be an arrow to point you\nto the closest hunter."
         game.paused = true;
         graphics = game.add.graphics();
         graphics.fixedToCamera = true;
@@ -152,7 +152,7 @@ demo.normal.prototype = {
         graphics.lineStyle(4, 0x00b3b3, 1);
         graphics.drawRect(200, 100, 500, 400);
         graphics.endFill();
-        var instruct = game.add.text(game.camera.centerX, 150, text, { fontSize: "20px" });
+        var instruct = game.add.text(game.camera.centerX, 150, text, { font: "25px Iceland" });
         instruct.fixedtoCamera = true;
         instruct.anchor.setTo(0.5, 0);
         graphics.addChild(instruct);
