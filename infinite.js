@@ -294,7 +294,7 @@ function updateEnergyInfinite(){
 }
 
 function goBackInfinite() {
-    startOnClick();
+    game.paused = false;
     iceWalk.stop();
     game.state.start('title');
     score = 0;

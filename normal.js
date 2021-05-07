@@ -496,7 +496,7 @@ function killBullet(bullet){
 }
 
 function goBack() {
-    startOnClick();
+    game.paused = false;
     iceWalk.stop();
     game.state.start('title');
 }
