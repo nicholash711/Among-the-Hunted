@@ -1,10 +1,9 @@
 var player, moveKeys, enemies, iceWalk, spin, sealSpin, hunterFall, hunterGun, map, healthBar, energyBar, energy, graphics, isSpin, isJab, spinTime, jabTime;
 var jImage, kImage, weapons, startTime, endTime;
 var attacking = false, allowSpin = true, firing = false, added = false;
-const SPEED = 400, WORLD_LENGTH = 3200, WORLD_HEIGHT = 3200;
 
-demo.normal= function(){};
-demo.normal.prototype = {
+demo.hard= function(){};
+demo.hard.prototype = {
     preload: function(){
         game.load.spritesheet("seal", "assets/spritesheets/HarpSeal.png", 109, 74);
         game.load.spritesheet("hunter", "assets/spritesheets/hunter.png", 128, 128);
@@ -13,7 +12,7 @@ demo.normal.prototype = {
         game.load.spritesheet("jImage", "assets/spritesheets/jAttack.png", 64, 64);
         game.load.spritesheet("kImage", "assets/spritesheets/kAttack.png", 64, 64);
         game.load.spritesheet("fish", "assets/sprites/Fish.png", 64, 32);
-        game.load.tilemap("Map", "assets/tilemaps/Map.json", null, Phaser.Tilemap.TILED_JSON);
+        game.load.tilemap("Map", "assets/tilemaps/Hard.json", null, Phaser.Tilemap.TILED_JSON);
         game.load.image("Ground", "assets/tilemaps/Ground.png");
         game.load.image("Rocks", "assets/tilemaps/Rocks.png");
         game.load.image("Water", "assets/tilemaps/Water.png");
@@ -74,7 +73,7 @@ demo.normal.prototype = {
         enemies = game.add.group();
         enemies.enableBody = true;
         enemies.physicsBodyType = Phaser.Physics.ARCADE;
-        for(var i = 0; i < 15; i++){
+        for(var i = 0; i < 20; i++){
             var coords = getXY();
             enemies.create(coords[0], coords[1], "hunter", 7);
         }
@@ -98,7 +97,7 @@ demo.normal.prototype = {
             enemy.weapon.bulletKillDistance = 500;
             enemy.weapon.bulletKillType = Phaser.Weapon.KILL_DISTANCE;
             enemy.weapon.fireRate = 1000;
-            enemy.weapon.bulletSpeed = 400;
+            enemy.weapon.bulletSpeed = 500;
             enemy.weapon.bulletClass.physicsBodyType = Phaser.Physics.ARCADE;
             enemy.weapon.bullets.alive = false;
     
@@ -124,7 +123,7 @@ demo.normal.prototype = {
         fishies.setAll("body.immovable", true, null, null, null, true);
         fishies.setAll("body.collideWorldBounds", true, null, null, null, true);
         fishies.setAll("anchor", new Phaser.Point(0, 0), null, null, null, true);
-        for(var i = 0; i < 15; i++){
+        for(var i = 0; i < 10; i++){
             var coords = getXYFish();
             var frame = Math.floor(Math.random() * 3);
             fishies.create(coords[0], coords[1], "fish", frame);
@@ -144,7 +143,7 @@ demo.normal.prototype = {
         hunterCounter.cameraOffset = new Phaser.Point(20, 20);
 
         //Controls Menu before game start
-        var text = "Use WASD or Arrow Keys to move.\nPress K to use your strong attack.\nPress J to use your weak attack.\nCollect fish to replenish health and energy.\n When you get to the last three hunters,\nthere will be an arrow to point you\nto the closest hunter."
+        var text = "Use WASD or Arrow Keys to move.\nPress K to use your strong attack.\nPress J to use your weak attack.\nCollect fish to replenish health and energy.\n when you get to the last three hunter,\nthere will be an arrow to point you\nto the closest hunter."
         game.paused = true;
         graphics = game.add.graphics();
         graphics.fixedToCamera = true;
@@ -181,8 +180,8 @@ demo.normal.prototype = {
         game.physics.arcade.collide(player, water);
         game.physics.arcade.collide(player, rocks);
         game.physics.arcade.collide(player, enemies, stopPlayer, function(enemy) { return enemy.alive; }, this);
-        game.physics.arcade.overlap(player, weapons.getAll("bullets"), updateHealth, null, this);
-        game.physics.arcade.overlap(player, fishies, collectFish, null, this);
+        game.physics.arcade.overlap(player, weapons.getAll("bullets"), updateHealthHard, null, this);
+        game.physics.arcade.overlap(player, fishies, collectFishHard, null, this);
         game.physics.arcade.collide(enemies, water);
         game.physics.arcade.collide(enemies, rocks);
         game.physics.arcade.collide(enemies, enemies);
@@ -282,101 +281,8 @@ function enemyDistanceCheck(enemy){
     }
 };
 
-function updateEnemy(enemy){
-    if(enemy.health <= 0){
-        enemy.alive = false;
-        enemy.getChildAt(0).frame = 100;
-        enemy.animations.play("fall", 8, false, true);
-        hunterFall.play();
-        hunterCounter.setText("Hunters left: " + (enemies.countLiving()));
-    }
-    else{
-        enemy.getChildAt(0).frame = 100 - enemy.health;
-        enemyDistanceCheck(enemy);
-        if(!firing){
-            moveEnemy(enemy);
-        }
-    }
-}
-
-function doSpin(i, range){
-    if(allowSpin){
-        var cost = 25;
-        var enemy = enemies.getClosestTo(player);
-        if(enemy.health > 0){;
-            console.log("spin");
-            if(getDistance(enemy) <= range && !player.animations.getAnimation("spin").isPlaying){
-                attacking = true;
-                player.animations.play("spin", 36);
-                player.body.velocity.x = 0, player.body.velocity.y = 0;
-                iceWalk.stop();
-                sealSpin.play();
-                enemy.health -= 66;
-                console.log(enemy.health);
-                energy -= cost;
-                spinTime = game.time.now;
-                allowSpin = false;
-                kImage.animations.play("countdown", 1);
-            }
-        }
-    }    
-}
-
-function doJab(i, range){
-    var cost = 13;
-    var enemy = enemies.getClosestTo(player);
-    if(enemy.health > 0){
-        console.log("jab");
-        if(getDistance(enemy) <= range && !player.animations.getAnimation("jab").isPlaying){
-            attacking = true;
-            player.animations.play("jab", 20);
-            player.body.velocity.x = 0, player.body.velocity.y = 0;
-            iceWalk.stop();
-            sealSpin.play();
-            enemy.health -= 34;
-            console.log(enemy.health);
-            energy -= cost;
-        }
-    }
-}
-
-function inRange(range){
-    var enemy = enemies.getClosestTo(player);
-    if(getDistance(enemy) > range){
-        if(!kImage.animations.getAnimation("countdown").isPlaying){
-            kImage.frame = 11;
-        }
-        jImage.frame = 11;
-    }
-    else{
-        if(!kImage.animations.getAnimation("countdown").isPlaying){
-            kImage.frame = 0;
-        }
-        jImage.frame = 0;
-    }
-}
-
-function getDistance(enemy){
-    deltaX = player.x - enemy.x;
-    deltaY = player.y - enemy.y;
-    return Math.hypot(deltaX, deltaY);
-}
-
-function start(){
-    for(key in moveKeys){
-        moveKeys[key].onDown.add(function(){
-            if(!iceWalk.isPlaying && !player.animations.getAnimation("spin").isPlaying)
-                iceWalk.play();
-        });
-        moveKeys[key].onUp.add(function(){
-            if(!moveKeys.up.isDown && !moveKeys.down.isDown && !moveKeys.left.isDown && !moveKeys.right.isDown)
-                iceWalk.stop();
-        });
-    }
-}
-
-function updateHealth(player, bullet){
-    player.damage(10); // take 10 damage to health; damage method auto kills sprite when health <= 0
+function updateHealthHard(player, bullet){
+    player.damage(20); // take 20 damage to health; damage method auto kills sprite when health <= 0
     console.log(player.health);
     bullet.kill();
 
@@ -386,59 +292,12 @@ function updateHealth(player, bullet){
     }
 }
 
-function updateEnergy(){
-    if(energy <= 0){
-        energyBar.frame = 100;
-        iceWalk.stop();
-        game.state.start('noEnergy'); // starved
-    }
-    else{
-        energyBar.frame = 100 - energy;
-    }
-    if(energy < 30)
-        kImage.frame = 11;
-    if(energy < 15)
-        jImage.frame = 11;
-}
-
-function startOnClick(){
-    graphics.destroy();
-    game.paused = false;
-    startTime = game.time.now;
-}
-
-function getXY(){
-    var boundsX = [Math.floor(player.x - 500), Math.floor(player.x + 500)];
-    var boundsY = [Math.floor(player.y - 500), Math.floor(player.y + 500)];
-    var x, y, tileW = 0, tileR = 0;
-    while(tileW != null || tileR != null){
-        x = generateRandomNumber(boundsX);
-        y = generateRandomNumber(boundsY);
-        tileW = map.getTile(Math.floor(x / 32), Math.floor(y / 32), 1);
-        tileR = map.getTile(Math.floor(x / 32), Math.floor(y / 32), 2);
-    }
-
-    console.log(x, y);
-    return [x, y];
-}
-
-function getXYFish(){
-    var x, y, tileW = 0, tileR = 0;
-    while(tileW != null || tileR != null){
-        x = Math.floor(Math.random()*(WORLD_LENGTH - 64));
-        y = Math.floor(Math.random()*(WORLD_HEIGHT - 32));
-        tileW = map.getTile(Math.floor(x / 32), Math.floor(y / 32), 1);
-        tileR = map.getTile(Math.floor(x / 32), Math.floor(y / 32), 2);
-    }
-    return [x, y];
-}
-
-function collectFish (player, fish) {
+function collectFishHard (player, fish) {
 
     // Removes the fish from the screen
     fish.kill();
     //  Add health and energy
-    increaseHealth(player);
+    increaseHealthHard(player);
     increaseEnergy();
 
     var coords = getXYFish();
@@ -447,7 +306,7 @@ function collectFish (player, fish) {
 
 }
 
-function increaseHealth(player){
+function increaseHealthHard(player){
     if(player.health + 20 > 100) {
         player.health = 100;
     }    
@@ -457,79 +316,5 @@ function increaseHealth(player){
     console.log(player.health);
 }
 
-function increaseEnergy(){
-    if(energy + 25 >= 100) {
-        energy = 100;
-    }
-    else {
-        energy += 25;
-    }
-    console.log(energy);
-}
 
-function checkEnemies(){
-    if(enemies.countLiving() == 0) {
-        endTime = game.time.now;
-        game.state.start("win"); 
-    }
-}
 
-function checkTime(){
-    now = game.time.now
-    if(now >= spinTime + 5000){
-        allowSpin = true;
-        kImage.frame = 0;
-    }
-}
-
-function moveEnemy(enemy){
-    if(getDistance(enemy) <= 400){
-        game.physics.arcade.moveToObject(enemy, player, 300);
-    }
-    else if(!enemy.body.isMoving){
-        enemy.body.moveFrom(5000, 100, Math.random() * 360);
-    }
-}
-
-function killBullet(bullet){
-    bullet.kill();
-}
-
-function goBack() {
-    iceWalk.stop();
-    game.state.start('title');
-}
-
-// point to closest enemy
-function pointEnemies (enemies, player, arrow) {
-    var enemy = enemies.getClosestTo(player)
-    if (!enemy.inCamera) {
-        arrow.visible = true;
-        arrow.x = player.x;
-        arrow.y = player.y - 90;
-        var angy = Math.atan2(enemy.y - player.y, enemy.x - player.x) * 180 / Math.PI;
-        arrow.angle = angy
-    }
-    else {
-        arrow.visible = false;
-    }
-}
-
-function generateRandomNumber(bounds)
-{
-    if(bounds[0] < 0){
-        return Math.floor(Math.random() * (3200 - bounds[1]) + bounds[1]); 
-    }
-    else if (bounds[1] > 3200){
-        return Math.floor(Math.random() * bounds[0]);
-    }
-    else{
-        var random = Math.floor(Math.random() * 2);
-        if(random == 1){
-            return Math.floor(Math.random() * (3200 - bounds[1]) + bounds[1]); 
-        }
-        else{
-            return Math.floor(Math.random() * bounds[0]);
-        }
-    }
-}

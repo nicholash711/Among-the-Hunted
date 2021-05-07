@@ -7,6 +7,7 @@ game.state.add("title", demo.title);
 game.state.add("credits", demo.credits);
 game.state.add("tutorial", demo.tutorial);
 game.state.add("normal", demo.normal);
+game.state.add("hard", demo.hard);
 game.state.add("infinite", demo.infinite);
 game.state.add("noHealth", demo.noHealth);
 game.state.add("noEnergy", demo.noEnergy);

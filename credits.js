@@ -13,7 +13,7 @@ demo.credits.prototype = {
         game.add.text(50, 250, 'Programmer: Nicholas Hoang', { fontSize: '40px'});
         game.add.text(50, 350, 'Programmer: Marianne Le', { fontSize: '40px'});
         game.add.text(50, 450, 'Artist: Craig Jaffe', { fontSize: '40px'});
-        game.add.text(50, 550, 'Title Music: La Vie En Suspense by Tagirijus', { fontSize: '40px'});
+        game.add.text(55, 550, 'Title Music: La Vie En Suspense by Tagirijus', { fontSize: '40px'});
         console.log('Roll the Credits');
 
         //add home button

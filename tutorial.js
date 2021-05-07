@@ -320,7 +320,7 @@ function doDab(i, range){
         console.log("jab");
         if(getDistance(enemy) <= range && !player.animations.getAnimation("jab").isPlaying){
             attacking = true;
-            player.animations.play("jab", 12);
+            player.animations.play("jab", 20);
             player.body.velocity.x = 0, player.body.velocity.y = 0;
             iceWalk.stop();
             sealSpin.play();
