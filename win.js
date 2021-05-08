@@ -10,7 +10,7 @@ demo.win.prototype = {
         game.add.sprite(0,0,"lose");
         game.input.onDown.add(restartOnClick);
         var text = "You beat the Hunters in " + ((endTime - startTime) / 1000) + " seconds!"
-        var temp = game.add.text(game.camera.centerX, 400, text, { font: "35px Iceland" });
+        var temp = game.add.text(game.camera.centerX, 400, text, { font: "bold 35px Iceland" });
         temp.anchor.setTo(0.5, 0);
     },
     

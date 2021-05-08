@@ -27,7 +27,7 @@ demo.infinite.prototype = {
     create: function(){
         game.physics.startSystem(Phaser.Physics.ARCADE);
         game.world.setBounds(0, 0, WORLD_LENGTH, WORLD_HEIGHT);
-        game.camera.bounds = new Phaser.Rectangle(0, -50, WORLD_LENGTH, WORLD_HEIGHT + 100);
+        game.camera.bounds = new Phaser.Rectangle(-50, -50, WORLD_LENGTH + 100, WORLD_HEIGHT + 100);
         game.stage.backgroundColor = "#dce3e8";
 
         map = game.add.tilemap("Map");
