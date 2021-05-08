@@ -54,11 +54,11 @@ demo.infinite.prototype = {
         player.animations.getAnimation("jab").onComplete.add(function(){ attacking = false; });
 
         //health bar
-        healthBar = game.add.sprite(0, 0, "healthBar");
+        healthBar = game.add.sprite(game.world.centerX, game.world.centerY, "healthBar");
         healthBar.addChild(game.add.text(20, 0, "Health", { fontSize: "10px" }));
         
         //Energy bar
-        energyBar = game.add.sprite(0, 0, "energyBar");
+        energyBar = game.add.sprite(game.world.centerX, game.world.centerY, "energyBar");
         energyBar.addChild(game.add.text(20, 0, "Energy", { fontSize: "10px" }));
         energy = 100;
 
@@ -131,6 +131,10 @@ demo.infinite.prototype = {
         kImage.fixedToCamera = true;
         kImage.animations.add("countdown", [6, 7, 8, 9, 10]);
 
+        scoreText = game.add.text(10, 10, "Survive as Long as Possible\nHunters Killed: " + score + "\nSession High Score: " + highscore, { font: "bold 30px Iceland" });
+        scoreText.fixedToCamera = true;
+        scoreText.cameraOffset = new Phaser.Point(20, 20);
+
         //Controls Menu before game start
         var text = "Use WASD or Arrow Keys to move.\nPress K to use your strong attack.\nPress J to use your weak attack.\nCollect fish to replenish health and energy.\nWARNING: The number of hunters will increase!"
         game.paused = true;
@@ -148,10 +152,6 @@ demo.infinite.prototype = {
         button.anchor.setTo(0.5, 0.5);
         button.scale.setTo(0.7, 0.7);
         graphics.addChild(button);
-
-        scoreText = game.add.text(10, 10, "Survive as Long as Possible\nHunters Killed: " + score + "\nSession High Score: " + highscore, { font: "bold 30px Iceland" });
-        scoreText.fixedToCamera = true;
-        scoreText.cameraOffset = new Phaser.Point(20, 20);
 
         cursors = this.input.keyboard.createCursorKeys();
 

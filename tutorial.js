@@ -51,11 +51,11 @@ demo.tutorial.prototype = {
         player.animations.getAnimation("jab").onComplete.add(function(){ attacking = false; });
 
         //health bar
-        healthBar = game.add.sprite(0, 0, "healthBar");
+        healthBar = game.add.sprite(43, 137, "healthBar");
         healthBar.addChild(game.add.text(20, 0, "Health", { fontSize: "10px" }));
         
         //Energy bar
-        energyBar = game.add.sprite(0, 0, "energyBar");
+        energyBar = game.add.sprite(43, 150, "energyBar");
         energyBar.addChild(game.add.text(20, 0, "Energy", { fontSize: "10px" }));
         energy = 100;
 
