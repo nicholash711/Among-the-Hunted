@@ -1,4 +1,4 @@
-var demo = {}, music;
+var music;
 
 demo.title = function(){};
 demo.title.prototype = {
@@ -14,7 +14,7 @@ demo.title.prototype = {
     create: function(){
         game.stage.backgroundColor = '#b5e7ff';
         game.add.text(50, 50, 'Among The Hunted', { font: 'bold 60px Iceland'});
-        game.add.text(50, 150, 'You are a harp seal\njust abandoned by your mother,\nleft to fend for yourself.\nYou are being hunted\nfor your soft fur.\nTry your best to survive.', { font: '33px Iceland'});
+        game.add.text(50, 150, 'You are a harp seal\njust abandoned by your mother,\nleft to fend for yourself.\nYou are being hunted\nfor your soft fur.\nTry your best to survive.', { font: '40px Iceland'});
         game.add.text(game.camera.centerX + 150, 70, 'Choose a mode to begin', { font: '24px Iceland'});
         console.log('Welcome Haha');
         var tutorialBtn = game.add.button(50, 450, "tutorial-btn", clickTutorial);
